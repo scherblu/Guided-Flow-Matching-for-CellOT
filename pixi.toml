@@ -1,0 +1,10 @@
+[workspace]
+authors = ["zimea <lea.zimmermann@online.de>"]
+channels = ["conda-forge"]
+name = "Guided-Flow-Matching-for-CellOT"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
