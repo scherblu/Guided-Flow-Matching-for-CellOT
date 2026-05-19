@@ -1,0 +1,39 @@
+drug_name;primary_target;target_pathway;description
+cisplatin;DNA (guanine N7);DNA damage response;Platinum agent that forms intra- and interstrand DNA crosslinks, triggering apoptosis.
+cisplatin_olaparib;DNA + PARP1/2;DNA damage + PARP-mediated repair;Combination exploits synthetic lethality by inducing DNA crosslinks (cisplatin) and blocking PARP-mediated repair (olaparib).
+cl;—;—;Label unclear; likely a control/shorthand (e.g., 'cell line' or vehicle).
+control;—;—;Untreated/vehicle control condition.
+crizotinib;ALK, ROS1, MET (c-MET);RTK → MAPK/PI3K signaling;Tyrosine kinase inhibitor of ALK/ROS1/MET used mainly in ALK/ROS1-rearranged cancers.
+dabrafenib;BRAF V600E/K;MAPK (RAF→MEK→ERK);Selective BRAF inhibitor blocking mutant BRAF-driven signaling.
+dacarbazine;DNA (via MTIC metabolite);DNA alkylation;Alkylating prodrug that methylates DNA (O6/N7 guanine), causing cytotoxicity.
+dasatinib;BCR-ABL, SRC family, c-KIT, PDGFR;Tyrosine kinase signaling;Broad-spectrum TKI used in CML/ALL; inhibits BCR-ABL and SRC family kinases.
+decitabine;DNMT1 (DNA methyltransferase);Epigenetic DNA methylation;Nucleoside analog that inhibits DNMT1, causing DNA hypomethylation and reactivation of silenced genes.
+dexamethasone;Glucocorticoid receptor (NR3C1);Steroid receptor signaling;Glucocorticoid agonist with anti-inflammatory and lympholytic effects.
+erlotinib;EGFR (ERBB1);EGFR → MAPK/PI3K signaling;EGFR tyrosine kinase inhibitor; active in EGFR-mutant tumors.
+everolimus;mTORC1 (FKBP12–everolimus complex);PI3K/AKT/mTOR;Allosteric mTORC1 inhibitor that suppresses protein synthesis and cell growth.
+hydroxyurea;Ribonucleotide reductase (RRM2);De novo dNTP synthesis;Inhibits ribonucleotide reductase, depleting dNTPs and causing S-phase arrest.
+imatinib;BCR-ABL, c-KIT, PDGFR;Tyrosine kinase signaling;Prototype TKI; blocks BCR-ABL and other kinases.
+ixazomib;20S proteasome β5 (chymotrypsin-like);Ubiquitin–proteasome system;Oral proteasome inhibitor causing accumulation of misfolded proteins and apoptosis in myeloma cells.
+ixazomib_lenalidomide_dexamethasone;Proteasome + CRBN E3 ligase + Glucocorticoid receptor;Proteostasis + immune modulation + steroid receptor;Standard myeloma triplet (IRd): proteasome inhibition plus IMiD and steroid.
+lenalidomide;Cereblon (CRBN) E3 ligase adaptor;Ubiquitin ligase / immune modulation;IMiD that recruits IKZF1/3 for degradation via CRBN; immunomodulatory and anti-myeloma effects.
+melphalan;DNA;DNA alkylation;Bifunctional alkylating agent forming DNA crosslinks.
+midostaurin;FLT3, KIT, PDGFR (multi-kinase);RTK signaling;Multi-kinase inhibitor; approved with chemotherapy for FLT3-mutated AML.
+mln2480;RAF kinases (pan-RAF; TAK-580);MAPK (RAF→MEK→ERK);Investigational oral pan-RAF inhibitor (a RAF dimer antagonist; TAK-580).
+olaparib;PARP1/2;DNA repair (BER);PARP inhibitor causing PARP trapping and synthetic lethality in HR-deficient tumors.
+paclitaxel;β-tubulin (microtubules);Microtubule dynamics / mitosis;Stabilizes microtubules, blocking mitosis and inducing apoptosis.
+palbociclib;CDK4/6;Cell cycle (G1→S);CDK4/6 inhibitor causing Rb-dependent G1 arrest.
+panobinostat;Histone deacetylases (HDAC1/2/3/6 etc.);Epigenetic histone deacetylation;Pan-HDAC inhibitor altering chromatin and gene expression; pro-apoptotic.
+pomalidomide_carfilzomib_dexamethasone;CRBN E3 ligase + Proteasome + Glucocorticoid receptor;Ubiquitin–proteasome + immune modulation + steroid receptor;KPD regimen: pomalidomide (IMiD) + carfilzomib (PI) + dexamethasone.
+regorafenib;VEGFR1-3, KIT, PDGFR, RAF (multi-kinase);Angiogenesis/RTK/MAPK;Oral multi-kinase inhibitor targeting angiogenic and oncogenic kinases.
+sec.abcl;—;—;Secondary antibody–only control (no primary antibody); not a drug.
+sorafenib;RAF, VEGFR, PDGFR (multi-kinase);MAPK and angiogenesis;Multi-kinase inhibitor originally developed as RAF inhibitor; anti-angiogenic activity.
+staurosporine;Broad-spectrum kinases (esp. PKC);Protein kinase signaling;Potent non-selective kinase inhibitor used mainly as a research tool.
+temozolomide;DNA (methylation at O6/N7 guanine);DNA alkylation;Oral alkylating agent; cytotoxic lesions repaired by MGMT.
+trametinib;MEK1/2 (MAP2K1/2);MAPK (MEK→ERK);MEK inhibitor; used with BRAF inhibitors and in other MAPK-driven tumors.
+trametinib_dabrafenib;MEK1/2 + BRAF V600E/K;MAPK dual blockade;BRAF + MEK combination to deepen MAPK inhibition and reduce resistance.
+trametinib_erlotinib;MEK1/2 + EGFR;MAPK + EGFR blockade;Experimental combination; may help overcome some EGFR-TKI resistance mechanisms.
+trametinib_midostaurin;MEK1/2 + FLT3 (and other RTKs);MAPK + RTK;Preclinical/early clinical synergy reported in FLT3-driven AML models.
+trametinib_panobinostat;MEK1/2 + HDACs;MAPK + epigenetic;MEK plus HDAC inhibition shows synergy in some MAPK-driven tumors.
+ulixertinib;ERK1/2 (MAPK1/3);MAPK (ERK);First-in-class ERK1/2 inhibitor under clinical investigation.
+vemurafenib_cobimetinib;BRAF V600E + MEK1/2;MAPK dual blockade;BRAF + MEK inhibitor combination used in BRAF-mutant cancers.
+vindesine;β-tubulin (microtubules);Microtubule dynamics / mitosis;Vinca alkaloid that prevents microtubule polymerization causing metaphase arrest.
