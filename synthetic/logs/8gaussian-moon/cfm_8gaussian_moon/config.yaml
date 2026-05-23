@@ -1,0 +1,11 @@
+batch_size: 2048
+cfm: cfm
+device: mps
+lr: 0.0001
+num_steps: 100000
+overwrite: false
+seed: 0
+sigma: 0.0
+width: 256
+x0_dist: 8gaussian
+x1_dist: moon
