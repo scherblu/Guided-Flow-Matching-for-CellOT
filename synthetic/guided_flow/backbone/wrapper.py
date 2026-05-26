@@ -1,4 +1,6 @@
+# pyrefly: ignore [missing-import]
 import torch
+# pyrefly: ignore [missing-import]
 import torch.nn as nn
 from guided_flow.backbone.transformer import Transformer
 
@@ -114,3 +116,18 @@ class GradEnergyMLPWrapper(nn.Module):
             grad = self.model(torch.cat([x, t.repeat(x.shape[0])[:, None]], 1))
             
         return self.scheduler(t) * grad
+
+
+class ClassConditionalMLPWrapper(nn.Module):
+    def __init__(self, model, y, scheduler=lambda t: 1):
+        super().__init__()
+        self.model = model
+        self.y = y # Tensor of shape (B,) containing class labels
+        self.scheduler = scheduler
+
+    def forward(self, t, x, *args, **kwargs):
+        t_vec = t.repeat(x.shape[0])[:, None]
+        # Align device of y with x
+        y_dev = self.y.to(x.device)
+        model_out = self.model(torch.cat([x, t_vec], 1), y_dev)
+        return self.scheduler(t) * model_out

@@ -75,17 +75,8 @@ class EightGaussiansDistribution(BaseDistribution):
         Args: x1 (B, 2)
         Returns: J (B,)
         """
-        # theta in [-pi, pi]
-        theta = torch.atan2(x1[..., 0], x1[..., 1])
-        theta_out = torch.zeros_like(theta)
-        intervals = torch.linspace(-torch.pi, torch.pi, 9) + torch.pi / 8
-        for i in range(len(intervals) - 1):
-            mask = (theta >= intervals[i]) & (theta < intervals[i+1])
-            theta_out[mask] = i
-        theta_out[theta < intervals[0]] = len(intervals) - 2
-
-        assert theta_out.shape == x1.shape[:-1]
-        return theta_out    
+        dists = torch.cdist(x1, self.centers.to(x1.device)) # (B, 8)
+        return torch.argmin(dists, dim=1)
 
     def __name__(self):
         return f'8 Gaussians'
