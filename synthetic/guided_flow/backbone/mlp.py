@@ -1,4 +1,6 @@
 import torch
+import torch.nn as nn
+import torch.nn.functional as F
 
 
 class MLP(torch.nn.Module):
@@ -159,3 +161,27 @@ class ClassConditionalMLP(torch.nn.Module):
         return out
 
 
+class CondMLP(nn.Module):
+    def __init__(self, dim=2, out_dim=2, w=256, num_classes=8):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(dim + 1, w), # +1 for time
+            nn.SELU(),
+            nn.Linear(w, w),
+            nn.SELU(),
+            nn.Linear(w, w),
+            nn.SELU()
+        )
+        # Class embedding mapped to the same width
+        self.class_emb = nn.Embedding(num_classes, w)
+        self.final = nn.Linear(w, out_dim)
+
+    def forward(self, xt, y):
+        """
+        xt: [B, dim + 1] (state concatenated with time)
+        y: [B] (class labels)
+        """
+        h = self.net(xt)
+        # Additive conditioning
+        h = h + self.class_emb(y) 
+        return self.final(h)
