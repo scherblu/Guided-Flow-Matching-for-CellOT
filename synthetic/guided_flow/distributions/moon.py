@@ -42,20 +42,24 @@ class MoonDistribution(BaseDistribution):
         self.classifier = self.get_classifier()
 
     def get_classifier(self):
-        try:
-            # load cached classifier
-            os.makedirs('logs/distributions', exist_ok=True)
-            classifier = MLP(2, [64, 64], 2)
-            classifier.load_state_dict(torch.load('logs/distributions/moon_classifier.pth', map_location='cpu', weights_only=True))
-        except Exception as e:
-            print("Training new classifier.", e)
+        # Resolve path relative to project root (parent of guided_flow directory)
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+        logs_dir = os.path.join(project_root, 'logs', 'distributions')
+        weight_path = os.path.join(logs_dir, 'moon_classifier.pth')
+
+        classifier = MLP(2, [64, 64], 2)
+        if os.path.exists(weight_path):
+            classifier.load_state_dict(torch.load(weight_path, map_location='cpu', weights_only=True))
+        else:
+            print("Training new classifier...")
             # train new classifier
+            os.makedirs(logs_dir, exist_ok=True)
             x, y = sklearn.datasets.make_moons(n_samples=1000, noise=0)
             classifier = MLP(2, [64, 64], 2).train(
                 (torch.tensor(x, dtype=torch.float32) + torch.tensor([-0.5, -0.25], dtype=torch.float32)) / 1.5, 
                 torch.tensor(y, dtype=torch.long)
             )
-            torch.save(classifier.state_dict(), 'logs/distributions/moon_classifier.pth')
+            torch.save(classifier.state_dict(), weight_path)
         return classifier
 
     def sample(self, batch_size: int, device: str = None) -> torch.Tensor:
