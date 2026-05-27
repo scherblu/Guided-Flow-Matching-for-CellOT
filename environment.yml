@@ -15,4 +15,5 @@ dependencies:
   - tqdm
   - pot
   - tyro
+  - scanpy
 prefix: /Users/LS/miniconda3/envs/bio_ml
