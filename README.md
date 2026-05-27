@@ -101,7 +101,7 @@ pip install -e .
       │       └── visualize.py         # Trajectory and vector field plotting utilities
       ├── logs/                        # Directory where model checkpoints and logs are saved
       ├── notebooks/                   # Jupyter notebooks for evaluating models and plotting flow trajectories
-+     │   ├── fig_compare_to_class-cond_CFM.ipynb # [MODIFIED] Visualizes class-conditional comparison
++     │   ├── fig_compare_to_class-cond_CFM.ipynb # [CREATED] Visualizes class-conditional comparison
       │   ├── fig.ipynb                # Notebook for generating figures
       │   ├── test_distributions.ipynb # Notebook for testing distributions
       │   └── test_unconditional.ipynb # Notebook for testing unconditional flow
