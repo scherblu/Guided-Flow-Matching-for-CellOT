@@ -173,6 +173,7 @@ class CondMLP(nn.Module):
             nn.SELU()
         )
         # Class embedding mapped to the same width
+        # embedding is here a (pretrained) lookup table
         self.class_emb = nn.Embedding(num_classes, w)
         self.final = nn.Linear(w, out_dim)
 
@@ -182,6 +183,8 @@ class CondMLP(nn.Module):
         y: [B] (class labels)
         """
         h = self.net(xt)
-        # Additive conditioning
-        h = h + self.class_emb(y) 
+        # Additive conditioning in embedding space
+        # i.e. steering towards condition in embedding space
+        h = h + self.class_emb(y)
+        # final linear layer to transform data from w to out_dim dimensions
         return self.final(h)

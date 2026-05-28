@@ -43,13 +43,15 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         
         t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1)
         xt_time = torch.cat([xt, t[:, None]], dim=-1)
+
+        # give conditional class label y as model input
         vt = model_cc(xt_time, y)
         
         loss = F.mse_loss(vt, ut)
         loss.backward()
         optimizer.step()
         
-        if step % 1000 == 0:
+        if step % 500 == 0:
             current_loss = loss.item()
             tracked_steps.append(step)
             tracked_losses.append(current_loss)
@@ -78,7 +80,11 @@ if __name__ == "__main__":
     parser.add_argument("--target", type=str, default="8gaussian", help="Target distribution")
     parser.add_argument("--epochs", type=int, default=15000)
     parser.add_argument("--batch_size", type=int, default=512)
-    parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument("--device", type=str,
+        default="cuda" if torch.cuda.is_available()
+        else "mps" if torch.backends.mps.is_available()
+        else "cpu"
+    )
     args = parser.parse_args()
 
     deterministic(0)
