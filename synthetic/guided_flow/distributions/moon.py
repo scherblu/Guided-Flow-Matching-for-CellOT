@@ -23,15 +23,19 @@ class MLP(nn.Module):
         x = self.fc3(x)
         return self.softmax(x)
     
-    def train(self, x, y):
+    def train(self, x, y, device="cpu"):
+        self.to(device)
+        x = x.to(device)
+        y = y.to(device)
         optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
-        print(f"Training MLP with {x.shape[0]} samples")
+        print(f"Training MLP with {x.shape[0]} samples on {device}")
         for _ in tqdm(range(1000)):
             optimizer.zero_grad()
             pred = self(x)
             loss = nn.CrossEntropyLoss()(pred, y)
             loss.backward()
             optimizer.step()
+        self.to("cpu")
         return self
 
 
@@ -55,9 +59,11 @@ class MoonDistribution(BaseDistribution):
             # train new classifier
             os.makedirs(logs_dir, exist_ok=True)
             x, y = sklearn.datasets.make_moons(n_samples=1000, noise=0)
+            device = get_device()
             classifier = MLP(2, [64, 64], 2).train(
                 (torch.tensor(x, dtype=torch.float32) + torch.tensor([-0.5, -0.25], dtype=torch.float32)) / 1.5, 
-                torch.tensor(y, dtype=torch.long)
+                torch.tensor(y, dtype=torch.long),
+                device=device
             )
             torch.save(classifier.state_dict(), weight_path)
         return classifier
