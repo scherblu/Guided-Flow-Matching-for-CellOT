@@ -1,0 +1,53 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            49xggr1u0asmc56xj1357d69nwvfv64f:
+                codePath: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks/fig_compare_to_class-cond_CFM.ipynb
+                codePathLocal: fig_compare_to_class-cond_CFM.ipynb
+                email: lucas.scherberger@tum.de
+                executable: /Users/LS/miniconda3/envs/bio_ml/bin/python
+                git:
+                    commit: 4d68f49e608b0bc1edbe67732dd2d4f72e7a2db9
+                    remote: https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git
+                host: Lucass-MacBook-Air.local
+                os: macOS-26.5-arm64-arm-64bit
+                program: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks/fig_compare_to_class-cond_CFM.ipynb
+                python: CPython 3.12.13
+                root: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks
+                startedAt: "2026-05-28T21:35:13.763345Z"
+                writerId: 49xggr1u0asmc56xj1357d69nwvfv64f
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 9
+                - 41
+                - 53
+                - 103
+            "2":
+                - 1
+                - 5
+                - 9
+                - 41
+                - 53
+                - 103
+            "3":
+                - 2
+                - 16
+            "4": 3.12.13
+            "5": 0.26.1
+            "8":
+                - 1
+            "12": 0.26.1
+            "13": darwin-arm64
+architecture:
+    value: CNN
+dataset:
+    value: CIFAR-100
+epochs:
+    value: 10
+learning_rate:
+    value: 0.02

@@ -9,6 +9,14 @@ from guided_flow.backbone.mlp import MLP
 from guided_flow.flow.conditional_flow_matching import get_cfm
 from guided_flow.utils.misc import deterministic, save_config, setup_device, get_device
 import tqdm
+import yaml
+import datetime
+from pathlib import Path
+
+try:
+    import wandb
+except ImportError:
+    wandb = None
 
 def train_unconditional(
         x0_sampler,
@@ -20,9 +28,51 @@ def train_unconditional(
         batch_size=1024,
         lr=1e-4,
         num_steps=20000,
+        x0_dist='gaussian',
+        x1_dist='gaussian'
 ):
     if device is None:
         device = get_device()
+
+    # Load wandb config
+    config_path = Path(__file__).resolve().parent / "synthetic_config.yaml"
+    wandb_config = None
+    if config_path.exists():
+        try:
+            with open(config_path, "r") as f:
+                synthetic_config = yaml.safe_load(f)
+            wandb_config = synthetic_config.get("wandb", {})
+        except Exception as e:
+            print(f"Warning: Failed to load synthetic_config.yaml: {e}")
+
+    use_wandb = False
+    if wandb is not None and wandb_config and wandb_config.get("project"):
+        use_wandb = True
+
+    if use_wandb:
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        run_name = f"{cfm}_{x0_dist}_{x1_dist}_{timestamp}"
+        base_group = wandb_config.get("group")
+        group_name = f"{base_group}_{cfm}_{x0_dist}_{x1_dist}" if base_group else f"{cfm}_{x0_dist}_{x1_dist}"
+        wandb.init(
+            entity=wandb_config.get("entity"),
+            project=wandb_config.get("project"),
+            group=group_name,
+            name=run_name,
+            config={
+                "model_name": cfm,
+                "x0_dist": x0_dist,
+                "x1_dist": x1_dist,
+                "width": width,
+                "sigma": sigma,
+                "device": str(device),
+                "batch_size": batch_size,
+                "lr": lr,
+                "num_steps": num_steps
+            },
+            reinit=True
+        )
+
     # Definition
     model = MLP(dim=2, w=width, time_varying=True).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -43,6 +93,12 @@ def train_unconditional(
 
         loss.backward()
         optimizer.step()
+
+        if use_wandb:
+            wandb.log({"loss": loss.item()}, step=k)
+
+    if use_wandb:
+        wandb.finish()
 
     return model
 
@@ -78,7 +134,9 @@ if __name__ == "__main__":
         cfg.device, 
         cfg.batch_size, 
         cfg.lr, 
-        cfg.num_steps
+        cfg.num_steps,
+        x0_dist=cfg.x0_dist,
+        x1_dist=cfg.x1_dist
     )
 
     model_path = os.path.join(log_subfolder, f"{cfg.cfm}_{cfg.x0_dist}_{cfg.x1_dist}.pth")

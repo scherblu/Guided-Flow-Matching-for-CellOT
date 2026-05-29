@@ -1,0 +1,12 @@
+Step 00000 | Loss: 0.5468
+Step 00500 | Loss: 0.0500
+Step 01000 | Loss: 0.0306
+Step 01500 | Loss: 0.0379
+  -> Loss increased! Warning count: 1/2
+Step 02000 | Loss: 0.0127
+Step 02500 | Loss: 0.0287
+  -> Loss increased! Warning count: 1/2
+Step 03000 | Loss: 0.0492
+  -> Loss increased! Warning count: 2/2
+Early stopping triggered at step 3000!
+Training finished. Best Loss: 0.0127

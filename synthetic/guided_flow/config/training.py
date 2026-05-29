@@ -1,4 +1,6 @@
 from dataclasses import dataclass, field
+from typing import Annotated
+import tyro
 from ..utils.misc import get_device
 
 @dataclass
@@ -12,8 +14,8 @@ class FlowMatchingTrainingConfig:
     cfm: str = 'cfm' # can be 'cfm', 'vp_cfm', 'ot_cfm', 'sb_cfm'
     
     # source and target distributions
-    x0_dist: str = 'gaussian' # can be 'gaussian', '8gaussian', 'uniform', 'circle'
-    x1_dist: str = 'gaussian' # can be 'gaussian', '8gaussian', 'uniform', 'circle'
+    x0_dist: Annotated[str, tyro.conf.arg(aliases=("--source",))] = 'gaussian' # can be 'gaussian', '8gaussian', 'uniform', 'circle'
+    x1_dist: Annotated[str, tyro.conf.arg(aliases=("--target",))] = 'gaussian' # can be 'gaussian', '8gaussian', 'uniform', 'circle'
 
     ### Below are fixed parameters by default
     batch_size: int = 65536
