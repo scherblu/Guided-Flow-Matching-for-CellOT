@@ -57,7 +57,7 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
                 "w": w,
                 "device": device
             },
-            reinit=True
+            reinit="finish_previous"
         )
 
     model_cc = CondMLP(dim=2, w=w, num_classes=8).to(device)
@@ -69,6 +69,7 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
 
     tracked_steps = []
     tracked_losses = []
+    recent_losses = []
     best_loss = float('inf')
     best_model_state = None
     increase_count = 0
@@ -95,22 +96,25 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         loss.backward()
         optimizer.step()
 
+        recent_losses.append(loss.item())
+        recent_losses = recent_losses[-100:]
+
         if use_wandb:
             wandb.log({"loss": loss.item()}, step=step)
         
         if step % 500 == 0:
-            current_loss = loss.item()
+            current_avg_loss = sum(recent_losses) / len(recent_losses)
             tracked_steps.append(step)
-            tracked_losses.append(current_loss)
-            print(f"Step {step:05d} | Loss: {current_loss:.4f}")
+            tracked_losses.append(current_avg_loss)
+            print(f"Step {step:05d} | Moving Avg Loss (last 100): {current_avg_loss:.4f} | Inst Loss: {loss.item():.4f}")
             
-            if current_loss < best_loss:
-                best_loss = current_loss
+            if current_avg_loss < best_loss:
+                best_loss = current_avg_loss
                 best_model_state = copy.deepcopy(model_cc.state_dict()) 
                 increase_count = 0  
             else:
                 increase_count += 1
-                print(f"  -> Loss increased! Warning count: {increase_count}/2")
+                print(f"  -> Moving Avg Loss increased! Warning count: {increase_count}/2")
                 
             if increase_count >= 2:
                 print(f"Early stopping triggered at step {step}!")

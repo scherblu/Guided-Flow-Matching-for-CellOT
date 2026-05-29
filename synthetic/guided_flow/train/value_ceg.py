@@ -77,7 +77,7 @@ def train_ceg(
                 "lr": lr,
                 "num_steps": num_steps
             },
-            reinit=True
+            reinit="finish_previous"
         )
 
     # Definition

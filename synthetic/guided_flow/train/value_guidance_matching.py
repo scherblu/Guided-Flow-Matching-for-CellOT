@@ -53,7 +53,7 @@ def setup_wandb_run(model_type, scale, x0_dist, x1_dist, cfm, width, sigma, devi
                 "lr": lr,
                 "num_steps": num_steps
             },
-            reinit=True
+            reinit="finish_previous"
         )
         return True
     return False
