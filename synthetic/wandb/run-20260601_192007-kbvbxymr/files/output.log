@@ -1,0 +1,13 @@
+Step 00000 | Moving Avg Loss (last 100): 0.4825 | Inst Loss: 0.4825
+Step 00500 | Moving Avg Loss (last 100): 0.0191 | Inst Loss: 0.0140
+Step 01000 | Moving Avg Loss (last 100): 0.0132 | Inst Loss: 0.0144
+Step 01500 | Moving Avg Loss (last 100): 0.0125 | Inst Loss: 0.0114
+Step 02000 | Moving Avg Loss (last 100): 0.0108 | Inst Loss: 0.0080
+Step 02500 | Moving Avg Loss (last 100): 0.0109 | Inst Loss: 0.0110
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 03000 | Moving Avg Loss (last 100): 0.0119 | Inst Loss: 0.0103
+  -> Moving Avg Loss increased! Warning count: 2/2
+Step 03500 | Moving Avg Loss (last 100): 0.0102 | Inst Loss: 0.0139
+Step 04000 | Moving Avg Loss (last 100): 0.0095 | Inst Loss: 0.0080
+Step 04500 | Moving Avg Loss (last 100): 0.0091 | Inst Loss: 0.0063
+Training finished. Best Loss: 0.0091

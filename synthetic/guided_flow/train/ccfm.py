@@ -7,7 +7,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import yaml
 from pathlib import Path
-from guided_flow.flow.conditional_flow_matching import ExactOptimalTransportConditionalFlowMatcher
+from guided_flow.flow.conditional_flow_matching import ConditionalFlowMatcher, ExactOptimalTransportConditionalFlowMatcher
 
 # Import your custom modules (assuming standard project structure)
 from guided_flow.backbone.mlp import CondMLP
@@ -68,6 +68,7 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
                             weight_decay=0.0)
     # scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=5e-7)
     FM = ExactOptimalTransportConditionalFlowMatcher(sigma=0.0)
+    # FM = ConditionalFlowMatcher(sigma=0.0)
     
     x0_dist = get_distribution(source_dist_name)
     x1_dist = get_distribution(target_dist_name)
@@ -88,12 +89,17 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         
         # Auto-label based on target distribution's native labeling method
         y = x1_dist.get_J(x1)
+
+        # Apply Label Dropout (CFG) BEFORE shuffling
+        # Replace 15% of labels with unconditional token (e.g., 8)
+        drop_mask = torch.rand(y.shape[0], device=device) < 0.15
+        y[drop_mask] = 8
         
-        t, xt, ut, _, y = FM.guided_sample_location_and_conditional_flow(x0, x1, y1=y)
+        t, xt, ut, _, y_shuffled = FM.guided_sample_location_and_conditional_flow(x0, x1, y1=y)
         xt_time = torch.cat([xt, t[:, None]], dim=-1)
 
         # give conditional class label y as model input
-        vt = model_cc(xt_time, y)
+        vt = model_cc(xt_time, y_shuffled)
         
         loss = F.mse_loss(vt, ut)
         loss.backward()

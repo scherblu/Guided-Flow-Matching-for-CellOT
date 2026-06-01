@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/ccfm.py", line 170, in <module>
+    model = train_cc_cfm_ot_early_stop(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/ccfm.py", line 98, in train_cc_cfm_ot_early_stop
+    t, xt, ut, _, y_shuffled = FM.guided_sample_location_and_conditional_flow(x0, x1, y1=y)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ConditionalFlowMatcher' object has no attribute 'guided_sample_location_and_conditional_flow'

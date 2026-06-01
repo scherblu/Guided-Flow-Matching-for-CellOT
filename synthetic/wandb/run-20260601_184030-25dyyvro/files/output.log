@@ -1,0 +1,62 @@
+Step 00000 | Moving Avg Loss (last 100): 1.6341 | Inst Loss: 1.6341
+Step 00500 | Moving Avg Loss (last 100): 0.1410 | Inst Loss: 0.1483
+Step 01000 | Moving Avg Loss (last 100): 0.1346 | Inst Loss: 0.1232
+Step 01500 | Moving Avg Loss (last 100): 0.1355 | Inst Loss: 0.1306
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 02000 | Moving Avg Loss (last 100): 0.1344 | Inst Loss: 0.1284
+Step 02500 | Moving Avg Loss (last 100): 0.1337 | Inst Loss: 0.1378
+Step 03000 | Moving Avg Loss (last 100): 0.1327 | Inst Loss: 0.1240
+Step 03500 | Moving Avg Loss (last 100): 0.1326 | Inst Loss: 0.1377
+Step 04000 | Moving Avg Loss (last 100): 0.1326 | Inst Loss: 0.1375
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 04500 | Moving Avg Loss (last 100): 0.1310 | Inst Loss: 0.1398
+Step 05000 | Moving Avg Loss (last 100): 0.1294 | Inst Loss: 0.1271
+Step 05500 | Moving Avg Loss (last 100): 0.1309 | Inst Loss: 0.1347
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 06000 | Moving Avg Loss (last 100): 0.1299 | Inst Loss: 0.1251
+  -> Moving Avg Loss increased! Warning count: 2/2
+Step 06500 | Moving Avg Loss (last 100): 0.1295 | Inst Loss: 0.1253
+  -> Moving Avg Loss increased! Warning count: 3/2
+Step 07000 | Moving Avg Loss (last 100): 0.1308 | Inst Loss: 0.1244
+  -> Moving Avg Loss increased! Warning count: 4/2
+Step 07500 | Moving Avg Loss (last 100): 0.1304 | Inst Loss: 0.1213
+  -> Moving Avg Loss increased! Warning count: 5/2
+Step 08000 | Moving Avg Loss (last 100): 0.1287 | Inst Loss: 0.1308
+Step 08500 | Moving Avg Loss (last 100): 0.1295 | Inst Loss: 0.1264
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 09000 | Moving Avg Loss (last 100): 0.1272 | Inst Loss: 0.1209
+Step 09500 | Moving Avg Loss (last 100): 0.1279 | Inst Loss: 0.1337
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 10000 | Moving Avg Loss (last 100): 0.1262 | Inst Loss: 0.1192
+Step 10500 | Moving Avg Loss (last 100): 0.1257 | Inst Loss: 0.1393
+Step 11000 | Moving Avg Loss (last 100): 0.1264 | Inst Loss: 0.1220
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 11500 | Moving Avg Loss (last 100): 0.1258 | Inst Loss: 0.1213
+  -> Moving Avg Loss increased! Warning count: 2/2
+Step 12000 | Moving Avg Loss (last 100): 0.1268 | Inst Loss: 0.1206
+  -> Moving Avg Loss increased! Warning count: 3/2
+Step 12500 | Moving Avg Loss (last 100): 0.1254 | Inst Loss: 0.1397
+Step 13000 | Moving Avg Loss (last 100): 0.1248 | Inst Loss: 0.1193
+Step 13500 | Moving Avg Loss (last 100): 0.1254 | Inst Loss: 0.1263
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 14000 | Moving Avg Loss (last 100): 0.1242 | Inst Loss: 0.1248
+Step 14500 | Moving Avg Loss (last 100): 0.1254 | Inst Loss: 0.1288
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 15000 | Moving Avg Loss (last 100): 0.1239 | Inst Loss: 0.1206
+Step 15500 | Moving Avg Loss (last 100): 0.1254 | Inst Loss: 0.1199
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 16000 | Moving Avg Loss (last 100): 0.1245 | Inst Loss: 0.1181
+  -> Moving Avg Loss increased! Warning count: 2/2
+Step 16500 | Moving Avg Loss (last 100): 0.1251 | Inst Loss: 0.1287
+  -> Moving Avg Loss increased! Warning count: 3/2
+Step 17000 | Moving Avg Loss (last 100): 0.1245 | Inst Loss: 0.1324
+  -> Moving Avg Loss increased! Warning count: 4/2
+Step 17500 | Moving Avg Loss (last 100): 0.1231 | Inst Loss: 0.1177
+Step 18000 | Moving Avg Loss (last 100): 0.1252 | Inst Loss: 0.1296
+  -> Moving Avg Loss increased! Warning count: 1/2
+Step 18500 | Moving Avg Loss (last 100): 0.1235 | Inst Loss: 0.1071
+  -> Moving Avg Loss increased! Warning count: 2/2
+Step 19000 | Moving Avg Loss (last 100): 0.1226 | Inst Loss: 0.1274
+Step 19500 | Moving Avg Loss (last 100): 0.1241 | Inst Loss: 0.1268
+  -> Moving Avg Loss increased! Warning count: 1/2
+Training finished. Best Loss: 0.1226
