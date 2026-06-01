@@ -7,7 +7,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import yaml
 from pathlib import Path
-from torchcfm.conditional_flow_matching import ExactOptimalTransportConditionalFlowMatcher
+from guided_flow.flow.conditional_flow_matching import ExactOptimalTransportConditionalFlowMatcher
 
 # Import your custom modules (assuming standard project structure)
 from guided_flow.backbone.mlp import CondMLP
@@ -16,6 +16,8 @@ from guided_flow.utils.misc import deterministic
 
 try:
     import wandb
+    if not hasattr(wandb, "init"):
+        wandb = None
 except ImportError:
     wandb = None
 
@@ -61,7 +63,10 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         )
 
     model_cc = CondMLP(dim=2, w=w, num_classes=8).to(device)
-    optimizer = optim.Adam(model_cc.parameters(), lr=1e-3)
+    optimizer = optim.AdamW(model_cc.parameters(), 
+                            lr=1e-3, 
+                            weight_decay=0.0)
+    # scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=5e-7)
     FM = ExactOptimalTransportConditionalFlowMatcher(sigma=0.0)
     
     x0_dist = get_distribution(source_dist_name)
@@ -81,12 +86,10 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         x0 = x0_dist.sample(batch_size).to(device)
         x1 = x1_dist.sample(batch_size).to(device)
         
-        # Auto-label based on spatial angle (specific to 8-Gaussian geometry)
-        angles = torch.atan2(x1[:, 1], x1[:, 0])
-        y = torch.round((angles + torch.pi) / (torch.pi / 4)) % 8
-        y = y.long().to(device)
+        # Auto-label based on target distribution's native labeling method
+        y = x1_dist.get_J(x1)
         
-        t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1)
+        t, xt, ut, _, y = FM.guided_sample_location_and_conditional_flow(x0, x1, y1=y)
         xt_time = torch.cat([xt, t[:, None]], dim=-1)
 
         # give conditional class label y as model input
@@ -94,7 +97,13 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         
         loss = F.mse_loss(vt, ut)
         loss.backward()
+
+        # Gradient clipping
+        # torch.nn.utils.clip_grad_norm_(model_cc.parameters(), max_norm=1.0)
+
         optimizer.step()
+
+        # scheduler.step()
 
         recent_losses.append(loss.item())
         recent_losses = recent_losses[-100:]
@@ -116,10 +125,17 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
                 increase_count += 1
                 print(f"  -> Moving Avg Loss increased! Warning count: {increase_count}/2")
                 
-            if increase_count >= 2:
-                print(f"Early stopping triggered at step {step}!")
-                break
+            # if increase_count >= 2:
+            #     print(f"Early stopping triggered at step {step}!")
+            #     break
                 
+    # Final check to ensure we don't discard the last segment of training
+    if epochs > 0 and (epochs - 1) % 500 != 0:
+        current_avg_loss = sum(recent_losses) / len(recent_losses)
+        if current_avg_loss < best_loss:
+            best_loss = current_avg_loss
+            best_model_state = copy.deepcopy(model_cc.state_dict())
+
     print(f"Training finished. Best Loss: {best_loss:.4f}")
     model_cc.load_state_dict(best_model_state)
 
@@ -133,7 +149,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", "--x0-dist", dest="source", type=str, default="uniform", help="Source distribution")
     parser.add_argument("--target", "--x1-dist", dest="target", type=str, default="8gaussian", help="Target distribution")
-    parser.add_argument("--epochs", type=int, default=15000)
+    parser.add_argument("--epochs", type=int, default=20000)
     parser.add_argument("--batch_size", type=int, default=512)
     parser.add_argument("--device", type=str,
         default="cuda" if torch.cuda.is_available()

@@ -70,7 +70,7 @@ def train_unconditional(
                 "lr": lr,
                 "num_steps": num_steps
             },
-            reinit=True
+            reinit="finish_previous"
         )
 
     # Definition
