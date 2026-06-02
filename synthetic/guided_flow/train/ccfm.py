@@ -64,7 +64,7 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
 
     model_cc = CondMLP(dim=2, w=w, num_classes=8).to(device)
     optimizer = optim.AdamW(model_cc.parameters(), 
-                            lr=1e-3, 
+                            lr=1e-4, 
                             weight_decay=0.0)
     # scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=5e-7)
     FM = ExactOptimalTransportConditionalFlowMatcher(sigma=0.0)
@@ -87,8 +87,9 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         x0 = x0_dist.sample(batch_size).to(device)
         x1 = x1_dist.sample(batch_size).to(device)
         
-        # Auto-label based on target distribution's native labeling method
-        y = x1_dist.get_J(x1)
+        # Auto-label based on target distribution's spatial geometry
+        angles = torch.atan2(x1[:, 1], x1[:, 0])
+        y = (torch.round((angles + torch.pi) / (torch.pi / 4)) % 8).long()
 
         # Apply Label Dropout (CFG) BEFORE shuffling
         # Replace 15% of labels with unconditional token (e.g., 8)
@@ -121,16 +122,16 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
             current_avg_loss = sum(recent_losses) / len(recent_losses)
             tracked_steps.append(step)
             tracked_losses.append(current_avg_loss)
-            print(f"Step {step:05d} | Moving Avg Loss (last 100): {current_avg_loss:.4f} | Inst Loss: {loss.item():.4f}")
+            print(f"_Step {step:05d} | Moving Avg Loss (last 100): {current_avg_loss:.4f} | Inst Loss: {loss.item():.4f}")
             
             if current_avg_loss < best_loss:
                 best_loss = current_avg_loss
                 best_model_state = copy.deepcopy(model_cc.state_dict()) 
-                increase_count = 0  
+                increase_count = 0
             else:
                 increase_count += 1
-                print(f"  -> Moving Avg Loss increased! Warning count: {increase_count}/2")
-                
+                # print(f"  -> Moving Avg Loss increased! Warning count: {increase_count}/2")
+
             # if increase_count >= 2:
             #     print(f"Early stopping triggered at step {step}!")
             #     break
