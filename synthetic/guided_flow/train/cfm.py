@@ -15,6 +15,8 @@ from pathlib import Path
 
 try:
     import wandb
+    if not hasattr(wandb, "init"):
+        wandb = None
 except ImportError:
     wandb = None
 
@@ -27,12 +29,16 @@ def train_unconditional(
         device=None,
         batch_size=1024,
         lr=1e-4,
-        num_steps=20000,
+        epochs=20000,
         x0_dist='gaussian',
-        x1_dist='gaussian'
+        x1_dist='gaussian',
+        config=None
 ):
     if device is None:
         device = get_device()
+    
+    # timestamp for naming of saved model and logs in w&b
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
     # Load wandb config
     config_path = Path(__file__).resolve().parent / "synthetic_config.yaml"
@@ -50,26 +56,41 @@ def train_unconditional(
         use_wandb = True
 
     if use_wandb:
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         run_name = f"{cfm}_{x0_dist}_{x1_dist}_{timestamp}"
         base_group = wandb_config.get("group")
         group_name = f"{base_group}_{cfm}_{x0_dist}_{x1_dist}" if base_group else f"{cfm}_{x0_dist}_{x1_dist}"
+
+        # Convert config (Namespace, dict, or dataclass) to a dictionary
+        if isinstance(config, dict):
+            config_dict = config.copy()
+        elif config is not None:
+            import dataclasses
+            if dataclasses.is_dataclass(config):
+                config_dict = dataclasses.asdict(config)
+            else:
+                config_dict = vars(config).copy()
+        else:
+            config_dict = {}
+        
+        config_dict.update({
+            "model_name": cfm,
+            "optimizer": "Adam",
+            "epochs": epochs,
+            "device": str(device),
+            "sigma": sigma,
+            "width": width,
+            "lr": lr,
+            "batch_size": batch_size,
+            "x0_dist": x0_dist,
+            "x1_dist": x1_dist,
+        })
+
         wandb.init(
             entity=wandb_config.get("entity"),
             project=wandb_config.get("project"),
             group=group_name,
             name=run_name,
-            config={
-                "model_name": cfm,
-                "x0_dist": x0_dist,
-                "x1_dist": x1_dist,
-                "width": width,
-                "sigma": sigma,
-                "device": str(device),
-                "batch_size": batch_size,
-                "lr": lr,
-                "num_steps": num_steps
-            },
+            config=config_dict,
             reinit="finish_previous"
         )
 
@@ -79,7 +100,7 @@ def train_unconditional(
 
     FM = get_cfm(cfm, sigma)
 
-    for k in tqdm.tqdm(range(num_steps)):
+    for k in tqdm.tqdm(range(epochs)):
         optimizer.zero_grad()
 
         x0 = x0_sampler(batch_size=batch_size, device=device)
@@ -100,7 +121,7 @@ def train_unconditional(
     if use_wandb:
         wandb.finish()
 
-    return model
+    return model, timestamp
 
 
 if __name__ == "__main__":
@@ -125,7 +146,7 @@ if __name__ == "__main__":
     x0_sampler = get_distribution(cfg.x0_dist).sample
     x1_sampler = get_distribution(cfg.x1_dist).sample
 
-    model = train_unconditional(
+    model, timestamp = train_unconditional(
         x0_sampler, 
         x1_sampler, 
         cfg.cfm, 
@@ -134,10 +155,11 @@ if __name__ == "__main__":
         cfg.device, 
         cfg.batch_size, 
         cfg.lr, 
-        cfg.num_steps,
+        cfg.epochs,
         x0_dist=cfg.x0_dist,
-        x1_dist=cfg.x1_dist
+        x1_dist=cfg.x1_dist,
+        config=cfg
     )
 
-    model_path = os.path.join(log_subfolder, f"{cfg.cfm}_{cfg.x0_dist}_{cfg.x1_dist}.pth")
+    model_path = os.path.join(log_subfolder, f"{cfg.cfm}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
     torch.save(model.state_dict(), model_path)

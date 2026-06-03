@@ -18,9 +18,9 @@ class FlowMatchingTrainingConfig:
     x1_dist: Annotated[str, tyro.conf.arg(aliases=("--target",))] = 'gaussian' # can be 'gaussian', '8gaussian', 'uniform', 'circle'
 
     ### Below are fixed parameters by default
-    batch_size: int = 65536
+    batch_size: int = 1024
     lr: float = 1e-4
-    num_steps: int = 100000
+    epochs: Annotated[int, tyro.conf.arg(aliases=("--num-steps", "--num_steps"))] = 100000
     sigma: float = 0.0 # minimum variance in CFM
     width: int = 256 # width of the MLP
 

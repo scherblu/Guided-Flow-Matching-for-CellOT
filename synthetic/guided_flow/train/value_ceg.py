@@ -15,6 +15,8 @@ from pathlib import Path
 
 try:
     import wandb
+    if not hasattr(wandb, "init"):
+        wandb = None
 except ImportError:
     wandb = None
 

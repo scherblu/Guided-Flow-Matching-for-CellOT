@@ -22,9 +22,12 @@ except ImportError:
     wandb = None
 
 
-def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda", epochs=15000, batch_size=512, w=256):
+def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda", epochs=15000, batch_size=512, w=256, config=None):
     print(f"Training OT-CC-CFM Baseline: {source_dist_name} -> {target_dist_name}")
-    
+
+    # timestamp for naming of saved model and logs in w&b
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
     # Load wandb config
     config_path = Path(__file__).resolve().parent / "synthetic_config.yaml"
     wandb_config = None
@@ -41,24 +44,42 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         use_wandb = True
 
     if use_wandb:
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         run_name = f"ccfm_{source_dist_name}_{target_dist_name}_{timestamp}"
         base_group = wandb_config.get("group")
         group_name = f"{base_group}_ccfm_{source_dist_name}_{target_dist_name}" if base_group else f"ccfm_{source_dist_name}_{target_dist_name}"
+
+        # Convert config (Namespace, dict, or dataclass) to a dictionary
+        if isinstance(config, dict):
+            config_dict = config.copy()
+        elif config is not None:
+            import dataclasses
+            if dataclasses.is_dataclass(config):
+                config_dict = dataclasses.asdict(config)
+            else:
+                config_dict = vars(config).copy()
+        else:
+            config_dict = {}
+        
+        # Update it with all missing/hardcoded metadata
+        config_dict.update({
+            "model_name": "ccfm",
+            "source_dist": source_dist_name,
+            "target_dist": target_dist_name,
+            "epochs": epochs,
+            "batch_size": batch_size,
+            "w": w,
+            "device": str(device),
+            "lr": 1e-4,
+            "optimizer": "Adam",
+            "sigma": 0.0
+        })
+
         wandb.init(
             entity=wandb_config.get("entity"),
             project=wandb_config.get("project"),
             group=group_name,
             name=run_name,
-            config={
-                "model_name": "ccfm",
-                "source_dist": source_dist_name,
-                "target_dist": target_dist_name,
-                "epochs": epochs,
-                "batch_size": batch_size,
-                "w": w,
-                "device": device
-            },
+            config=config_dict,
             reinit="finish_previous"
         )
 
@@ -149,7 +170,7 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
     if use_wandb:
         wandb.finish()
 
-    return model_cc
+    return model_cc, timestamp
 
 
 if __name__ == "__main__":
@@ -168,9 +189,10 @@ if __name__ == "__main__":
     deterministic(0)
     
     # 1. Train the model
-    model = train_cc_cfm_ot_early_stop(
+    model, timestamp = train_cc_cfm_ot_early_stop(
         args.source, args.target, 
-        device=args.device, epochs=args.epochs, batch_size=args.batch_size
+        device=args.device, epochs=args.epochs, batch_size=args.batch_size,
+        config=args
     )
 
     # 2. Dynamically resolve the absolute path to the project's root 'logs' directory
@@ -186,6 +208,8 @@ if __name__ == "__main__":
     os.makedirs(log_dir, exist_ok=True)
     
     # Save the weights
-    save_path = log_dir / f"cc_cfm_{args.source}_{args.target}_best.pth"
+    save_path = log_dir / f"cc_cfm_{args.source}_{args.target}_{timestamp}.pth"
+    save_path_best = log_dir / f"cc_cfm_{args.source}_{args.target}_best.pth"
     torch.save(model.state_dict(), save_path)
-    print(f"Successfully saved weights to: {save_path}")
+    torch.save(model.state_dict(), save_path_best)
+    print(f"Successfully saved weights to: {save_path} and {save_path_best}")

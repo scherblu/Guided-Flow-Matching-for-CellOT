@@ -1,4 +1,6 @@
 from dataclasses import dataclass, field
+from typing import Annotated
+import tyro
 from ..utils.misc import get_device
 
 @dataclass
@@ -21,9 +23,10 @@ class GuidanceTrainingConfig:
     batch_size: int = 65536
     ot_batch_size: int = 256
     lr: float = 1e-4
-    num_steps: int = 1000
+    num_steps: Annotated[int, tyro.conf.arg(aliases=("--epochs", "--num_steps"))] = 1000
     sigma: float = 0.0 # minimum variance in CFM
     width: int = 256 # width of the MLP
+    overwrite: bool = False
 
     def __post_init__(self):
         if self.cfm == 'ot_cfm': # If batch size is too large, OT will be too expensive
