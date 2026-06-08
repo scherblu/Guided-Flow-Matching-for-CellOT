@@ -1,0 +1,11 @@
+  0%|                                                                                              | 0/1000 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/value_guidance_matching.py", line 410, in <module>
+    model_z = train_z(
+              ^^^^^^^^
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/value_guidance_matching.py", line 107, in train_z
+    torch.exp(-scale * J(x1))
+                       ^^^^^
+TypeError: EightGaussiansDistribution.get_J() missing 1 required positional argument: 'target_blob_idx'
