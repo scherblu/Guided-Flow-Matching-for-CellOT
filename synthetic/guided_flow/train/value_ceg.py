@@ -144,5 +144,6 @@ if __name__ == "__main__":
         x1_dist=cfg.x1_dist
     )
 
-    model_path = os.path.join(log_subfolder, f"ceg_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}.pth")
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    model_path = os.path.join(log_subfolder, f"ceg_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
     torch.save(model.state_dict(), model_path)

@@ -11,6 +11,7 @@ from guided_flow.utils.misc import deterministic, save_config, setup_device, get
 import tqdm
 import yaml
 import datetime
+import glob
 from pathlib import Path
 
 try:
@@ -403,6 +404,8 @@ if __name__ == "__main__":
     )
     save_config(cfg, log_subfolder, config_name=f'gm_scale_{cfg.scale}_config.yaml')
 
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
     # train z
     if 'z' in cfg.which_model.split('-'):
         model_z = train_z(
@@ -421,13 +424,13 @@ if __name__ == "__main__":
             x1_dist=cfg.x1_dist
         )
 
-        model_path = os.path.join(log_subfolder, f"guidance_matching_z_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}.pth")
+        model_path = os.path.join(log_subfolder, f"guidance_matching_z_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
         torch.save(model_z.state_dict(), model_path)
 
     # load model_z in case not trained from scratch
     model_z = MLP(dim=2, out_dim=1, w=cfg.width, time_varying=True, exp_final=True).to(cfg.device)
     try:
-        model_z.load_state_dict(torch.load(os.path.join(log_subfolder, f"guidance_matching_z_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}.pth"), map_location=cfg.device))
+        model_z.load_state_dict(torch.load(os.path.join(log_subfolder, f"guidance_matching_z_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth"), map_location=cfg.device))
     except:
         raise FileNotFoundError("No model_z found!")
 
@@ -450,17 +453,29 @@ if __name__ == "__main__":
             x1_dist=cfg.x1_dist
         )
 
-        model_path = os.path.join(log_subfolder, f"guidance_matching_g_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}.pth")
+        model_path = os.path.join(log_subfolder, f"guidance_matching_g_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
         torch.save(model_g.state_dict(), model_path)
 
 
     # load model_v
     if 'g2' in cfg.which_model.split('-') or 'g3' in cfg.which_model.split('-') or 'rwft' in cfg.which_model.split('-'):
-        model_v = MLP(dim=2, out_dim=2, w=cfg.width, time_varying=True).to(cfg.device)
-        try:
-            model_v.load_state_dict(torch.load(os.path.join(log_subfolder, f"{cfg.cfm}_{cfg.x0_dist}_{cfg.x1_dist}.pth"), map_location=cfg.device))
-        except:
-            raise FileNotFoundError("No model_v found, training from scratch")  
+        # Initialize the base model architecture
+        model_v = MLP(dim=2, w=cfg.width, time_varying=True).to(cfg.device)
+
+        # 1. Search for the latest trained base model
+        cfm_search_pattern = os.path.join(log_subfolder, f"{cfg.cfm}_{cfg.x0_dist}_{cfg.x1_dist}*.pth")
+        cfm_files = glob.glob(cfm_search_pattern)
+
+        if not cfm_files:
+            raise FileNotFoundError(f"No model_v found matching: {cfm_search_pattern}. Please train the base CFM model first.")
+
+        # Sort alphabetically to get the newest timestamp
+        latest_cfm_path = sorted(cfm_files)[-1]
+        print(f"Loading base CFM model from: {latest_cfm_path}")
+
+        # 2. Load the model (with weights_only=True to fix the warning)
+        model_v.load_state_dict(torch.load(latest_cfm_path, map_location=cfg.device, weights_only=True))
+        model_v.eval() # Good practice to set it to eval mode
 
     # train g2
     if 'g2' in cfg.which_model.split('-'):
@@ -482,7 +497,7 @@ if __name__ == "__main__":
             x1_dist=cfg.x1_dist
         )
 
-        model_path = os.path.join(log_subfolder, f"guidance_matching_g2_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}.pth")
+        model_path = os.path.join(log_subfolder, f"guidance_matching_g2_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
         torch.save(model_g2.state_dict(), model_path)
 
     # train g3
@@ -505,7 +520,7 @@ if __name__ == "__main__":
             x1_dist=cfg.x1_dist
         )
 
-        model_path = os.path.join(log_subfolder, f"guidance_matching_g3_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}.pth")
+        model_path = os.path.join(log_subfolder, f"guidance_matching_g3_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
         torch.save(model_g3.state_dict(), model_path)
 
     # train rwft
@@ -528,5 +543,5 @@ if __name__ == "__main__":
             x1_dist=cfg.x1_dist
         )
 
-        model_path = os.path.join(log_subfolder, f"guidance_matching_rwft_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}.pth")
+        model_path = os.path.join(log_subfolder, f"guidance_matching_rwft_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
         torch.save(model_rwft.state_dict(), model_path)

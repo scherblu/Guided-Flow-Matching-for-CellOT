@@ -10,7 +10,7 @@ from pathlib import Path
 from guided_flow.flow.conditional_flow_matching import ConditionalFlowMatcher, ExactOptimalTransportConditionalFlowMatcher
 
 # Import your custom modules (assuming standard project structure)
-from guided_flow.backbone.mlp import CondMLP
+from guided_flow.backbone.mlp import CondMLP, ClassConditionalMLP
 from guided_flow.distributions.base import get_distribution
 from guided_flow.utils.misc import deterministic
 
@@ -83,7 +83,15 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
             reinit="finish_previous"
         )
 
-    model_cc = CondMLP(dim=2, w=w, num_classes=8).to(device)
+    # Update your instantiation to turn on time embeddings:
+    model_cc = ClassConditionalMLP(
+        dim=2,
+        num_classes=8,
+        class_emb_dim=16,
+        w=w,
+        time_varying=True,
+        time_embedding=True
+    ).to(device)
     optimizer = optim.AdamW(model_cc.parameters(), 
                             lr=1e-4, 
                             weight_decay=0.0)
@@ -111,11 +119,6 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         # Auto-label based on target distribution's spatial geometry
         angles = torch.atan2(x1[:, 1], x1[:, 0])
         y = (torch.round((angles + torch.pi) / (torch.pi / 4)) % 8).long()
-
-        # Apply Label Dropout (CFG) BEFORE shuffling
-        # Replace 15% of labels with unconditional token (e.g., 8)
-        drop_mask = torch.rand(y.shape[0], device=device) < 0.15
-        y[drop_mask] = 8
         
         t, xt, ut, _, y_shuffled = FM.guided_sample_location_and_conditional_flow(x0, x1, y1=y)
         xt_time = torch.cat([xt, t[:, None]], dim=-1)
@@ -127,7 +130,7 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         loss.backward()
 
         # Gradient clipping
-        # torch.nn.utils.clip_grad_norm_(model_cc.parameters(), max_norm=1.0)
+        torch.nn.utils.clip_grad_norm_(model_cc.parameters(), max_norm=1.0)
 
         optimizer.step()
 
@@ -209,7 +212,5 @@ if __name__ == "__main__":
     
     # Save the weights
     save_path = log_dir / f"cc_cfm_{args.source}_{args.target}_{timestamp}.pth"
-    save_path_best = log_dir / f"cc_cfm_{args.source}_{args.target}_best.pth"
     torch.save(model.state_dict(), save_path)
-    torch.save(model.state_dict(), save_path_best)
-    print(f"Successfully saved weights to: {save_path} and {save_path_best}")
+    print(f"Successfully saved weights to: {save_path}")

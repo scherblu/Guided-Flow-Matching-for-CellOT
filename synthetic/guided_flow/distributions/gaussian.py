@@ -70,7 +70,7 @@ class EightGaussiansDistribution(BaseDistribution):
         prob = (torch.exp(one_log_prob) / torch.exp(one_log_prob_z)).mean(-1)
         return prob
 
-    def get_J(self, x1: torch.Tensor) -> torch.Tensor:
+    def get_J_(self, x1: torch.Tensor) -> torch.Tensor:
         """
         discrete masking for energy function J of 8gaussian
         exponentially weight the index 0 to 7
@@ -84,7 +84,8 @@ class EightGaussiansDistribution(BaseDistribution):
         # return the index of the closest center for each sample (B,)
         return torch.argmin(dists, dim=1)
     
-    def get_J_continuous_single_blob(self, x1: torch.Tensor, target_blob_idx: int, std_target:float =0.1) -> torch.Tensor:
+    # get_J_continuous_single_blob
+    def get_J(self, x1: torch.Tensor, target_blob_idx: int = 0, std_target:float =0.1) -> torch.Tensor:
         """
         Continuous energy function for a single Gaussian blob. 
         best for gradient-based guidance methods
@@ -95,7 +96,7 @@ class EightGaussiansDistribution(BaseDistribution):
         Returns: 
             J (B,): Smooth continuous energy values
         """
-        # Get the coordinate of the target center, e.g., self.centers[3]
+        # Get the coordinate of the target center, e.g., self.centers[0]
         target_center = self.centers[target_blob_idx].to(x1.device) # Shape: (2,)
         
         # Compute squared Euclidean distance to that specific center
@@ -103,6 +104,46 @@ class EightGaussiansDistribution(BaseDistribution):
         
         # Scale by the cluster variance (the std in your code is 0.1, so std^2 = 0.01)
         return sq_dist / (2 * (std_target ** 2))
+    
+    def get_J_three_blobs(self, x1: torch.Tensor) -> torch.Tensor:
+        """
+        Args: 
+            x1 (B, 2): Generated samples
+        Returns: 
+            J (B,): Energy values (0 for blobs 0, 2, 5; 20 for others)
+        """
+        # 1. Compute distances to all 8 centers
+        dists = torch.cdist(x1, self.centers.to(x1.device)) # Shape: (B, 8)
+        closest_idx = torch.argmin(dists, dim=1)            # Shape: (B,)
+        
+        # 2. Check if the closest index is 0, 2, or 5
+        mask = (closest_idx == 0) | (closest_idx == 2) | (closest_idx == 5)
+        
+        # 3. Assign 0 energy to targets, 20 to everything else
+        J = torch.where(mask, 0.0, 20.0)
+        return J
+
+    def get_J_continuous_three_blobs(self, x1: torch.Tensor, target_indices: list = [0, 2, 5], std_target:float =0.1) -> torch.Tensor:
+        """
+        Args: 
+            x1 (B, 2): Generated samples
+        Returns: 
+            J (B,): Smooth multi-well energy values
+        """
+        # 1. Extract the coordinates for centers 0, 2, and 5
+        target_centers = self.centers[target_indices].to(x1.device) # Shape: (3, 2)
+        
+        # 2. Compute squared distances to these 3 centers for all batch items
+        # x1 unsqueezed to (B, 1, 2), target_centers unsqueezed to (1, 3, 2)
+        sq_dists = torch.sum((x1.unsqueeze(1) - target_centers.unsqueeze(0)) ** 2, dim=-1) # Shape: (B, 3)
+        
+        # 3. Compute the individual negative exponents (-dist^2 / 2*sigma^2)
+        # Given std = 0.1, 2 * variance = 2 * (0.1^2) = 0.02
+        exponents = -sq_dists / (2 * (std_target ** 2)) # Shape: (B, 3)
+        
+        # 4. Use LogSumExp for numerical stability to get the final smooth negative log landscape
+        J = -torch.logsumexp(exponents, dim=-1) # Shape: (B,)
+        return J
 
     def __name__(self):
         return f'8 Gaussians'
