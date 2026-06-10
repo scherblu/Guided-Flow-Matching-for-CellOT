@@ -1,0 +1,32 @@
+{
+  "os": "macOS-26.5.1-arm64-arm-64bit",
+  "python": "CPython 3.12.13",
+  "startedAt": "2026-06-10T21:16:56.096512Z",
+  "args": [
+    "--epochs",
+    "1000"
+  ],
+  "program": "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/ccfm.py",
+  "codePath": "synthetic/guided_flow/train/ccfm.py",
+  "codePathLocal": "guided_flow/train/ccfm.py",
+  "git": {
+    "remote": "https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git",
+    "commit": "8af2090924a77b8af46e026ed0c8bf027f6f2ce9"
+  },
+  "email": "lucas.scherberger@tum.de",
+  "root": "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic",
+  "host": "Lucass-MacBook-Air.local",
+  "executable": "/Users/LS/miniconda3/envs/bio_ml/bin/python",
+  "cpu_count": 8,
+  "cpu_count_logical": 8,
+  "disk": {
+    "/": {
+      "total": "994662584320",
+      "used": "553181700096"
+    }
+  },
+  "memory": {
+    "total": "25769803776"
+  },
+  "writerId": "v9lyi4ereb4a7c3o18u9l54myuheojkk"
+}

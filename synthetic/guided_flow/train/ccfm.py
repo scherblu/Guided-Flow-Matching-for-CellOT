@@ -12,7 +12,7 @@ from guided_flow.flow.conditional_flow_matching import ConditionalFlowMatcher, E
 # Import your custom modules (assuming standard project structure)
 from guided_flow.backbone.mlp import CondMLP, ClassConditionalMLP
 from guided_flow.distributions.base import get_distribution
-from guided_flow.utils.misc import deterministic
+from guided_flow.utils.misc import deterministic, print_model_summary
 
 try:
     import wandb
@@ -22,7 +22,7 @@ except ImportError:
     wandb = None
 
 
-def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda", epochs=15000, batch_size=512, w=256, config=None):
+def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda", epochs=15000, batch_size=512, w=512, config=None):
     print(f"Training OT-CC-CFM Baseline: {source_dist_name} -> {target_dist_name}")
 
     # timestamp for naming of saved model and logs in w&b
@@ -88,16 +88,22 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         dim=2,
         num_classes=8,
         class_emb_dim=16,
-        w=w,
+        w=512,
         time_varying=True,
         time_embedding=True
     ).to(device)
+
+    # Print model summary card before starting training
+    example_x = torch.randn(batch_size, 3, device=device)
+    example_y = torch.randint(0, 8, (batch_size,), device=device)
+    print_model_summary(model_cc, example_inputs=(example_x, example_y))
+
     optimizer = optim.AdamW(model_cc.parameters(), 
                             lr=1e-4, 
                             weight_decay=0.0)
     # scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=5e-7)
-    FM = ExactOptimalTransportConditionalFlowMatcher(sigma=0.0)
-    # FM = ConditionalFlowMatcher(sigma=0.0)
+    # FM = ExactOptimalTransportConditionalFlowMatcher(sigma=0.0)
+    FM = ConditionalFlowMatcher(sigma=0.0)
     
     x0_dist = get_distribution(source_dist_name)
     x1_dist = get_distribution(target_dist_name)
@@ -120,7 +126,12 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         angles = torch.atan2(x1[:, 1], x1[:, 0])
         y = (torch.round((angles + torch.pi) / (torch.pi / 4)) % 8).long()
         
-        t, xt, ut, _, y_shuffled = FM.guided_sample_location_and_conditional_flow(x0, x1, y1=y)
+        if hasattr(FM, "guided_sample_location_and_conditional_flow"):
+            t, xt, ut, _, y_shuffled = FM.guided_sample_location_and_conditional_flow(x0, x1, y1=y)
+        else:
+            t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1)
+            y_shuffled = y
+            
         xt_time = torch.cat([xt, t[:, None]], dim=-1)
 
         # give conditional class label y as model input
@@ -195,6 +206,7 @@ if __name__ == "__main__":
     model, timestamp = train_cc_cfm_ot_early_stop(
         args.source, args.target, 
         device=args.device, epochs=args.epochs, batch_size=args.batch_size,
+        w=512,
         config=args
     )
 
