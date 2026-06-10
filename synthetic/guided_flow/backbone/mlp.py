@@ -94,7 +94,7 @@ class ClassConditionalMLP(torch.nn.Module):
             dim, 
             num_classes,
             out_dim=None, 
-            w=64, 
+            w=512,
             time_varying=False, 
             time_embedding=False,
             class_emb_dim=16,

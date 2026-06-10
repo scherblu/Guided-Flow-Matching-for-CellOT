@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
 from guided_flow.backbone.mlp import MLP
 from guided_flow.flow.conditional_flow_matching import get_cfm
-from guided_flow.utils.misc import deterministic, save_config, setup_device, get_device
+from guided_flow.utils.misc import deterministic, save_config, setup_device, get_device, print_model_summary
 import tqdm
 import yaml
 import datetime
@@ -96,6 +96,11 @@ def train_unconditional(
 
     # Definition
     model = MLP(dim=2, w=width, time_varying=True).to(device)
+
+    # Print model summary card before starting training
+    example_input = torch.randn(batch_size, 3, device=device)
+    print_model_summary(model, example_inputs=example_input)
+
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
     FM = get_cfm(cfm, sigma)
