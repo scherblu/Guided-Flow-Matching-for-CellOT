@@ -1,0 +1,71 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            y2yexe3s153al6ntj556f0f7qcoqamm8:
+                args:
+                    - --x0_dist
+                    - uniform
+                    - --x1_dist
+                    - 8gaussian
+                cpu_count: 8
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "994662584320"
+                        used: "519574188032"
+                executable: /Users/LS/miniconda3/envs/bio_ml/bin/python
+                git:
+                    commit: b5939e644a1f53cad22c2f5810fc2f956f2bf7e9
+                    remote: https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git
+                host: Lucass-MacBook-Air.local
+                memory:
+                    total: "25769803776"
+                os: macOS-26.5.1-arm64-arm-64bit
+                program: -m guided_flow.train.value_ceg
+                python: CPython 3.12.13
+                root: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic
+                startedAt: "2026-06-08T17:22:21.537982Z"
+                writerId: y2yexe3s153al6ntj556f0f7qcoqamm8
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+            "2":
+                - 1
+                - 5
+                - 53
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.12.13
+            "5": 0.26.1
+            "12": 0.26.1
+            "13": darwin-arm64
+batch_size:
+    value: 65536
+cfm:
+    value: cfm
+device:
+    value: mps
+lr:
+    value: 0.0001
+model_name:
+    value: ceg
+num_steps:
+    value: 1000
+scale:
+    value: 1
+sigma:
+    value: 0
+width:
+    value: 256
+x0_dist:
+    value: uniform
+x1_dist:
+    value: 8gaussian

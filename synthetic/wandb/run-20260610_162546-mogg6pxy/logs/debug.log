@@ -1,0 +1,24 @@
+2026-06-10 16:25:46,478 INFO    MainThread:83673 [wandb_setup.py:_flush():81] Current SDK version is 0.26.1
+2026-06-10 16:25:46,478 INFO    MainThread:83673 [wandb_setup.py:_flush():81] Configure stats pid to 83673
+2026-06-10 16:25:46,478 INFO    MainThread:83673 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-06-10 16:25:46,478 INFO    MainThread:83673 [wandb_init.py:setup_run_log_directory():723] Logging user logs to /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/wandb/run-20260610_162546-mogg6pxy/logs/debug.log
+2026-06-10 16:25:46,478 INFO    MainThread:83673 [wandb_init.py:setup_run_log_directory():724] Logging internal logs to /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/wandb/run-20260610_162546-mogg6pxy/logs/debug-internal.log
+2026-06-10 16:25:46,478 INFO    MainThread:83673 [wandb_init.py:init():850] calling init triggers
+2026-06-10 16:25:46,478 INFO    MainThread:83673 [wandb_init.py:init():855] wandb.init called with sweep_config: {}
+config: {'source': 'uniform', 'target': '8gaussian', 'epochs': 2000, 'batch_size': 512, 'device': 'mps', 'model_name': 'ccfm', 'source_dist': 'uniform', 'target_dist': '8gaussian', 'w': 512, 'lr': 0.0001, 'optimizer': 'Adam', 'sigma': 0.0, '_wandb': {}}
+2026-06-10 16:25:46,478 INFO    MainThread:83673 [wandb_init.py:init():898] starting backend
+2026-06-10 16:25:46,718 INFO    MainThread:83673 [wandb_init.py:init():913] sending inform_init request
+2026-06-10 16:25:47,075 INFO    MainThread:83673 [wandb_init.py:init():918] backend started and connected
+2026-06-10 16:25:47,079 INFO    MainThread:83673 [wandb_init.py:init():988] updated telemetry
+2026-06-10 16:25:47,113 INFO    MainThread:83673 [wandb_init.py:init():1011] communicating run to backend with 90.0 second timeout
+2026-06-10 16:25:47,639 INFO    MainThread:83673 [wandb_init.py:init():1056] starting run threads in backend
+2026-06-10 16:25:47,754 INFO    MainThread:83673 [wandb_run.py:_console_start():2554] atexit reg
+2026-06-10 16:25:47,754 INFO    MainThread:83673 [wandb_run.py:_redirect():2403] redirect: wrap_raw
+2026-06-10 16:25:47,754 INFO    MainThread:83673 [wandb_run.py:_redirect():2472] Wrapping output streams.
+2026-06-10 16:25:47,754 INFO    MainThread:83673 [wandb_run.py:_redirect():2495] Redirects installed.
+2026-06-10 16:25:47,756 INFO    MainThread:83673 [wandb_init.py:init():1094] run started, returning control to user process
+2026-06-10 16:26:36,306 INFO    MainThread:83673 [wandb_run.py:_finish():2321] finishing run lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/mogg6pxy
+2026-06-10 16:26:36,307 INFO    MainThread:83673 [wandb_run.py:_atexit_cleanup():2520] got exitcode: 0
+2026-06-10 16:26:36,307 INFO    MainThread:83673 [wandb_run.py:_restore():2502] restore
+2026-06-10 16:26:36,307 INFO    MainThread:83673 [wandb_run.py:_restore():2508] restore done
+2026-06-10 16:26:37,296 INFO    MainThread:83673 [wandb_run.py:_footer_sync_info():3889] logging synced files

@@ -1,0 +1,22 @@
+{"time":"2026-06-10T16:24:37.192779+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-06-10T16:24:37.193801+02:00","level":"INFO","msg":"stream: starting","core version":"0.26.1"}
+{"time":"2026-06-10T16:24:37.571271+02:00","level":"INFO","msg":"stream: created new stream","id":"4pdtpadu"}
+{"time":"2026-06-10T16:24:37.571375+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-06-10T16:24:37.571615+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-06-10T16:24:37.571632+02:00","level":"INFO","msg":"writer: started","stream_id":"4pdtpadu"}
+{"time":"2026-06-10T16:24:37.571824+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-06-10T16:24:39.876525+02:00","level":"INFO","msg":"filestream: sending request","total_files":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-10T16:24:40.190896+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-10T16:24:54.876774+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":0,"history_lines":624,"events_offset":0,"events_lines":1,"console_offset":0,"console_lines":2,"uploaded_len":2}
+{"time":"2026-06-10T16:24:55.196817+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-10T16:25:09.876835+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":624,"history_lines":621,"events_offset":1,"events_lines":1,"console_offset":2,"console_lines":1}
+{"time":"2026-06-10T16:25:10.25427+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-10T16:25:24.877335+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":1245,"history_lines":644,"events_offset":2,"events_lines":1,"console_offset":3,"console_lines":1}
+{"time":"2026-06-10T16:25:25.28024+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-10T16:25:32.462+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-06-10T16:25:32.46276+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":1889,"history_lines":313,"console_offset":4,"console_lines":26,"uploaded_len":3,"complete":true,"exit_code":255}
+{"time":"2026-06-10T16:25:32.88336+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-10T16:25:32.884077+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-06-10T16:25:32.884225+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-06-10T16:25:32.886735+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-06-10T16:25:32.88683+02:00","level":"INFO","msg":"stream: all finished"}

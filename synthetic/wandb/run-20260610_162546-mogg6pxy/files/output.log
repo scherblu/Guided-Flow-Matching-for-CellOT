@@ -1,0 +1,5 @@
+_Step 00000 | Moving Avg Loss (last 100): 0.1024 | Inst Loss: 0.1024
+_Step 00500 | Moving Avg Loss (last 100): 0.0076 | Inst Loss: 0.0058
+_Step 01000 | Moving Avg Loss (last 100): 0.0072 | Inst Loss: 0.0084
+_Step 01500 | Moving Avg Loss (last 100): 0.0069 | Inst Loss: 0.0076
+Training finished. Best Loss: 0.0060

@@ -1,0 +1,30 @@
+_Step 00000 | Moving Avg Loss (last 100): 0.1024 | Inst Loss: 0.1024
+_Step 00500 | Moving Avg Loss (last 100): 0.0076 | Inst Loss: 0.0058
+_Step 01000 | Moving Avg Loss (last 100): 0.0072 | Inst Loss: 0.0084
+_Step 01500 | Moving Avg Loss (last 100): 0.0069 | Inst Loss: 0.0076
+_Step 02000 | Moving Avg Loss (last 100): 0.0060 | Inst Loss: 0.0067
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/ccfm.py", line 195, in <module>
+    model, timestamp = train_cc_cfm_ot_early_stop(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/ccfm.py", line 123, in train_cc_cfm_ot_early_stop
+    t, xt, ut, _, y_shuffled = FM.guided_sample_location_and_conditional_flow(x0, x1, y1=y)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/flow/conditional_flow_matching.py", line 306, in guided_sample_location_and_conditional_flow
+    x0, x1, y0, y1 = self.ot_sampler.sample_plan_with_labels(x0, x1, y0, y1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/flow/optimal_transport.py", line 177, in sample_plan_with_labels
+    pi = self.get_map(x0, x1)
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/flow/optimal_transport.py", line 87, in get_map
+    p = self.ot_fn(a, b, M.detach().cpu().numpy())
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/LS/miniconda3/envs/bio_ml/lib/python3.12/site-packages/ot/lp/_network_simplex.py", line 317, in emd
+    b = b * a.sum() / b.sum()
+                      ^^^^^^^
+  File "/Users/LS/miniconda3/envs/bio_ml/lib/python3.12/site-packages/numpy/_core/_methods.py", line 47, in _sum
+    def _sum(a, axis=None, dtype=None, out=None, keepdims=False,
+
+KeyboardInterrupt

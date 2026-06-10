@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/ccfm.py", line 202, in <module>
+    model, timestamp = train_cc_cfm_ot_early_stop(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/ccfm.py", line 102, in train_cc_cfm_ot_early_stop
+    x0_dist = get_distribution(source_dist_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/distributions/base.py", line 43, in get_distribution
+    from guided_flow.distributions.gaussian import GaussianDistribution, EightGaussiansDistribution
+  File "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/distributions/gaussian.py", line 109
+    """
+    ^^^
+IndentationError: expected an indented block after function definition on line 108
