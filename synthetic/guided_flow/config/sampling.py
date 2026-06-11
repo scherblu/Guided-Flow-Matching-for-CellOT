@@ -20,6 +20,8 @@ class GuideFnConfig:
     dist_pair: Tuple[str, str] = None
     ode_cfg: ODEConfig = field(default_factory=ODEConfig)
     scale: float = 1.0 # guidance intensity. Default to 1
+    energy_fn: str = 'default'
+    energy_kwargs: dict = field(default_factory=dict)
 
     guide_type: str = 'mc' # 'mc' or 'ceg' or 'learned' or 'g_cov_A' or 'g_cov_G'
     # MC
