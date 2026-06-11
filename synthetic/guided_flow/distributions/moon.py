@@ -40,10 +40,18 @@ class MLP(nn.Module):
 
 
 class MoonDistribution(BaseDistribution):
-    def __init__(self, noise: float = 0.05):
-        super().__init__()
+    def __init__(self, noise: float = 0.05, energy_fn: str = None, energy_kwargs: dict = None):
+        super().__init__(energy_fn=energy_fn, energy_kwargs=energy_kwargs)
         self.noise = noise
         self.classifier = self.get_classifier()
+
+    def get_default_energy_fn_name(self) -> str:
+        return 'upper_moon_classifier_score'
+
+    def upper_moon_classifier_score(self, x: torch.Tensor, scale: float = 3.0) -> torch.Tensor:
+        # I want upper half of the moon to have J=1, and lower half to have J=0.
+        label = self.classifier(x.cpu())
+        return label.to(x.device)[:, 1] * scale
 
     def get_classifier(self):
         # Resolve path relative to project root (parent of guided_flow directory)
@@ -80,11 +88,6 @@ class MoonDistribution(BaseDistribution):
     
     def prob(self, x: torch.Tensor) -> torch.Tensor:
         raise NotImplementedError("Probability for moons is complicated, not implemented yet")
-
-    def get_J(self, x) -> torch.Tensor:
-        # I want upper half of the moon to have J=1, and lower half to have J=0.
-        label = self.classifier(x.cpu()) # (B,)
-        return label.to(x.device)[:, 1] * 3
 
     def __name__(self):
         return f'Moons'

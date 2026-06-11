@@ -1,0 +1,98 @@
+{"time":"2026-06-11T11:56:32.839049+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-06-11T11:56:32.839233+02:00","level":"INFO","msg":"stream: starting","core version":"0.26.1"}
+{"time":"2026-06-11T11:56:33.138828+02:00","level":"INFO","msg":"stream: created new stream","id":"8hgzm4im"}
+{"time":"2026-06-11T11:56:33.139042+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-06-11T11:56:33.142377+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-06-11T11:56:33.142588+02:00","level":"INFO","msg":"writer: started","stream_id":"8hgzm4im"}
+{"time":"2026-06-11T11:56:33.142715+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-06-11T11:56:33.87062+02:00","level":"INFO","msg":"filestream: sending request","total_files":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T11:56:34.187388+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T11:56:48.870571+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":0,"history_lines":31,"events_offset":0,"events_lines":1,"console_offset":0,"console_lines":1,"uploaded_len":2}
+{"time":"2026-06-11T11:56:49.121464+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T11:57:03.870293+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":31,"history_lines":26,"events_offset":1,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T11:57:04.137517+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T11:57:18.870502+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":57,"history_lines":28,"events_offset":2,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T11:57:19.362256+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T11:57:33.870753+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":85,"history_lines":32,"events_offset":3,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T11:57:34.311229+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T11:57:48.870426+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":117,"history_lines":31,"events_offset":4,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T11:57:49.1709+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T11:58:03.871729+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":148,"history_lines":26,"events_offset":5,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T11:58:04.450995+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T11:59:51.886798+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":174,"history_lines":22,"events_offset":6,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T11:59:52.223749+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:00:06.884349+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":196,"history_lines":17,"events_offset":7,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:00:07.600253+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:00:21.883983+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":213,"history_lines":19,"events_offset":8,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:00:22.186228+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:05:22.61126+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":232,"history_lines":23,"events_offset":9,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:11:20.495604+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/8hgzm4im/file_stream\": read tcp 131.159.207.116:54338->34.8.250.101:443: read: can't assign requested address"}
+{"time":"2026-06-11T12:11:30.643619+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:11:30.644927+02:00","level":"INFO","msg":"filestream: sending request","total_files":0}
+{"time":"2026-06-11T12:11:31.097543+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:11:31.098651+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":255,"history_lines":205,"events_offset":10,"events_lines":9,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:11:31.557589+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:11:31.558098+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":460,"history_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:11:32.236368+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:11:45.966879+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":461,"history_lines":18,"events_offset":19,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:11:46.448153+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:12:00.968533+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":479,"history_lines":21,"events_offset":20,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:12:15.829236+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:12:20.358482+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":500,"history_lines":23,"events_offset":21,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:12:20.763628+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:12:35.359767+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":523,"history_lines":20,"events_offset":22,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:12:35.708914+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:12:50.358675+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":543,"history_lines":21,"events_offset":23,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:12:50.754367+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:21:05.053193+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":564,"history_lines":25,"events_offset":24,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:21:05.348787+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:21:20.052767+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":589,"history_lines":19,"events_offset":25,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:21:20.425342+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:21:35.052264+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":608,"history_lines":22,"events_offset":26,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:21:35.305565+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:30:09.511603+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":630,"history_lines":25,"events_offset":27,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:30:09.955251+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:30:24.512609+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":655,"history_lines":20,"events_offset":28,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:30:24.773898+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:30:39.512347+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":675,"history_lines":22,"events_offset":29,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:30:39.933942+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:45:50.076578+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":697,"history_lines":23,"events_offset":30,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:46:19.493526+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/8hgzm4im/file_stream\": read tcp 10.183.52.250:54725->34.8.250.101:443: read: operation timed out"}
+{"time":"2026-06-11T12:46:22.109316+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:46:22.10978+02:00","level":"INFO","msg":"filestream: sending request","total_files":0}
+{"time":"2026-06-11T12:46:22.35552+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:46:22.356027+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":720,"history_lines":39,"events_offset":31,"events_lines":2,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:46:22.755876+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:46:22.756187+02:00","level":"INFO","msg":"filestream: sending request","total_files":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:46:22.948237+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:47:50.646888+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":759,"history_lines":26,"events_offset":33,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:47:51.1661+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:48:05.645481+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":785,"history_lines":18,"events_offset":34,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:48:05.961318+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:48:20.643908+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":803,"history_lines":20,"events_offset":35,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:48:20.954133+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:49:45.772103+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":823,"history_lines":25,"events_offset":36,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:49:46.309126+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:50:00.66711+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":848,"history_lines":19,"events_offset":37,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:50:01.129714+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:50:15.668682+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":867,"history_lines":21,"events_offset":38,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:50:18.065624+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:51:31.030569+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":888,"history_lines":25,"events_offset":39,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:51:38.530471+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:51:46.030088+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":913,"history_lines":18,"events_offset":40,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:51:46.546205+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:52:01.030617+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":931,"history_lines":21,"events_offset":41,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:52:01.577256+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T12:57:52.425393+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":952,"history_lines":26,"events_offset":42,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-11T12:58:09.386601+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-06-11T13:14:09.576809+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/8hgzm4im/file_stream\": read tcp 10.183.52.250:54978->34.8.250.101:443: read: can't assign requested address"}
+{"time":"2026-06-11T13:14:12.456135+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T13:14:12.456414+02:00","level":"INFO","msg":"filestream: sending request","total_files":0}
+{"time":"2026-06-11T13:14:12.666905+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T13:14:12.667298+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":978,"history_lines":22,"events_offset":43,"events_lines":2,"console_offset":0,"console_lines":1,"uploaded_len":3,"complete":true,"exit_code":0}
+{"time":"2026-06-11T13:14:12.974104+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-11T13:14:12.977288+02:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-06-11T13:14:12.985626+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-06-11T13:14:12.985688+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-06-11T13:14:12.986587+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-06-11T13:14:12.986676+02:00","level":"INFO","msg":"stream: all finished"}

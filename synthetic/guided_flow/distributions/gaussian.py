@@ -7,11 +7,20 @@ class GaussianDistribution(BaseDistribution):
     def __init__(
         self, 
         mean: torch.Tensor = torch.zeros(2), 
-        std: torch.Tensor = torch.ones(2)
+        std: torch.Tensor = torch.ones(2),
+        energy_fn: str = None,
+        energy_kwargs: dict = None
     ):
-        super().__init__()
+        super().__init__(energy_fn=energy_fn, energy_kwargs=energy_kwargs)
         self.mean = mean
         self.std = std
+
+    def get_default_energy_fn_name(self) -> str:
+        return 'target_point_quadratic_distance'
+
+    def target_point_quadratic_distance(self, x: torch.Tensor, target: list = [1.0, 1.0]) -> torch.Tensor:
+        target_tensor = torch.tensor(target, dtype=x.dtype, device=x.device)
+        return torch.sum((x - target_tensor) ** 2, dim=-1)
 
     def sample(self, batch_size: int, device: str = None) -> torch.Tensor:
         if device is None:
@@ -21,9 +30,6 @@ class GaussianDistribution(BaseDistribution):
     
     def log_prob(self, x: torch.Tensor) -> torch.Tensor:
         return -0.5 * ((x - self.mean.to(x.device)) / self.std.to(x.device)).pow(2).sum(-1) - torch.log(self.std.to(x.device)).sum(-1) - 0.5 * math.log(2 * torch.pi)
-
-    def get_J(self) -> torch.Tensor:
-        raise NotImplementedError("J for gaussian is not implemented yet")
 
     def __name__(self):
         return f'Gaussian'
@@ -43,11 +49,16 @@ class EightGaussiansDistribution(BaseDistribution):
                 (-1.0 / math.sqrt(2), -1.0 / math.sqrt(2)),
             ], dtype=torch.float32
         ), 
-        std: torch.Tensor = torch.ones(8, 2) * 0.1
+        std: torch.Tensor = torch.ones(8, 2) * 0.1,
+        energy_fn: str = None,
+        energy_kwargs: dict = None
     ):
-        super().__init__()
+        super().__init__(energy_fn=energy_fn, energy_kwargs=energy_kwargs)
         self.centers = centers
         self.std = std
+
+    def get_default_energy_fn_name(self) -> str:
+        return 'single_blob_quadratic_distance'
 
     def sample(self, batch_size: int, device: str = None) -> torch.Tensor:
         if device is None:
@@ -70,7 +81,7 @@ class EightGaussiansDistribution(BaseDistribution):
         prob = (torch.exp(one_log_prob) / torch.exp(one_log_prob_z)).mean(-1)
         return prob
 
-    def get_J_(self, x1: torch.Tensor) -> torch.Tensor:
+    def closest_cluster_index(self, x1: torch.Tensor) -> torch.Tensor:
         """
         discrete masking for energy function J of 8gaussian
         exponentially weight the index 0 to 7
@@ -82,10 +93,9 @@ class EightGaussiansDistribution(BaseDistribution):
         # compute distances between each sample and the 8 centers
         dists = torch.cdist(x1, self.centers.to(x1.device)) # (B, 8)
         # return the index of the closest center for each sample (B,)
-        return torch.argmin(dists, dim=1)
+        return torch.argmin(dists, dim=1).float()
     
-    # get_J_continuous_single_blob
-    def get_J(self, x1: torch.Tensor, target_blob_idx: int = 0, std_target:float =0.1) -> torch.Tensor:
+    def single_blob_quadratic_distance(self, x1: torch.Tensor, target_blob_idx: int = 0, std_target:float = 0.1) -> torch.Tensor:
         """
         Continuous energy function for a single Gaussian blob. 
         best for gradient-based guidance methods
@@ -105,7 +115,7 @@ class EightGaussiansDistribution(BaseDistribution):
         # Scale by the cluster variance (the std in your code is 0.1, so std^2 = 0.01)
         return sq_dist / (2 * (std_target ** 2))
     
-    def get_J_three_blobs(self, x1: torch.Tensor) -> torch.Tensor:
+    def three_blobs_discrete_mask(self, x1: torch.Tensor, target_indices: list = [0, 2, 5], non_target_value: float = 20.0) -> torch.Tensor:
         """
         Args: 
             x1 (B, 2): Generated samples
@@ -117,13 +127,15 @@ class EightGaussiansDistribution(BaseDistribution):
         closest_idx = torch.argmin(dists, dim=1)            # Shape: (B,)
         
         # 2. Check if the closest index is 0, 2, or 5
-        mask = (closest_idx == 0) | (closest_idx == 2) | (closest_idx == 5)
+        mask = torch.zeros_like(closest_idx, dtype=torch.bool)
+        for idx in target_indices:
+            mask = mask | (closest_idx == idx)
         
-        # 3. Assign 0 energy to targets, 20 to everything else
-        J = torch.where(mask, 0.0, 20.0)
+        # 3. Assign 0 energy to targets, non_target_value to everything else
+        J = torch.where(mask, 0.0, non_target_value)
         return J
 
-    def get_J_continuous_three_blobs(self, x1: torch.Tensor, target_indices: list = [0, 2, 5], std_target:float =0.1) -> torch.Tensor:
+    def three_blobs_continuous_multi_well(self, x1: torch.Tensor, target_indices: list = [0, 2, 5], std_target:float = 0.1) -> torch.Tensor:
         """
         Args: 
             x1 (B, 2): Generated samples

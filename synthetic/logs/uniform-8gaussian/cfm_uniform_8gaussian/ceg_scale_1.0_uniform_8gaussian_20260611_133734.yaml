@@ -1,0 +1,16 @@
+batch_size: 65536
+cfm: cfm
+device: mps
+energy_fn: single_blob_quadratic_distance
+energy_kwargs: '{"target_blob_idx": 0, "std_target": 0.1}'
+lr: 0.0001
+num_steps: 1000
+ot_batch_size: 256
+overwrite: false
+scale: 1.0
+seed: 0
+sigma: 0.0
+which_model: z-g-g2-g3-rwft
+width: 256
+x0_dist: uniform
+x1_dist: 8gaussian

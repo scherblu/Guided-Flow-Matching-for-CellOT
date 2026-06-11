@@ -4,10 +4,17 @@ from .base import BaseDistribution
 from ..utils.misc import get_device
 
 class LaplaceDistribution(BaseDistribution):
-    def __init__(self, mu: torch.Tensor = torch.zeros(2), b: torch.Tensor = torch.eye(2)):
-        super().__init__()
+    def __init__(self, mu: torch.Tensor = torch.zeros(2), b: torch.Tensor = torch.eye(2), energy_fn: str = None, energy_kwargs: dict = None):
+        super().__init__(energy_fn=energy_fn, energy_kwargs=energy_kwargs)
         self.mu = mu
         self.b = b
+
+    def get_default_energy_fn_name(self) -> str:
+        return 'target_point_quadratic_distance'
+
+    def target_point_quadratic_distance(self, x: torch.Tensor, target: list = [1.0, 1.0]) -> torch.Tensor:
+        target_tensor = torch.tensor(target, dtype=x.dtype, device=x.device)
+        return torch.sum((x - target_tensor) ** 2, dim=-1)
 
     def sample(self, batch_size: int, device: str = None) -> torch.Tensor:
         """
@@ -64,6 +71,3 @@ class LaplaceDistribution(BaseDistribution):
         log_prob = log_normalizer - mahalanobis
         
         return log_prob
-    
-    def get_J(self) -> torch.Tensor:
-        raise NotImplementedError("Jacobian for multivariate Laplace is not implemented yet")

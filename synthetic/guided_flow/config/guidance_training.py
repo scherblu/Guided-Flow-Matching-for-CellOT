@@ -19,6 +19,8 @@ class GuidanceTrainingConfig:
 
     # Guidance
     scale: float = 1.0 # scale of the guidance
+    energy_fn: str = 'default' # name of the energy function to use
+    energy_kwargs: str = '{}' # JSON string of keyword arguments for the energy function
     # Below are fixed parameters by default
     batch_size: int = 65536
     ot_batch_size: int = 256

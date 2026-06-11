@@ -1,0 +1,38 @@
+{
+  "os": "macOS-26.5.1-arm64-arm-64bit",
+  "python": "CPython 3.12.13",
+  "startedAt": "2026-06-11T08:39:50.369515Z",
+  "args": [
+    "--x0_dist",
+    "uniform",
+    "--x1_dist",
+    "8gaussian",
+    "--energy_fn",
+    "three_blobs_continuous_multi_well",
+    "--energy_kwargs",
+    "{\"target_indices\": [0, 2, 5], \"std_target\": 0.1}"
+  ],
+  "program": "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/value_ceg.py",
+  "codePath": "synthetic/guided_flow/train/value_ceg.py",
+  "codePathLocal": "guided_flow/train/value_ceg.py",
+  "git": {
+    "remote": "https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git",
+    "commit": "7e64c2e12ad11d05d9b3dc87479a7053b874e6e7"
+  },
+  "email": "lucas.scherberger@tum.de",
+  "root": "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic",
+  "host": "Lucass-MacBook-Air.local",
+  "executable": "/Users/LS/miniconda3/envs/bio_ml/bin/python",
+  "cpu_count": 8,
+  "cpu_count_logical": 8,
+  "disk": {
+    "/": {
+      "total": "994662584320",
+      "used": "555605385216"
+    }
+  },
+  "memory": {
+    "total": "25769803776"
+  },
+  "writerId": "5pabyzn9dg778uc6z90vxa3yql0nyxcw"
+}

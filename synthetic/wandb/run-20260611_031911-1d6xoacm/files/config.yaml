@@ -1,0 +1,76 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            deaweozjh9zrzn7fldl1b0cfkx2egiig:
+                args:
+                    - --x0-dist
+                    - 8gaussian
+                    - --x1-dist
+                    - moon
+                    - --epochs
+                    - "60000"
+                cpu_count: 8
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "994662584320"
+                        used: "555061878784"
+                email: lucas.scherberger@tum.de
+                executable: /Users/LS/miniconda3/envs/bio_ml/bin/python
+                git:
+                    commit: 7e64c2e12ad11d05d9b3dc87479a7053b874e6e7
+                    remote: https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git
+                host: Lucass-MacBook-Air.local
+                memory:
+                    total: "25769803776"
+                os: macOS-26.5.1-arm64-arm-64bit
+                program: -m guided_flow.train.ccfm
+                python: CPython 3.12.13
+                root: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic
+                startedAt: "2026-06-11T01:19:11.112660Z"
+                writerId: deaweozjh9zrzn7fldl1b0cfkx2egiig
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+            "2":
+                - 1
+                - 5
+                - 53
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.12.13
+            "5": 0.26.1
+            "12": 0.26.1
+            "13": darwin-arm64
+batch_size:
+    value: 512
+device:
+    value: mps
+epochs:
+    value: 60000
+lr:
+    value: 0.0001
+model_name:
+    value: ccfm
+optimizer:
+    value: Adam
+sigma:
+    value: 0
+source:
+    value: 8gaussian
+source_dist:
+    value: 8gaussian
+target:
+    value: moon
+target_dist:
+    value: moon
+w:
+    value: 512

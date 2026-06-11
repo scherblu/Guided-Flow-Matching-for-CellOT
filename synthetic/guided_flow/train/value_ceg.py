@@ -36,7 +36,7 @@ def train_ceg(
         lr=1e-4,
         num_steps=20000,
         x0_dist='gaussian',
-        x1_dist='gaussian'
+        x1_dist_obj=None
 ):
     if device is None:
         device = get_device()
@@ -58,27 +58,35 @@ def train_ceg(
 
     if use_wandb:
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        run_name = f"ceg_scale_{scale}_{x0_dist}_{x1_dist}_{timestamp}"
+        x1_dist_name = str(x1_dist_obj)
+        run_name = f"ceg_scale_{scale}_{x0_dist}_{x1_dist_name}_{timestamp}"
         base_group = wandb_config.get("group")
-        group_name = f"{base_group}_ceg_scale_{scale}_{x0_dist}_{x1_dist}" if base_group else f"ceg_scale_{scale}_{x0_dist}_{x1_dist}"
+        group_name = f"{base_group}_ceg_scale_{scale}_{x0_dist}_{x1_dist_name}" if base_group else f"ceg_scale_{scale}_{x0_dist}_{x1_dist_name}"
+        
+        # Build WandB config dynamically, including only relevant parameters
+        config = {
+            "model_name": "ceg",
+            "g_scale": scale,
+            "cfm": cfm,
+            "x0_dist": x0_dist,
+            "x1_dist": x1_dist_name,
+            "width": width,
+            "sigma": sigma,
+            "device": str(device),
+            "batch_size": batch_size,
+            "lr": lr,
+            "num_steps": num_steps,
+            "energy_fn": x1_dist_obj.energy_fn_name,
+        }
+        for k, v in x1_dist_obj.energy_kwargs.items():
+            config[f"energy_{k}"] = v
+
         wandb.init(
             entity=wandb_config.get("entity"),
             project=wandb_config.get("project"),
             group=group_name,
             name=run_name,
-            config={
-                "model_name": "ceg",
-                "scale": scale,
-                "cfm": cfm,
-                "x0_dist": x0_dist,
-                "x1_dist": x1_dist,
-                "width": width,
-                "sigma": sigma,
-                "device": str(device),
-                "batch_size": batch_size,
-                "lr": lr,
-                "num_steps": num_steps
-            },
+            config=config,
             reinit="finish_previous"
         )
 
@@ -128,10 +136,25 @@ if __name__ == "__main__":
     )
     save_config(cfg, log_subfolder, config_name=f'ceg_scale_{cfg.scale}_config.yaml')
 
+    # Build distributions
+    x0_dist_obj = get_distribution(cfg.x0_dist)
+    
+    import json
+    try:
+        energy_kwargs_dict = json.loads(cfg.energy_kwargs)
+    except Exception as e:
+        raise ValueError(f"Failed to parse energy_kwargs as JSON: {e}")
+        
+    x1_dist_obj = get_distribution(
+        cfg.x1_dist, 
+        energy_fn=None if cfg.energy_fn == 'default' else cfg.energy_fn, 
+        **energy_kwargs_dict
+    )
+
     model = train_ceg(
-        get_distribution(cfg.x0_dist).sample, 
-        get_distribution(cfg.x1_dist).sample, 
-        get_distribution(cfg.x1_dist).get_J, 
+        x0_dist_obj.sample, 
+        x1_dist_obj.sample, 
+        x1_dist_obj.get_J, 
         cfg.scale, 
         cfg.cfm, 
         cfg.width, 
@@ -141,9 +164,12 @@ if __name__ == "__main__":
         cfg.lr, 
         cfg.num_steps,
         x0_dist=cfg.x0_dist,
-        x1_dist=cfg.x1_dist
+        x1_dist_obj=x1_dist_obj
     )
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     model_path = os.path.join(log_subfolder, f"ceg_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
     torch.save(model.state_dict(), model_path)
+    
+    # Save a 1-to-1 matching configuration file alongside the model checkpoint
+    save_config(cfg, log_subfolder, config_name=os.path.basename(model_path).replace(".pth", ".yaml"))

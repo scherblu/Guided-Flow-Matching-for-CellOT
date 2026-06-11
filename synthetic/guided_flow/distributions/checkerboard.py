@@ -8,12 +8,23 @@ class CheckerboardDistribution(BaseDistribution):
     have nonzero probability. Inside each cell, the probability is uniform.
     Cells that are adjacent to each other are not simultaneously non-zero.
     """
-    def __init__(self, n: int = 4, m: int = 4, size: float = 1, device: str = None):
-        super().__init__()
+    def __init__(self, n: int = 4, m: int = 4, size: float = 1, device: str = None, energy_fn: str = None, energy_kwargs: dict = None):
+        super().__init__(energy_fn=energy_fn, energy_kwargs=energy_kwargs)
         self.n = n
         self.m = m
         self.size = size
         self.device = device if device is not None else get_device()
+
+    def get_default_energy_fn_name(self) -> str:
+        return 'alternating_stripe_indicator'
+
+    def alternating_stripe_indicator(self, x: torch.Tensor, scale: float = 10.0) -> torch.Tensor:
+        # Determine which cell the point is in
+        n = (x[:, 1] * 2 / (self.size)).floor()
+        
+        # Determine which cell the point is in
+        # so white or black
+        return (n % 2 == 0).float() * scale
 
     def sample(self, batch_size: int, device: str = None) -> torch.Tensor:
         if device is None:
@@ -32,11 +43,3 @@ class CheckerboardDistribution(BaseDistribution):
     def prob(self, x: torch.Tensor) -> torch.Tensor:
         is_in_cell = self.get_J(x) / 10
         return is_in_cell / (self.n * self.m / 2) / self.size / self.size
-
-    def get_J(self, x: torch.Tensor) -> torch.Tensor:
-        # Determine which cell the point is in
-        n = (x[:, 1] * 2 / (self.size)).floor()
-        
-        # Determine which cell the point is in
-        # so white or black
-        return (n % 2 == 0).float() * 10 # (B,)

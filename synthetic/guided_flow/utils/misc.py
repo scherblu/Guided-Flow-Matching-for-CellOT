@@ -162,3 +162,156 @@ def print_model_summary(model, example_inputs=None):
     print(f'   Model Size:           {model_size_mb:.3f} MB')
     print('=' * 105)
 
+
+def check_energy_compatibility(model_path, distribution, current_scale=None):
+    """
+    Verifies that the energy function configured on the distribution matches
+    what the model was trained on, by looking up the local YAML config or checking WandB logs.
+    Throws ValueError if there is a mismatch.
+    """
+    import os
+    import yaml
+    import json
+    import re
+
+    model_dir = os.path.dirname(model_path)
+    model_filename = os.path.basename(model_path)
+    train_cfg = None
+
+    # 1. First, check for a 1-to-1 matching config file (same timestamp/name)
+    matching_config_path = model_path.replace('.pth', '.yaml')
+    if not os.path.exists(matching_config_path):
+        matching_config_path = model_path.replace('.pth', '.yml')
+
+    if os.path.exists(matching_config_path):
+        try:
+            with open(matching_config_path, 'r') as f:
+                train_cfg = yaml.safe_load(f)
+            print(f"[ Verification ] Loaded training config from {matching_config_path}")
+        except Exception as e:
+            print(f"Warning: Failed to load training config {matching_config_path}: {e}")
+
+    # Fallback to the old general scale-based config if matching config wasn't found
+    if not train_cfg:
+        scale_match = re.search(r'scale_([0-9.]+)', model_filename)
+        if scale_match:
+            scale_str = scale_match.group(1)
+            if 'ceg' in model_filename:
+                config_name = f'ceg_scale_{scale_str}_config.yaml'
+            else:
+                config_name = f'gm_scale_{scale_str}_config.yaml'
+            config_path = os.path.join(model_dir, config_name)
+            if os.path.exists(config_path):
+                try:
+                    with open(config_path, 'r') as f:
+                        train_cfg = yaml.safe_load(f)
+                    print(f"[ Verification ] Loaded training config from fallback {config_path}")
+                except Exception as e:
+                    print(f"Warning: Failed to load fallback training config {config_path}: {e}")
+
+    # 2. Try to query WandB logs as a secondary source (or primary if local file missing)
+    try:
+        import wandb
+        # If train_cfg is loaded, we can get project name
+        project = None
+        if train_cfg:
+            project = train_cfg.get('project')
+        if not project:
+            # Try loading synthetic_config.yaml in the parent or current directory
+            project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+            syn_cfg_path = os.path.join(project_dir, "guided_flow", "train", "synthetic_config.yaml")
+            if os.path.exists(syn_cfg_path):
+                with open(syn_cfg_path, "r") as sf:
+                    syn_cfg = yaml.safe_load(sf)
+                    project = syn_cfg.get("wandb", {}).get("project")
+        
+        if project:
+            api = wandb.Api()
+            # Find the run matching the file's timestamp or name parts
+            timestamp_match = re.search(r'_(\d{8}_\d{6})\.pth', model_filename)
+            if timestamp_match:
+                ts = timestamp_match.group(1)
+                runs = api.runs(path=project, filters={"name": {"$regex": ts}})
+                if runs:
+                    run = runs[0]
+                    print(f"[ Verification ] Found corresponding WandB run: {run.name}")
+                    wb_config = run.config
+                    if not train_cfg:
+                        train_cfg = wb_config
+                        print("[ Verification ] Retrieved training config from WandB logs.")
+    except Exception:
+        pass
+
+    if not train_cfg:
+        print(f"Warning: Could not find any training logs (local or WandB) to verify energy function compatibility.")
+        return
+
+    # 3. Perform the actual compatibility validation checks
+    # Check scale
+    train_scale = float(train_cfg.get('scale', 1.0))
+    if current_scale is not None and abs(train_scale - float(current_scale)) > 1e-5:
+        raise ValueError(
+            f"Scale mismatch for model at '{model_path}'! The loaded model was trained with scale {train_scale}, "
+            f"but the notebook/inference is using scale {current_scale}."
+        )
+
+    # Check energy function name
+    train_energy_fn = train_cfg.get('energy_fn', 'default')
+    current_energy_fn = distribution.energy_fn_name
+
+    resolved_train_energy_fn = train_energy_fn
+    if train_energy_fn == 'default':
+        resolved_train_energy_fn = distribution.get_default_energy_fn_name()
+
+    resolved_current_energy_fn = current_energy_fn
+    if current_energy_fn == 'default':
+        resolved_current_energy_fn = distribution.get_default_energy_fn_name()
+
+    if resolved_train_energy_fn != resolved_current_energy_fn:
+        raise ValueError(
+            f"Energy function mismatch for model at '{model_path}'! The loaded model was trained with energy function '{resolved_train_energy_fn}', "
+            f"but the distribution is configured with '{resolved_current_energy_fn}'."
+        )
+
+    # Check energy function kwargs
+    train_energy_kwargs_str = train_cfg.get('energy_kwargs', '{}')
+    if isinstance(train_energy_kwargs_str, dict):
+        train_energy_kwargs = train_energy_kwargs_str
+    else:
+        try:
+            train_energy_kwargs = json.loads(train_energy_kwargs_str)
+        except Exception:
+            train_energy_kwargs = {}
+
+    # Resolve default arguments of the active energy function callable dynamically
+    import inspect
+    resolved_current_kwargs = {}
+    try:
+        energy_fn_callable = getattr(distribution, resolved_current_energy_fn)
+        sig = inspect.signature(energy_fn_callable)
+        for name, param in sig.parameters.items():
+            if name in ['self', 'x', 'x1']:
+                continue
+            if param.default is not inspect.Parameter.empty:
+                resolved_current_kwargs[name] = param.default
+    except Exception:
+        pass
+
+    # Override defaults with explicitly set kwargs
+    resolved_current_kwargs.update(distribution.energy_kwargs)
+
+    # Compare keys and values
+    for k, v in train_energy_kwargs.items():
+        if k not in resolved_current_kwargs:
+            raise ValueError(
+                f"Energy hyperparameter mismatch for model at '{model_path}'! Key '{k}' was defined during training as {v}, "
+                f"but is not applicable or missing in current distribution config."
+            )
+        if str(v) != str(resolved_current_kwargs[k]):
+            raise ValueError(
+                f"Energy hyperparameter mismatch for model at '{model_path}'! Parameter '{k}' was trained as {v}, "
+                f"but is currently configured/resolved as {resolved_current_kwargs[k]}."
+            )
+    
+    print("[ Verification ] Energy function and hyperparameter compatibility successfully verified!")
+

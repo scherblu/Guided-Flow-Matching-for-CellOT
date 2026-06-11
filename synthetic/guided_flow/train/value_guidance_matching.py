@@ -22,7 +22,21 @@ except ImportError:
     wandb = None
 
 
-def setup_wandb_run(model_type, scale, x0_dist, x1_dist, cfm, width, sigma, device, batch_size, lr, num_steps):
+def setup_wandb_run(
+    model_type, 
+    g_scale, 
+    x0_dist, 
+    x1_dist_obj, 
+    cfm, 
+    width, 
+    sigma, 
+    device, 
+    batch_size, 
+    lr, 
+    num_steps,
+    model_z_path=None,
+    model_v_path=None
+):
     config_path = Path(__file__).resolve().parent / "synthetic_config.yaml"
     wandb_config = None
     if config_path.exists():
@@ -35,27 +49,42 @@ def setup_wandb_run(model_type, scale, x0_dist, x1_dist, cfm, width, sigma, devi
 
     if wandb is not None and wandb_config and wandb_config.get("project"):
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        run_name = f"gm_{model_type}_scale_{scale}_{x0_dist}_{x1_dist}_{timestamp}"
+        x1_dist_name = str(x1_dist_obj)
+        run_name = f"gm_{model_type}_scale_{g_scale}_{x0_dist}_{x1_dist_name}_{timestamp}"
         base_group = wandb_config.get("group")
-        group_name = f"{base_group}_gm_{model_type}_scale_{scale}_{x0_dist}_{x1_dist}" if base_group else f"gm_{model_type}_scale_{scale}_{x0_dist}_{x1_dist}"
+        group_name = f"{base_group}_gm_{model_type}_scale_{g_scale}_{x0_dist}_{x1_dist_name}" if base_group else f"gm_{model_type}_scale_{g_scale}_{x0_dist}_{x1_dist_name}"
+        
+        # Build WandB config dynamically, including only relevant parameters
+        config = {
+            "model_name": f"guidance_matching_{model_type}",
+            "g_scale": g_scale,
+            "cfm": cfm,
+            "x0_dist": x0_dist,
+            "x1_dist": x1_dist_name,
+            "width": width,
+            "sigma": sigma,
+            "device": str(device),
+            "batch_size": batch_size,
+            "lr": lr,
+            "num_steps": num_steps,
+            "energy_fn": x1_dist_obj.energy_fn_name,
+        }
+        for k, v in x1_dist_obj.energy_kwargs.items():
+            config[f"energy_{k}"] = v
+
+        if model_type in ["g", "g2", "g3", "rwft"]:
+            if model_z_path is not None:
+                config["model_z_path"] = str(model_z_path)
+        if model_type in ["g2", "g3", "rwft"]:
+            if model_v_path is not None:
+                config["model_v_path"] = str(model_v_path)
+
         wandb.init(
             entity=wandb_config.get("entity"),
             project=wandb_config.get("project"),
             group=group_name,
             name=run_name,
-            config={
-                "model_name": f"guidance_matching_{model_type}",
-                "scale": scale,
-                "cfm": cfm,
-                "x0_dist": x0_dist,
-                "x1_dist": x1_dist,
-                "width": width,
-                "sigma": sigma,
-                "device": str(device),
-                "batch_size": batch_size,
-                "lr": lr,
-                "num_steps": num_steps
-            },
+            config=config,
             reinit="finish_previous"
         )
         return True
@@ -77,12 +106,12 @@ def train_z(
         lr=1e-4,
         num_steps=20000,
         x0_dist='gaussian',
-        x1_dist='gaussian'
+        x1_dist_obj=None
 ):
     if device is None:
         device = get_device()
 
-    use_wandb = setup_wandb_run("z", scale, x0_dist, x1_dist, cfm, width, sigma, device, batch_size, lr, num_steps)
+    use_wandb = setup_wandb_run("z", scale, x0_dist, x1_dist_obj, cfm, width, sigma, device, batch_size, lr, num_steps)
 
     # Definition
     model = MLP(dim=2, out_dim=1, w=width, time_varying=True, exp_final=True).to(device)
@@ -139,12 +168,13 @@ def train_g(
         lr=1e-4,
         num_steps=20000,
         x0_dist='gaussian',
-        x1_dist='gaussian'
+        x1_dist_obj=None,
+        model_z_path=None
 ):
     if device is None:
         device = get_device()
 
-    use_wandb = setup_wandb_run("g", scale, x0_dist, x1_dist, cfm, width, sigma, device, batch_size, lr, num_steps)
+    use_wandb = setup_wandb_run("g", scale, x0_dist, x1_dist_obj, cfm, width, sigma, device, batch_size, lr, num_steps, model_z_path=model_z_path)
 
     # Model definition
     model = MLP(dim=2, out_dim=2, w=width, time_varying=True).to(device)
@@ -205,12 +235,17 @@ def train_g2(
         lr=1e-4,
         num_steps=20000,
         x0_dist='gaussian',
-        x1_dist='gaussian'
+        x1_dist_obj=None,
+        model_z_path=None,
+        model_v_path=None
 ):
     if device is None:
         device = get_device()
 
-    use_wandb = setup_wandb_run("g2", scale, x0_dist, x1_dist, cfm, width, sigma, device, batch_size, lr, num_steps)
+    use_wandb = setup_wandb_run(
+        "g2", scale, x0_dist, x1_dist_obj, cfm, width, sigma, device, batch_size, lr, num_steps,
+        model_z_path=model_z_path, model_v_path=model_v_path
+    )
 
     # Model definition
     model = MLP(dim=2, out_dim=2, w=width, time_varying=True).to(device)
@@ -273,12 +308,17 @@ def train_g3(
         lr=1e-4,
         num_steps=20000,
         x0_dist='gaussian',
-        x1_dist='gaussian'
+        x1_dist_obj=None,
+        model_z_path=None,
+        model_v_path=None
 ):
     if device is None:
         device = get_device()
 
-    use_wandb = setup_wandb_run("g3", scale, x0_dist, x1_dist, cfm, width, sigma, device, batch_size, lr, num_steps)
+    use_wandb = setup_wandb_run(
+        "g3", scale, x0_dist, x1_dist_obj, cfm, width, sigma, device, batch_size, lr, num_steps,
+        model_z_path=model_z_path, model_v_path=model_v_path
+    )
 
     # Model definition
     model = MLP(dim=2, out_dim=2, w=width, time_varying=True).to(device)
@@ -341,12 +381,17 @@ def train_rwft(
         lr=1e-4,
         num_steps=20000,
         x0_dist='gaussian',
-        x1_dist='gaussian'
+        x1_dist_obj=None,
+        model_z_path=None,
+        model_v_path=None
 ):
     if device is None:
         device = get_device()
 
-    use_wandb = setup_wandb_run("rwft", scale, x0_dist, x1_dist, cfm, width, sigma, device, batch_size, lr, num_steps)
+    use_wandb = setup_wandb_run(
+        "rwft", scale, x0_dist, x1_dist_obj, cfm, width, sigma, device, batch_size, lr, num_steps,
+        model_z_path=model_z_path, model_v_path=model_v_path
+    )
 
     # Model definition
     model = MLP(dim=2, out_dim=2, w=width, time_varying=True).to(device)
@@ -406,12 +451,27 @@ if __name__ == "__main__":
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
+    # Build distributions
+    x0_dist_obj = get_distribution(cfg.x0_dist)
+    
+    import json
+    try:
+        energy_kwargs_dict = json.loads(cfg.energy_kwargs)
+    except Exception as e:
+        raise ValueError(f"Failed to parse energy_kwargs as JSON: {e}")
+        
+    x1_dist_obj = get_distribution(
+        cfg.x1_dist, 
+        energy_fn=None if cfg.energy_fn == 'default' else cfg.energy_fn, 
+        **energy_kwargs_dict
+    )
+
     # train z
     if 'z' in cfg.which_model.split('-'):
         model_z = train_z(
-            get_distribution(cfg.x0_dist).sample, 
-            get_distribution(cfg.x1_dist).sample, 
-            get_distribution(cfg.x1_dist).get_J, 
+            x0_dist_obj.sample, 
+            x1_dist_obj.sample, 
+            x1_dist_obj.get_J, 
             cfg.scale, 
             cfg.cfm, 
             cfg.width, 
@@ -421,26 +481,33 @@ if __name__ == "__main__":
             cfg.lr, 
             cfg.num_steps,
             x0_dist=cfg.x0_dist,
-            x1_dist=cfg.x1_dist
+            x1_dist_obj=x1_dist_obj
         )
 
         model_path = os.path.join(log_subfolder, f"guidance_matching_z_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
         torch.save(model_z.state_dict(), model_path)
+        save_config(cfg, log_subfolder, config_name=os.path.basename(model_path).replace(".pth", ".yaml"))
 
     # load model_z in case not trained from scratch
     model_z = MLP(dim=2, out_dim=1, w=cfg.width, time_varying=True, exp_final=True).to(cfg.device)
-    try:
-        model_z.load_state_dict(torch.load(os.path.join(log_subfolder, f"guidance_matching_z_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth"), map_location=cfg.device))
-    except:
-        raise FileNotFoundError("No model_z found!")
+    model_z_search_pattern = os.path.join(log_subfolder, f"guidance_matching_z_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}*.pth")
+    model_z_files = glob.glob(model_z_search_pattern)
+
+    if not model_z_files:
+        raise FileNotFoundError(f"No model_z found matching: {model_z_search_pattern}.")
+    
+    # Sort alphabetically to get the newest model path
+    latest_model_z_path = sorted(model_z_files)[-1]
+    print(f"Loading model_z from: {latest_model_z_path}")
+    model_z.load_state_dict(torch.load(latest_model_z_path, map_location=cfg.device, weights_only=True))
 
     # train g
     if 'g' in cfg.which_model.split('-'):
         model_g = train_g(
-            get_distribution(cfg.x0_dist).sample, 
-            get_distribution(cfg.x1_dist).sample, 
+            x0_dist_obj.sample, 
+            x1_dist_obj.sample, 
             model_z, 
-            get_distribution(cfg.x1_dist).get_J, 
+            x1_dist_obj.get_J, 
             cfg.scale, 
             cfg.cfm, 
             cfg.width, 
@@ -450,14 +517,17 @@ if __name__ == "__main__":
             cfg.lr, 
             cfg.num_steps,
             x0_dist=cfg.x0_dist,
-            x1_dist=cfg.x1_dist
+            x1_dist_obj=x1_dist_obj,
+            model_z_path=latest_model_z_path
         )
 
         model_path = os.path.join(log_subfolder, f"guidance_matching_g_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
         torch.save(model_g.state_dict(), model_path)
+        save_config(cfg, log_subfolder, config_name=os.path.basename(model_path).replace(".pth", ".yaml"))
 
 
     # load model_v
+    latest_cfm_path = None
     if 'g2' in cfg.which_model.split('-') or 'g3' in cfg.which_model.split('-') or 'rwft' in cfg.which_model.split('-'):
         # Initialize the base model architecture
         model_v = MLP(dim=2, w=cfg.width, time_varying=True).to(cfg.device)
@@ -473,18 +543,18 @@ if __name__ == "__main__":
         latest_cfm_path = sorted(cfm_files)[-1]
         print(f"Loading base CFM model from: {latest_cfm_path}")
 
-        # 2. Load the model (with weights_only=True to fix the warning)
+        # 2. Load the model
         model_v.load_state_dict(torch.load(latest_cfm_path, map_location=cfg.device, weights_only=True))
         model_v.eval() # Good practice to set it to eval mode
 
     # train g2
     if 'g2' in cfg.which_model.split('-'):
         model_g2 = train_g2(
-            get_distribution(cfg.x0_dist).sample, 
-            get_distribution(cfg.x1_dist).sample, 
+            x0_dist_obj.sample, 
+            x1_dist_obj.sample, 
             model_v, 
             model_z, 
-            get_distribution(cfg.x1_dist).get_J, 
+            x1_dist_obj.get_J, 
             cfg.scale, 
             cfg.cfm, 
             cfg.width, 
@@ -494,20 +564,23 @@ if __name__ == "__main__":
             cfg.lr, 
             cfg.num_steps,
             x0_dist=cfg.x0_dist,
-            x1_dist=cfg.x1_dist
+            x1_dist_obj=x1_dist_obj,
+            model_z_path=latest_model_z_path,
+            model_v_path=latest_cfm_path
         )
 
         model_path = os.path.join(log_subfolder, f"guidance_matching_g2_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
         torch.save(model_g2.state_dict(), model_path)
+        save_config(cfg, log_subfolder, config_name=os.path.basename(model_path).replace(".pth", ".yaml"))
 
     # train g3
     if 'g3' in cfg.which_model.split('-'):
         model_g3 = train_g3(
-            get_distribution(cfg.x0_dist).sample, 
-            get_distribution(cfg.x1_dist).sample, 
+            x0_dist_obj.sample, 
+            x1_dist_obj.sample, 
             model_v, 
             model_z, 
-            get_distribution(cfg.x1_dist).get_J, 
+            x1_dist_obj.get_J, 
             cfg.scale, 
             cfg.cfm, 
             cfg.width, 
@@ -517,20 +590,23 @@ if __name__ == "__main__":
             cfg.lr, 
             cfg.num_steps,
             x0_dist=cfg.x0_dist,
-            x1_dist=cfg.x1_dist
+            x1_dist_obj=x1_dist_obj,
+            model_z_path=latest_model_z_path,
+            model_v_path=latest_cfm_path
         )
 
         model_path = os.path.join(log_subfolder, f"guidance_matching_g3_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
         torch.save(model_g3.state_dict(), model_path)
+        save_config(cfg, log_subfolder, config_name=os.path.basename(model_path).replace(".pth", ".yaml"))
 
     # train rwft
     if 'rwft' in cfg.which_model.split('-'):
         model_rwft = train_rwft(
-            get_distribution(cfg.x0_dist).sample, 
-            get_distribution(cfg.x1_dist).sample, 
+            x0_dist_obj.sample, 
+            x1_dist_obj.sample, 
             model_v, 
             model_z, 
-            get_distribution(cfg.x1_dist).get_J, 
+            x1_dist_obj.get_J, 
             cfg.scale, 
             cfg.cfm, 
             cfg.width, 
@@ -540,8 +616,11 @@ if __name__ == "__main__":
             cfg.lr, 
             cfg.num_steps,
             x0_dist=cfg.x0_dist,
-            x1_dist=cfg.x1_dist
+            x1_dist_obj=x1_dist_obj,
+            model_z_path=latest_model_z_path,
+            model_v_path=latest_cfm_path
         )
 
         model_path = os.path.join(log_subfolder, f"guidance_matching_rwft_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
         torch.save(model_rwft.state_dict(), model_path)
+        save_config(cfg, log_subfolder, config_name=os.path.basename(model_path).replace(".pth", ".yaml"))
