@@ -272,9 +272,9 @@ def check_energy_compatibility(model_path, distribution, current_scale=None):
                             if run_ts_match:
                                 try:
                                     run_dt = datetime.datetime.strptime(run_ts_match.group(1), "%Y%m%d_%H%M%S")
-                                    diff = (checkpoint_dt - run_dt).total_seconds()
-                                    # Run must start before or very close to checkpoint save time
-                                    if diff >= -60 and diff < min_time_diff:
+                                    diff = abs((checkpoint_dt - run_dt).total_seconds())
+                                    # The correct run starts within the same training session (usually under 2 hours)
+                                    if diff < 7200 and diff < min_time_diff:
                                         min_time_diff = diff
                                         best_run = run
                                 except Exception:

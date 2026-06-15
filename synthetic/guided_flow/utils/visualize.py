@@ -44,7 +44,10 @@ def visualize_traj_and_vf(
         X, Y = torch.meshgrid(x, y, indexing="ij")
         XY = torch.stack([X, Y], dim=-1).reshape(-1, 2).to(device)
         V = wrapped_model(t, XY).reshape(20, 20, 2).detach().cpu()
-        ax.quiver(X, Y, V[:, :, 0], V[:, :, 1])
+        U = V[:, :, 0]
+        V_y = V[:, :, 1]
+        lengths = torch.sqrt(U**2 + V_y**2)
+        ax.quiver(X, Y, U, V_y, lengths, cmap='viridis')
         ax.set_xlim(-x_lim, x_lim)
         ax.set_ylim(-y_lim, y_lim)
         ax.set_title(f"Vector field at t={t.item():0.3f}")
