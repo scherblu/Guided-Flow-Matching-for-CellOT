@@ -1,0 +1,85 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            tum79bwaqgh9i6fxhd9cjkzwvpwx3ayn:
+                args:
+                    - --x0_dist
+                    - 8gaussian
+                    - --x1_dist
+                    - moon
+                    - --which_model
+                    - z-g-g2-g3-rwft
+                    - --energy_fn
+                    - upper_moon_classifier_score
+                    - --num_steps
+                    - "4000"
+                    - --overwrite
+                cpu_count: 8
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "994662584320"
+                        used: "537057079296"
+                email: lucas.scherberger@tum.de
+                executable: /Users/LS/miniconda3/envs/bio_ml/bin/python
+                git:
+                    commit: 41dbd24b72534bf97bd679f7bee32b2c7613260c
+                    remote: https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git
+                host: Lucass-MacBook-Air.local
+                memory:
+                    total: "25769803776"
+                os: macOS-26.5.1-arm64-arm-64bit
+                program: -m guided_flow.train.value_guidance_matching
+                python: CPython 3.12.13
+                root: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic
+                startedAt: "2026-06-11T23:52:45.622990Z"
+                writerId: tum79bwaqgh9i6fxhd9cjkzwvpwx3ayn
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+            "2":
+                - 1
+                - 5
+                - 53
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.12.13
+            "5": 0.26.1
+            "12": 0.26.1
+            "13": darwin-arm64
+batch_size:
+    value: 2048
+cfm:
+    value: cfm
+device:
+    value: mps
+energy_fn:
+    value: upper_moon_classifier_score
+g_scale:
+    value: 1
+lr:
+    value: 0.0001
+model_name:
+    value: guidance_matching_rwft
+model_v_path:
+    value: logs/8gaussian-moon/cfm_8gaussian_moon/cfm_8gaussian_moon_20260611_164351.pth
+model_z_path:
+    value: logs/8gaussian-moon/cfm_8gaussian_moon/guidance_matching_z_scale_1.0_8gaussian_moon_20260612_014822.pth
+num_steps:
+    value: 4000
+sigma:
+    value: 0
+width:
+    value: 256
+x0_dist:
+    value: 8gaussian
+x1_dist:
+    value: MoonDistribution

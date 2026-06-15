@@ -74,7 +74,7 @@ class GuidedMLPWrapper(nn.Module):
             dx_dt = dx_dt + self.scheduler(t) * self.guide_fn(t, x, dx_dt, self.model)
         return dx_dt
     
-# e_t = \log E_{x1\sim p(x1|xt)} e^{J(x1)}
+# e_t = \log E_{x1\sim p(x1|xt)} e^{-J(x1)}
 class ExpEnergyMLPWrapper(nn.Module):
     def __init__(self, model, scheduler=lambda t: 1, clamp=0.):
         super().__init__()
@@ -85,7 +85,7 @@ class ExpEnergyMLPWrapper(nn.Module):
     def forward(self, t, x, *args, **kwargs):
         with torch.enable_grad():
             x = x.requires_grad_(True)
-            e = (self.model(torch.cat([x, t.repeat(x.shape[0])[:, None]], 1)).clamp(0)).log()
+            e = self.model(torch.cat([x, t.repeat(x.shape[0])[:, None]], 1))
             grad = torch.autograd.grad(e.sum(), x, create_graph=True)[0]
             if self.clamp > 0:
                 grad = grad.clamp(-self.clamp, self.clamp)

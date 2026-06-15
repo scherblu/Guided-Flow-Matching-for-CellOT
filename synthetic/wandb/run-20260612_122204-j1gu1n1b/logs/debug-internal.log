@@ -1,0 +1,53 @@
+{"time":"2026-06-12T12:22:04.801373+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-06-12T12:22:04.803395+02:00","level":"INFO","msg":"stream: starting","core version":"0.26.1"}
+{"time":"2026-06-12T12:22:05.829316+02:00","level":"INFO","msg":"stream: created new stream","id":"j1gu1n1b"}
+{"time":"2026-06-12T12:22:05.829937+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-06-12T12:22:05.830839+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-06-12T12:22:05.831272+02:00","level":"INFO","msg":"writer: started","stream_id":"j1gu1n1b"}
+{"time":"2026-06-12T12:22:05.832405+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-06-12T12:22:07.291134+02:00","level":"INFO","msg":"filestream: sending request","total_files":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:22:07.728636+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:22:22.292333+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":0,"history_lines":1040,"events_offset":0,"events_lines":1,"console_offset":0,"console_lines":1,"uploaded_len":2}
+{"time":"2026-06-12T12:22:22.736998+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:22:37.292151+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":1040,"history_lines":1102,"events_offset":1,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:22:37.612103+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:22:52.29271+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":2142,"history_lines":1053,"events_offset":2,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:22:52.591236+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:23:07.291902+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":3195,"history_lines":1041,"events_offset":3,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:23:07.671117+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:23:22.29279+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":4236,"history_lines":1075,"events_offset":4,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:23:22.587041+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:23:37.292981+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":5311,"history_lines":1116,"events_offset":5,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:23:37.688372+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:23:52.293126+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":6427,"history_lines":1124,"events_offset":6,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:23:52.980115+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:24:07.293522+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":7551,"history_lines":1111,"events_offset":7,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:24:07.829757+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:24:22.292755+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":8662,"history_lines":1053,"events_offset":8,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:24:22.729722+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:24:37.293242+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":9715,"history_lines":1111,"events_offset":9,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:24:37.680764+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:24:52.293578+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":10826,"history_lines":1128,"events_offset":10,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:24:53.92891+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:25:07.37809+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":11954,"history_lines":1078,"events_offset":11,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T12:27:32.478769+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/j1gu1n1b/file_stream\": read tcp 10.183.52.250:64110->34.8.250.101:443: read: can't assign requested address"}
+{"time":"2026-06-12T12:27:34.590221+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/j1gu1n1b/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-06-12T12:27:39.391125+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/j1gu1n1b/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-06-12T12:27:48.577552+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/j1gu1n1b/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-06-12T12:28:08.15568+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/j1gu1n1b/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-06-12T12:30:16.164203+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-06-12T12:30:20.010834+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/j1gu1n1b/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-06-12T12:30:20.940533+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-06-12T12:30:48.385242+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-06-12T12:30:49.274405+02:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 10.183.52.250:64108->34.8.250.101:443: read: can't assign requested address"}
+{"time":"2026-06-12T12:30:54.15955+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-06-12T12:31:20.387936+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:31:20.388277+02:00","level":"INFO","msg":"filestream: sending request","total_files":0}
+{"time":"2026-06-12T12:31:20.601228+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:31:20.613036+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":13032,"history_lines":6968,"events_offset":12,"events_lines":5,"console_offset":0,"console_lines":1,"uploaded_len":3,"complete":true,"exit_code":0}
+{"time":"2026-06-12T12:31:21.259712+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T12:31:21.264483+02:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-06-12T12:31:21.28093+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-06-12T12:31:21.28096+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-06-12T12:31:21.28157+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-06-12T12:31:21.28162+02:00","level":"INFO","msg":"stream: all finished"}

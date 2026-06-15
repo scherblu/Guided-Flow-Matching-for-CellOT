@@ -1,12 +1,12 @@
 batch_size: 2048
 cfm: cfm
 device: mps
-energy_fn: upper_moon_classifier_score
+energy_fn: default
 energy_kwargs: '{}'
 lr: 0.0001
-num_steps: 1000
+num_steps: 20000
 ot_batch_size: 256
-overwrite: true
+overwrite: false
 scale: 1.0
 seed: 0
 sigma: 0.0

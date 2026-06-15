@@ -1,0 +1,21 @@
+{"time":"2026-06-12T01:55:07.440833+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-06-12T01:55:07.442191+02:00","level":"INFO","msg":"stream: starting","core version":"0.26.1"}
+{"time":"2026-06-12T01:55:07.877332+02:00","level":"INFO","msg":"stream: created new stream","id":"2qqdlwkb"}
+{"time":"2026-06-12T01:55:07.87764+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-06-12T01:55:07.878088+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-06-12T01:55:07.878252+02:00","level":"INFO","msg":"writer: started","stream_id":"2qqdlwkb"}
+{"time":"2026-06-12T01:55:07.87837+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-06-12T01:55:08.931376+02:00","level":"INFO","msg":"filestream: sending request","total_files":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T01:55:09.248833+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T01:55:23.937147+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":0,"history_lines":1388,"events_offset":0,"events_lines":1,"console_offset":0,"console_lines":1,"uploaded_len":2}
+{"time":"2026-06-12T01:55:24.752938+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T01:55:38.931903+02:00","level":"INFO","msg":"filestream: sending request","total_files":4,"history_offset":1388,"history_lines":1399,"events_offset":1,"events_lines":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-12T01:55:39.757462+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T01:55:53.101815+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-06-12T01:55:53.104502+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":2787,"history_lines":1213,"console_offset":0,"console_lines":1,"uploaded_len":3,"complete":true,"exit_code":0}
+{"time":"2026-06-12T01:55:54.011323+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-12T01:55:54.013863+02:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-06-12T01:55:54.019695+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-06-12T01:55:54.019718+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-06-12T01:55:54.020466+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-06-12T01:55:54.020487+02:00","level":"INFO","msg":"stream: all finished"}
