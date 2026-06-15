@@ -79,11 +79,15 @@ pip install -e .
       │   ├── dataset/                 # Dataset utilities
       │   │   └── objective.py         # Training loss objectives
       │   ├── distributions/           # Custom synthetic samplers (Circle, 8-Gaussian, Moon, S-curve, etc.)
++     │   │   ├── base.py              # [MODIFIED] Base distribution class
++     │   │   ├── checkerboard.py      # [MODIFIED] Checkerboard distribution sampler
++     │   │   ├── circle.py            # [MODIFIED] Circle distribution sampler
 +     │   │   ├── gaussian.py          # [MODIFIED] Gaussian distribution sampler with J potential
-      │   │   ├── base.py              # Base distribution class
-      │   │   ├── circle.py            # Circle distribution sampler
-      │   │   ├── moon.py              # Moon distribution sampler
-      │   │   └── s_curve.py           # S-curve distribution sampler
++     │   │   ├── laplace.py           # [MODIFIED] Laplace distribution sampler
++     │   │   ├── moon.py              # [MODIFIED] Moon distribution sampler
++     │   │   ├── s_curve.py           # [MODIFIED] S-curve distribution sampler
++     │   │   ├── spiral.py            # [MODIFIED] Spiral distribution sampler
++     │   │   └── uniform.py           # [MODIFIED] Uniform distribution sampler
       │   ├── flow/                    # Conditional Flow Matching (CFM) & Optimal Transport (OT-CFM)
       │   │   ├── conditional_flow_matching.py # CFM vector fields and loss
       │   │   └── optimal_transport.py # Optimal Transport sampling and paths
@@ -91,15 +95,18 @@ pip install -e .
       │   │   ├── contrastive_energy.py  # Contrastive Energy Guidance (CEG)
       │   │   └── gradient_guidance.py   # Classifier/Gradient Guidance
       │   ├── train/                   # Pipelines for training CFM, CCFM, CEG, and Guidance Matching
-      │   │   ├── cfm.py               # Main CFM training script
-+     │   │   ├── ccfm.py              # [CREATED] Class-Conditional Flow Matching training script
-      │   │   ├── value_ceg.py         # Contrastive Energy Guidance training script
-      │   │   └── value_guidance_matching.py # Guidance Matching training script
++     │   │   ├── ccfm.py              # [MODIFIED] Class-Conditional Flow Matching training script
++     │   │   ├── cfm.py               # [MODIFIED] Main CFM training script
++     │   │   ├── synthetic_config.yaml # [MODIFIED] Configuration for synthetic training runs
++     │   │   ├── value_ceg.py         # [MODIFIED] Contrastive Energy Guidance training script
++     │   │   └── value_guidance_matching.py # [MODIFIED] Guidance Matching training script
       │   └── utils/                   # Evaluation metrics, KL divergence, and visualization scripts
       │       ├── kl_divergence.py     # KL divergence calculations
       │       ├── metrics.py           # Wasserstein and other metrics
++     │       ├── misc.py              # [CREATED] Device configuration, reproducibility, logging, and compatibility checks
       │       └── visualize.py         # Trajectory and vector field plotting utilities
       ├── logs/                        # Directory where model checkpoints and logs are saved
++     ├── wandb/                       # [CREATED] Weights & Biases logs and runs
       ├── notebooks/                   # Jupyter notebooks for evaluating models and plotting flow trajectories
 +     │   ├── fig_compare_to_class-cond_CFM.ipynb # [CREATED] Visualizes class-conditional comparison
       │   ├── fig.ipynb                # Notebook for generating figures
