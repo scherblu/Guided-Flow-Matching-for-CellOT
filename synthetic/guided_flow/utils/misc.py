@@ -177,6 +177,7 @@ def check_energy_compatibility(model_path, distribution, current_scale=None):
     model_dir = os.path.dirname(model_path)
     model_filename = os.path.basename(model_path)
     train_cfg = None
+    is_fallback_cfg = False
 
     # 1. First, check for a 1-to-1 matching config file (same timestamp/name)
     matching_config_path = model_path.replace('.pth', '.yaml')
@@ -205,39 +206,92 @@ def check_energy_compatibility(model_path, distribution, current_scale=None):
                 try:
                     with open(config_path, 'r') as f:
                         train_cfg = yaml.safe_load(f)
+                    is_fallback_cfg = True
                     print(f"[ Verification ] Loaded training config from fallback {config_path}")
                 except Exception as e:
                     print(f"Warning: Failed to load fallback training config {config_path}: {e}")
 
-    # 2. Try to query WandB logs as a secondary source (or primary if local file missing)
+    # 2. Try to query WandB logs as a secondary source (or primary if local file missing/fallback)
     try:
         import wandb
-        # If train_cfg is loaded, we can get project name
         project = None
-        if train_cfg:
-            project = train_cfg.get('project')
-        if not project:
-            # Try loading synthetic_config.yaml in the parent or current directory
-            project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-            syn_cfg_path = os.path.join(project_dir, "guided_flow", "train", "synthetic_config.yaml")
-            if os.path.exists(syn_cfg_path):
-                with open(syn_cfg_path, "r") as sf:
-                    syn_cfg = yaml.safe_load(sf)
-                    project = syn_cfg.get("wandb", {}).get("project")
+        entity = None
         
+        # Load synthetic_config.yaml to get entity and project
+        project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+        syn_cfg_path = os.path.join(project_dir, "guided_flow", "train", "synthetic_config.yaml")
+        if os.path.exists(syn_cfg_path):
+            with open(syn_cfg_path, "r") as sf:
+                syn_cfg = yaml.safe_load(sf)
+                project = syn_cfg.get("wandb", {}).get("project")
+                entity = syn_cfg.get("wandb", {}).get("entity")
+
         if project:
+            full_project_path = f"{entity}/{project}" if entity else project
             api = wandb.Api()
             # Find the run matching the file's timestamp or name parts
             timestamp_match = re.search(r'_(\d{8}_\d{6})\.pth', model_filename)
             if timestamp_match:
                 ts = timestamp_match.group(1)
-                runs = api.runs(path=project, filters={"name": {"$regex": ts}})
+                runs = api.runs(path=full_project_path, filters={"name": {"$regex": ts}})
+                
+                # If no strict match on timestamp, search for the closest run by timestamp on the same day
+                if not runs:
+                    all_runs = api.runs(path=full_project_path)
+                    import datetime
+                    try:
+                        checkpoint_dt = datetime.datetime.strptime(ts, "%Y%m%d_%H%M%S")
+                    except Exception:
+                        checkpoint_dt = None
+                        
+                    if checkpoint_dt:
+                        best_run = None
+                        min_time_diff = float('inf')
+                        
+                        # Find model type from filename
+                        model_type = None
+                        if 'ceg' in model_filename:
+                            model_type = 'ceg'
+                        else:
+                            model_type_match = re.search(r'guidance_matching_(z|g|g2|g3|rwft)_scale_', model_filename)
+                            if model_type_match:
+                                model_type = model_type_match.group(1)
+                                
+                        for run in all_runs:
+                            # Extract model type from run name
+                            run_model_match = re.search(r'gm_(z|g|g2|g3|rwft)_scale_|ceg_scale_', run.name)
+                            run_model_type = None
+                            if run_model_match:
+                                run_model_type = run_model_match.group(1) if run_model_match.group(1) else 'ceg'
+                                
+                            if model_type != run_model_type:
+                                continue
+                                
+                            # Extract timestamp from run name
+                            run_ts_match = re.search(r'_(\d{8}_\d{6})$', run.name)
+                            if run_ts_match:
+                                try:
+                                    run_dt = datetime.datetime.strptime(run_ts_match.group(1), "%Y%m%d_%H%M%S")
+                                    diff = (checkpoint_dt - run_dt).total_seconds()
+                                    # Run must start before or very close to checkpoint save time
+                                    if diff >= -60 and diff < min_time_diff:
+                                        min_time_diff = diff
+                                        best_run = run
+                                except Exception:
+                                    pass
+                        if best_run:
+                            runs = [best_run]
+
                 if runs:
                     run = runs[0]
                     print(f"[ Verification ] Found corresponding WandB run: {run.name}")
-                    wb_config = run.config
-                    if not train_cfg:
+                    # Use WandB config if we don't have a strict 1-to-1 config
+                    if not train_cfg or is_fallback_cfg:
+                        wb_config = {}
+                        for k, v in run.config.items():
+                            wb_config[k] = v
                         train_cfg = wb_config
+                        is_fallback_cfg = False
                         print("[ Verification ] Retrieved training config from WandB logs.")
     except Exception:
         pass
@@ -248,7 +302,7 @@ def check_energy_compatibility(model_path, distribution, current_scale=None):
 
     # 3. Perform the actual compatibility validation checks
     # Check scale
-    train_scale = float(train_cfg.get('scale', 1.0))
+    train_scale = float(train_cfg.get('scale', train_cfg.get('g_scale', 1.0)))
     if current_scale is not None and abs(train_scale - float(current_scale)) > 1e-5:
         raise ValueError(
             f"Scale mismatch for model at '{model_path}'! The loaded model was trained with scale {train_scale}, "
@@ -282,6 +336,14 @@ def check_energy_compatibility(model_path, distribution, current_scale=None):
             train_energy_kwargs = json.loads(train_energy_kwargs_str)
         except Exception:
             train_energy_kwargs = {}
+
+    # Reconstruct energy_kwargs from WandB individual keys if energy_kwargs is missing or empty
+    if not train_energy_kwargs:
+        train_energy_kwargs = {}
+        for k, v in train_cfg.items():
+            if k.startswith('energy_') and k != 'energy_fn' and k != 'energy_kwargs':
+                param_name = k[7:]
+                train_energy_kwargs[param_name] = v
 
     # Resolve default arguments of the active energy function callable dynamically
     import inspect

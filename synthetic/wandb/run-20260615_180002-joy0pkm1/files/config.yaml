@@ -1,0 +1,82 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            lear5pdpkwpke9vsb5eaql0lkp483x1c:
+                args:
+                    - --x0_dist
+                    - uniform
+                    - --x1_dist
+                    - 8gaussian
+                    - --which_model
+                    - z-g-g2-g3-rwft
+                    - --energy_fn
+                    - three_blobs_continuous_multi_well
+                    - --num_steps
+                    - "4000"
+                    - --overwrite
+                cpu_count: 8
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "994662584320"
+                        used: "530085433344"
+                email: lucas.scherberger@tum.de
+                executable: /Users/LS/miniconda3/envs/bio_ml/bin/python
+                git:
+                    commit: 25c67ef95bb89d0f2277512b253a9545d22e522a
+                    remote: https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git
+                host: Lucass-MacBook-Air.local
+                memory:
+                    total: "25769803776"
+                os: macOS-26.5.1-arm64-arm-64bit
+                program: -m guided_flow.train.value_guidance_matching
+                python: CPython 3.12.13
+                root: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic
+                startedAt: "2026-06-15T16:00:02.514650Z"
+                writerId: lear5pdpkwpke9vsb5eaql0lkp483x1c
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+            "2":
+                - 1
+                - 5
+                - 53
+            "3":
+                - 13
+                - 16
+                - 61
+            "4": 3.12.13
+            "5": 0.26.1
+            "12": 0.26.1
+            "13": darwin-arm64
+batch_size:
+    value: 65536
+cfm:
+    value: cfm
+device:
+    value: mps
+energy_fn:
+    value: three_blobs_continuous_multi_well
+g_scale:
+    value: 1
+lr:
+    value: 0.0001
+model_name:
+    value: guidance_matching_g
+model_z_path:
+    value: logs/uniform-8gaussian/cfm_uniform_8gaussian/guidance_matching_z_scale_1.0_uniform_8gaussian_20260615_174827.pth
+num_steps:
+    value: 4000
+sigma:
+    value: 0
+width:
+    value: 256
+x0_dist:
+    value: uniform
+x1_dist:
+    value: EightGaussiansDistribution

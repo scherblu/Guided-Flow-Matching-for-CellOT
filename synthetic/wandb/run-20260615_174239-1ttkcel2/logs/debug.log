@@ -1,0 +1,21 @@
+2026-06-15 17:42:39,970 INFO    MainThread:36641 [wandb_init.py:setup_run_log_directory():723] Logging user logs to /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/wandb/run-20260615_174239-1ttkcel2/logs/debug.log
+2026-06-15 17:42:39,971 INFO    MainThread:36641 [wandb_init.py:setup_run_log_directory():724] Logging internal logs to /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/wandb/run-20260615_174239-1ttkcel2/logs/debug-internal.log
+2026-06-15 17:42:39,971 INFO    MainThread:36641 [wandb_init.py:init():850] calling init triggers
+2026-06-15 17:42:39,971 INFO    MainThread:36641 [wandb_init.py:init():855] wandb.init called with sweep_config: {}
+config: {'model_name': 'guidance_matching_rwft', 'g_scale': 1.0, 'cfm': 'cfm', 'x0_dist': '8gaussian', 'x1_dist': 'MoonDistribution', 'width': 256, 'sigma': 0.0, 'device': 'mps', 'batch_size': 2048, 'lr': 0.0001, 'num_steps': 4000, 'energy_fn': 'upper_moon_classifier_score', 'model_z_path': 'logs/8gaussian-moon/cfm_8gaussian_moon/guidance_matching_z_scale_1.0_8gaussian_moon_20260615_173729.pth', 'model_v_path': 'logs/8gaussian-moon/cfm_8gaussian_moon/cfm_8gaussian_moon_20260611_164351.pth', '_wandb': {}}
+2026-06-15 17:42:39,971 INFO    MainThread:36641 [wandb_init.py:init():898] starting backend
+2026-06-15 17:42:39,971 INFO    MainThread:36641 [wandb_init.py:init():913] sending inform_init request
+2026-06-15 17:42:40,287 INFO    MainThread:36641 [wandb_init.py:init():918] backend started and connected
+2026-06-15 17:42:40,300 INFO    MainThread:36641 [wandb_init.py:init():988] updated telemetry
+2026-06-15 17:42:40,348 INFO    MainThread:36641 [wandb_init.py:init():1011] communicating run to backend with 90.0 second timeout
+2026-06-15 17:42:40,847 INFO    MainThread:36641 [wandb_init.py:init():1056] starting run threads in backend
+2026-06-15 17:42:41,013 INFO    MainThread:36641 [wandb_run.py:_console_start():2554] atexit reg
+2026-06-15 17:42:41,013 INFO    MainThread:36641 [wandb_run.py:_redirect():2403] redirect: wrap_raw
+2026-06-15 17:42:41,013 INFO    MainThread:36641 [wandb_run.py:_redirect():2472] Wrapping output streams.
+2026-06-15 17:42:41,014 INFO    MainThread:36641 [wandb_run.py:_redirect():2495] Redirects installed.
+2026-06-15 17:42:41,014 INFO    MainThread:36641 [wandb_init.py:init():1094] run started, returning control to user process
+2026-06-15 17:43:53,774 INFO    MainThread:36641 [wandb_run.py:_finish():2321] finishing run lucas-scherberger-technical-university-of-munich/Guided-Flow-Matching-for-CellOT/1ttkcel2
+2026-06-15 17:43:53,775 INFO    MainThread:36641 [wandb_run.py:_atexit_cleanup():2520] got exitcode: 0
+2026-06-15 17:43:53,775 INFO    MainThread:36641 [wandb_run.py:_restore():2502] restore
+2026-06-15 17:43:53,776 INFO    MainThread:36641 [wandb_run.py:_restore():2508] restore done
+2026-06-15 17:43:54,819 INFO    MainThread:36641 [wandb_run.py:_footer_sync_info():3889] logging synced files
