@@ -1,0 +1,170 @@
+import os
+import torch
+from guided_flow.config.training import FlowMatchingTrainingConfig
+from guided_flow.distributions.base import get_distribution
+import tyro
+from matplotlib import pyplot as plt
+
+from guided_flow.backbone.mlp import MLP
+from guided_flow.flow.conditional_flow_matching import get_cfm
+from guided_flow.utils.misc import deterministic, save_config, setup_device, get_device, print_model_summary
+import tqdm
+import yaml
+import datetime
+from pathlib import Path
+
+try:
+    import wandb
+    if not hasattr(wandb, "init"):
+        wandb = None
+except ImportError:
+    wandb = None
+
+def train_unconditional(
+        x0_sampler,
+        x1_sampler,
+        cfm = 'cfm', 
+        width = 64,
+        sigma = 0.0,
+        device=None,
+        batch_size=1024,
+        lr=1e-4,
+        epochs=20000,
+        x0_dist='gaussian',
+        x1_dist='gaussian',
+        config=None
+):
+    if device is None:
+        device = get_device()
+    
+    # timestamp for naming of saved model and logs in w&b
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    # Load wandb config
+    config_path = Path(__file__).resolve().parent / "synthetic_config.yaml"
+    wandb_config = None
+    if config_path.exists():
+        try:
+            with open(config_path, "r") as f:
+                synthetic_config = yaml.safe_load(f)
+            wandb_config = synthetic_config.get("wandb", {})
+        except Exception as e:
+            print(f"Warning: Failed to load synthetic_config.yaml: {e}")
+
+    use_wandb = False
+    if wandb is not None and wandb_config and wandb_config.get("project"):
+        use_wandb = True
+
+    if use_wandb:
+        run_name = f"{cfm}_{x0_dist}_{x1_dist}_{timestamp}"
+        base_group = wandb_config.get("group")
+        group_name = f"{base_group}_{cfm}_{x0_dist}_{x1_dist}" if base_group else f"{cfm}_{x0_dist}_{x1_dist}"
+
+        # Convert config (Namespace, dict, or dataclass) to a dictionary
+        if isinstance(config, dict):
+            config_dict = config.copy()
+        elif config is not None:
+            import dataclasses
+            if dataclasses.is_dataclass(config):
+                config_dict = dataclasses.asdict(config)
+            else:
+                config_dict = vars(config).copy()
+        else:
+            config_dict = {}
+        
+        config_dict.update({
+            "model_name": cfm,
+            "optimizer": "Adam",
+            "epochs": epochs,
+            "device": str(device),
+            "sigma": sigma,
+            "width": width,
+            "lr": lr,
+            "batch_size": batch_size,
+            "x0_dist": x0_dist,
+            "x1_dist": x1_dist,
+        })
+
+        wandb.init(
+            entity=wandb_config.get("entity"),
+            project=wandb_config.get("project"),
+            group=group_name,
+            name=run_name,
+            config=config_dict,
+            reinit="finish_previous"
+        )
+
+    # Definition
+    model = MLP(dim=2, w=width, time_varying=True).to(device)
+
+    # Print model summary card before starting training
+    example_input = torch.randn(batch_size, 3, device=device)
+    print_model_summary(model, example_inputs=example_input)
+
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+
+    FM = get_cfm(cfm, sigma)
+
+    for k in tqdm.tqdm(range(epochs)):
+        optimizer.zero_grad()
+
+        x0 = x0_sampler(batch_size=batch_size, device=device)
+        x1 = x1_sampler(batch_size=batch_size, device=device)
+
+        t = torch.rand(x0.shape[0]).to(device)
+        t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1, t)
+
+        vt = model(torch.cat([xt, t[:, None]], dim=-1))
+        loss = torch.mean((vt - ut) ** 2)
+
+        loss.backward()
+        optimizer.step()
+
+        if use_wandb:
+            wandb.log({"loss": loss.item()}, step=k)
+
+    if use_wandb:
+        wandb.finish()
+
+    return model, timestamp
+
+
+if __name__ == "__main__":
+    cfg = tyro.cli(FlowMatchingTrainingConfig)
+
+    # decide whether to skip
+    log_subfolder = os.path.join(
+        "logs", f"{cfg.x0_dist}-{cfg.x1_dist}", f"{cfg.cfm}_{cfg.x0_dist}_{cfg.x1_dist}"
+    )
+    if not cfg.overwrite and os.path.exists(os.path.join(log_subfolder, f"{cfg.cfm}_{cfg.x0_dist}_{cfg.x1_dist}.pth")):
+        print(f"[ Skip ] Model {cfg.cfm} for {log_subfolder} already exists, skipping")
+        exit(0)
+
+    # set seed and cuda
+    deterministic(cfg.seed)
+    setup_device(cfg)
+
+    # save the config
+    save_config(cfg, log_subfolder)
+
+    # training
+    x0_sampler = get_distribution(cfg.x0_dist).sample
+    x1_sampler = get_distribution(cfg.x1_dist).sample
+
+    model, timestamp = train_unconditional(
+        x0_sampler, 
+        x1_sampler, 
+        cfg.cfm, 
+        cfg.width, 
+        cfg.sigma, 
+        cfg.device, 
+        cfg.batch_size, 
+        cfg.lr, 
+        cfg.epochs,
+        x0_dist=cfg.x0_dist,
+        x1_dist=cfg.x1_dist,
+        config=cfg
+    )
+
+    model_path = os.path.join(log_subfolder, f"{cfg.cfm}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
+    torch.save(model.state_dict(), model_path)

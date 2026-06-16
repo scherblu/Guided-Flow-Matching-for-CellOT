@@ -1,0 +1,19 @@
+name: bio_ml
+channels:
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - anndata
+  - matplotlib
+  - numpy
+  - pandas
+  - pytorch
+  - scikit-learn
+  - torchaudio
+  - torchvision
+  - ipykernel
+  - tqdm
+  - pot
+  - tyro
+  - scanpy
+prefix: /Users/LS/miniconda3/envs/bio_ml

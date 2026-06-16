@@ -1,0 +1,175 @@
+import os
+import torch
+from guided_flow.config.guidance_training import GuidanceTrainingConfig
+from guided_flow.distributions.base import get_distribution
+import tyro
+from matplotlib import pyplot as plt
+
+from guided_flow.backbone.mlp import MLP, EnergyMLP
+from guided_flow.flow.conditional_flow_matching import get_cfm
+from guided_flow.utils.misc import deterministic, save_config, setup_device, get_device
+import tqdm
+import yaml
+import datetime
+from pathlib import Path
+
+try:
+    import wandb
+    if not hasattr(wandb, "init"):
+        wandb = None
+except ImportError:
+    wandb = None
+
+
+def train_ceg(
+        x0_sampler,
+        x1_sampler,
+        # guidance related
+        J,
+        scale=1.0, 
+        # training related
+        cfm = 'cfm', 
+        width = 64,
+        sigma = 0.0,
+        device=None,
+        batch_size=1024,
+        lr=1e-4,
+        num_steps=20000,
+        x0_dist='gaussian',
+        x1_dist_obj=None
+):
+    if device is None:
+        device = get_device()
+
+    # Load wandb config
+    config_path = Path(__file__).resolve().parent / "synthetic_config.yaml"
+    wandb_config = None
+    if config_path.exists():
+        try:
+            with open(config_path, "r") as f:
+                synthetic_config = yaml.safe_load(f)
+            wandb_config = synthetic_config.get("wandb", {})
+        except Exception as e:
+            print(f"Warning: Failed to load synthetic_config.yaml: {e}")
+
+    use_wandb = False
+    if wandb is not None and wandb_config and wandb_config.get("project"):
+        use_wandb = True
+
+    if use_wandb:
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        x1_dist_name = str(x1_dist_obj)
+        run_name = f"ceg_scale_{scale}_{x0_dist}_{x1_dist_name}_{timestamp}"
+        base_group = wandb_config.get("group")
+        group_name = f"{base_group}_ceg_scale_{scale}_{x0_dist}_{x1_dist_name}" if base_group else f"ceg_scale_{scale}_{x0_dist}_{x1_dist_name}"
+        
+        # Build WandB config dynamically, including only relevant parameters
+        config = {
+            "model_name": "ceg",
+            "g_scale": scale,
+            "cfm": cfm,
+            "x0_dist": x0_dist,
+            "x1_dist": x1_dist_name,
+            "width": width,
+            "sigma": sigma,
+            "device": str(device),
+            "batch_size": batch_size,
+            "lr": lr,
+            "num_steps": num_steps,
+            "energy_fn": x1_dist_obj.energy_fn_name,
+        }
+        for k, v in x1_dist_obj.energy_kwargs.items():
+            config[f"energy_{k}"] = v
+
+        wandb.init(
+            entity=wandb_config.get("entity"),
+            project=wandb_config.get("project"),
+            group=group_name,
+            name=run_name,
+            config=config,
+            reinit="finish_previous"
+        )
+
+    # Definition
+    model = MLP(dim=2, out_dim=1, w=width, time_varying=True).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+
+    FM = get_cfm(cfm, sigma)
+
+    for k in tqdm.tqdm(range(num_steps)):
+        optimizer.zero_grad()
+
+        x0 = x0_sampler(batch_size=batch_size, device=device)
+        x1 = x1_sampler(batch_size=batch_size, device=device)
+
+        t = torch.rand(x0.shape[0]).to(device)
+        t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1, t)
+
+        loss = -torch.sum(
+            torch.softmax(-scale * J(x1), dim=0) # (B, )
+            * torch.softmax(
+                model(torch.cat([xt, t[:, None]], dim=-1)).squeeze(-1), # (B, 1) -> (B, )
+                dim=0
+            ).log() # (B, )
+        ).mean()
+
+        loss.backward()
+        optimizer.step()
+
+        if use_wandb:
+            wandb.log({"loss": loss.item()}, step=k)
+
+    if use_wandb:
+        wandb.finish()
+
+    return model
+
+
+if __name__ == "__main__":
+    cfg = tyro.cli(GuidanceTrainingConfig)
+
+    deterministic(cfg.seed)
+    setup_device(cfg)
+    # save the config
+    log_subfolder = os.path.join(
+        "logs", f"{cfg.x0_dist}-{cfg.x1_dist}", f"{cfg.cfm}_{cfg.x0_dist}_{cfg.x1_dist}"
+    )
+    save_config(cfg, log_subfolder, config_name=f'ceg_scale_{cfg.scale}_config.yaml')
+
+    # Build distributions
+    x0_dist_obj = get_distribution(cfg.x0_dist)
+    
+    import json
+    try:
+        energy_kwargs_dict = json.loads(cfg.energy_kwargs)
+    except Exception as e:
+        raise ValueError(f"Failed to parse energy_kwargs as JSON: {e}")
+        
+    x1_dist_obj = get_distribution(
+        cfg.x1_dist, 
+        energy_fn=None if cfg.energy_fn == 'default' else cfg.energy_fn, 
+        **energy_kwargs_dict
+    )
+
+    model = train_ceg(
+        x0_dist_obj.sample, 
+        x1_dist_obj.sample, 
+        x1_dist_obj.get_J, 
+        cfg.scale, 
+        cfg.cfm, 
+        cfg.width, 
+        cfg.sigma, 
+        cfg.device, 
+        cfg.batch_size, 
+        cfg.lr, 
+        cfg.num_steps,
+        x0_dist=cfg.x0_dist,
+        x1_dist_obj=x1_dist_obj
+    )
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    model_path = os.path.join(log_subfolder, f"ceg_scale_{cfg.scale}_{cfg.x0_dist}_{cfg.x1_dist}_{timestamp}.pth")
+    torch.save(model.state_dict(), model_path)
+    
+    # Save a 1-to-1 matching configuration file alongside the model checkpoint
+    save_config(cfg, log_subfolder, config_name=os.path.basename(model_path).replace(".pth", ".yaml"))

@@ -1,0 +1,190 @@
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+
+class MLP(torch.nn.Module):
+    def __init__(
+            self, 
+            dim, 
+            out_dim=None, 
+            w=64, 
+            time_varying=False, 
+            time_embedding=False,
+            clamp_to=None, 
+            soft_clamp=False,
+            exp_final=False
+    ):
+        super().__init__()
+        self.time_varying = time_varying
+        self.time_embedding = time_embedding
+        if out_dim is None:
+            out_dim = dim
+
+        if time_varying:
+            if not time_embedding:
+                maybe_time_dim = 1
+            else:
+                self.half_t_embed_dim = dim
+                maybe_time_dim = self.half_t_embed_dim * 2
+        else:
+            maybe_time_dim = 0
+
+        self.net = torch.nn.Sequential(
+            torch.nn.Linear(dim + maybe_time_dim, w),
+            torch.nn.SELU(),
+            torch.nn.Linear(w, w),
+            torch.nn.SELU(),
+            torch.nn.Linear(w, w),
+            torch.nn.SELU(),
+            torch.nn.Linear(w, out_dim),
+        )
+        if clamp_to is not None:
+            self.clamp_output_to = clamp_to
+            self.soft_clamp = soft_clamp
+        else:
+            self.clamp_output_to = None
+        self.exp_final = exp_final
+
+    def time_embedder(self, t):
+        assert self.time_embedding
+        freq = torch.arange(self.half_t_embed_dim, device=t.device).float()
+        t = t * torch.exp(-freq * torch.log(torch.tensor(10000.0)) / self.half_t_embed_dim)
+        t = torch.cat([torch.sin(t), torch.cos(t)], dim=-1)
+        return t
+        
+    def forward(self, x):
+        if self.time_embedding:
+            t = x[..., -1:]
+            t = self.time_embedder(t)
+            x = torch.cat([x[..., :-1], t], dim=-1)
+
+        out = self.net(x)
+        if self.clamp_output_to is not None:
+            if self.soft_clamp:
+                out = torch.nn.functional.softplus(out, beta=1 / self.clamp_output_to)
+            else:
+                out = out.clamp(min=self.clamp_output_to) # for energy function
+        if self.exp_final:
+            out = torch.exp(out)
+        return out
+
+class EnergyMLP(torch.nn.Module):
+    def __init__(self, dim, out_dim=None, w=64, time_varying=False, time_embedding=False):
+        super().__init__()
+        self.net = MLP(dim, out_dim, w, time_varying, time_embedding)
+
+    def forward(self, x):
+        return self.net(x).sum(dim=-1)
+
+class GradModel(torch.nn.Module):
+    def __init__(self, action):
+        super().__init__()
+        self.action = action
+
+    def forward(self, x):
+        x = x.requires_grad_(True)
+        grad = torch.autograd.grad(torch.sum(self.action(x)), x, create_graph=True)[0]
+        return grad[:, :-1]
+
+
+class ClassConditionalMLP(torch.nn.Module):
+    def __init__(
+            self, 
+            dim, 
+            num_classes,
+            out_dim=None, 
+            w=512,
+            time_varying=False, 
+            time_embedding=False,
+            class_emb_dim=16,
+            clamp_to=None, 
+            soft_clamp=False,
+            exp_final=False
+    ):
+        super().__init__()
+        self.time_varying = time_varying
+        self.time_embedding = time_embedding
+        if out_dim is None:
+            out_dim = dim
+            
+        self.class_embedding = torch.nn.Embedding(num_classes, class_emb_dim)
+
+        if time_varying:
+            if not time_embedding:
+                maybe_time_dim = 1
+            else:
+                self.half_t_embed_dim = dim
+                maybe_time_dim = self.half_t_embed_dim * 2
+        else:
+            maybe_time_dim = 0
+
+        self.net = torch.nn.Sequential(
+            torch.nn.Linear(dim + maybe_time_dim + class_emb_dim, w),
+            torch.nn.SELU(),
+            torch.nn.Linear(w, w),
+            torch.nn.SELU(),
+            torch.nn.Linear(w, w),
+            torch.nn.SELU(),
+            torch.nn.Linear(w, out_dim),
+        )
+        if clamp_to is not None:
+            self.clamp_output_to = clamp_to
+            self.soft_clamp = soft_clamp
+        else:
+            self.clamp_output_to = None
+        self.exp_final = exp_final
+
+    def time_embedder(self, t):
+        assert self.time_embedding
+        freq = torch.arange(self.half_t_embed_dim, device=t.device).float()
+        t = t * torch.exp(-freq * torch.log(torch.tensor(10000.0)) / self.half_t_embed_dim)
+        t = torch.cat([torch.sin(t), torch.cos(t)], dim=-1)
+        return t
+        
+    def forward(self, x, y):
+        if self.time_embedding:
+            t = x[..., -1:]
+            t = self.time_embedder(t)
+            x = torch.cat([x[..., :-1], t], dim=-1)
+
+        y_emb = self.class_embedding(y)
+        inp = torch.cat([x, y_emb], dim=-1)
+        out = self.net(inp)
+        if self.clamp_output_to is not None:
+            if self.soft_clamp:
+                out = torch.nn.functional.softplus(out, beta=1 / self.clamp_output_to)
+            else:
+                out = out.clamp(min=self.clamp_output_to)
+        if self.exp_final:
+            out = torch.exp(out)
+        return out
+
+
+class CondMLP(nn.Module):
+    def __init__(self, dim=2, out_dim=2, w=256, num_classes=8):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(dim + 1, w), # +1 for time
+            nn.SELU(),
+            nn.Linear(w, w),
+            nn.SELU(),
+            nn.Linear(w, w),
+            nn.SELU()
+        )
+        # Class embedding mapped to the same width
+        # embedding is here a (pretrained) lookup table
+        self.class_emb = nn.Embedding(num_classes, w)
+        self.final = nn.Linear(w, out_dim)
+
+    def forward(self, xt, y):
+        """
+        xt: [B, dim + 1] (state concatenated with time)
+        y: [B] (class labels)
+        """
+        h = self.net(xt)
+        # Additive conditioning in embedding space
+        # i.e. steering towards condition in embedding space
+        h = h + self.class_emb(y)
+        # final linear layer to transform data from w to out_dim dimensions
+        return self.final(h)
