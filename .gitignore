@@ -52,3 +52,6 @@ MANIFEST
 
 logs/
 wandb/
+
+# ignore bio use case for now
+bio4i/

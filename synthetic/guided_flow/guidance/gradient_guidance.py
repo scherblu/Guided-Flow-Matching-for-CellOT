@@ -4,7 +4,14 @@
 import math
 import torch
 
-def wrap_grad_fn(scale, schedule, grad_fn, eps=1e-1):
+def wrap_grad_fn(scale, schedule, grad_fn, eps=1e-1, clamp=None):
+    """Wrap a raw guidance gradient with a (scale * schedule(t)) factor.
+
+    clamp: if given, clamp the per-sample L2 norm of the raw gradient to this value BEFORE
+        scaling. Sharp energies make |-grad J| ~ 1/w^2 (e.g. ~400 at w=0.05); with an explicit
+        Euler step that overshoots and the trajectory diverges to inf ('lines' artifact / NaN
+        samples). Clamping keeps the direction but bounds the step. See script/debug_cov.py.
+    """
     if schedule == "const":
         schedule = lambda t: 1
     elif schedule == "linear_decay":
@@ -19,7 +26,11 @@ def wrap_grad_fn(scale, schedule, grad_fn, eps=1e-1):
         schedule = lambda t: (1 / (t + eps) - 1).square()
     else:
         raise ValueError(f"Schedule {schedule} not supported")
-    
+
     def wrapped_grad_fn(t, x, dx_dt, model):
-        return scale * schedule(t) * grad_fn(t, x, dx_dt, model)
+        g = grad_fn(t, x, dx_dt, model)
+        if clamp is not None:
+            norm = g.norm(dim=-1, keepdim=True)
+            g = g * (clamp / norm).clamp(max=1.0)
+        return scale * schedule(t) * g
     return wrapped_grad_fn
