@@ -1,0 +1,79 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            p5giy3lujeuluha79xv9gmqq5qbarwvn:
+                args:
+                    - --x0_dist
+                    - uniform
+                    - --x1_dist
+                    - 8gaussian
+                    - --cfm
+                    - ot_cfm
+                    - --num_steps
+                    - "20000"
+                    - --overwrite
+                cpu_count: 8
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "994662584320"
+                        used: "551219658752"
+                email: lucas.scherberger@tum.de
+                executable: /Users/LS/miniconda3/envs/bio_ml/bin/python
+                git:
+                    commit: a92beaf0cf243445b731e34a3b55ba9c787aabce
+                    remote: https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git
+                host: Lucass-MacBook-Air.local
+                memory:
+                    total: "25769803776"
+                os: macOS-26.5.1-arm64-arm-64bit
+                program: -m guided_flow.train.value_ceg
+                python: CPython 3.12.13
+                root: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic
+                startedAt: "2026-06-20T18:39:13.134730Z"
+                writerId: p5giy3lujeuluha79xv9gmqq5qbarwvn
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+            "2":
+                - 1
+                - 5
+                - 53
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.12.13
+            "5": 0.26.1
+            "12": 0.26.1
+            "13": darwin-arm64
+batch_size:
+    value: 1024
+cfm:
+    value: ot_cfm
+device:
+    value: mps
+energy_fn:
+    value: single_blob_quadratic_distance
+g_scale:
+    value: 1
+lr:
+    value: 0.0001
+model_name:
+    value: ceg
+num_steps:
+    value: 20000
+sigma:
+    value: 0
+width:
+    value: 256
+x0_dist:
+    value: uniform
+x1_dist:
+    value: EightGaussiansDistribution

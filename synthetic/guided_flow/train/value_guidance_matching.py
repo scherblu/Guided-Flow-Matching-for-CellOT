@@ -50,9 +50,9 @@ def setup_wandb_run(
     if wandb is not None and wandb_config and wandb_config.get("project"):
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         x1_dist_name = str(x1_dist_obj)
-        run_name = f"gm_{model_type}_scale_{g_scale}_{x0_dist}_{x1_dist_name}_{timestamp}"
+        run_name = f"{cfm}_gm_{model_type}_scale_{g_scale}_{x0_dist}_{x1_dist_name}_{timestamp}"
         base_group = wandb_config.get("group")
-        group_name = f"{base_group}_gm_{model_type}_scale_{g_scale}_{x0_dist}_{x1_dist_name}" if base_group else f"gm_{model_type}_scale_{g_scale}_{x0_dist}_{x1_dist_name}"
+        group_name = f"{base_group}_{cfm}_gm_{model_type}_scale_{g_scale}_{x0_dist}_{x1_dist_name}" if base_group else f"{cfm}_gm_{model_type}_scale_{g_scale}_{x0_dist}_{x1_dist_name}"
         
         # Build WandB config dynamically, including only relevant parameters
         config = {

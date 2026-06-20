@@ -59,9 +59,9 @@ def train_ceg(
     if use_wandb:
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         x1_dist_name = str(x1_dist_obj)
-        run_name = f"ceg_scale_{scale}_{x0_dist}_{x1_dist_name}_{timestamp}"
+        run_name = f"{cfm}_ceg_scale_{scale}_{x0_dist}_{x1_dist_name}_{timestamp}"
         base_group = wandb_config.get("group")
-        group_name = f"{base_group}_ceg_scale_{scale}_{x0_dist}_{x1_dist_name}" if base_group else f"ceg_scale_{scale}_{x0_dist}_{x1_dist_name}"
+        group_name = f"{base_group}_{cfm}_ceg_scale_{scale}_{x0_dist}_{x1_dist_name}" if base_group else f"{cfm}_ceg_scale_{scale}_{x0_dist}_{x1_dist_name}"
         
         # Build WandB config dynamically, including only relevant parameters
         config = {

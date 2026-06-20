@@ -7,7 +7,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import yaml
 from pathlib import Path
-from guided_flow.flow.conditional_flow_matching import ConditionalFlowMatcher, ExactOptimalTransportConditionalFlowMatcher
+from guided_flow.flow.conditional_flow_matching import get_cfm
 
 # Import your custom modules (assuming standard project structure)
 from guided_flow.backbone.mlp import CondMLP, ClassConditionalMLP
@@ -22,8 +22,8 @@ except ImportError:
     wandb = None
 
 
-def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda", epochs=15000, batch_size=512, w=512, config=None):
-    print(f"Training OT-CC-CFM Baseline: {source_dist_name} -> {target_dist_name}")
+def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, cfm="cfm", device="cuda", epochs=15000, batch_size=512, w=512, config=None):
+    print(f"Training OT-CC-CFM Baseline ({cfm}): {source_dist_name} -> {target_dist_name}")
 
     # timestamp for naming of saved model and logs in w&b
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -44,9 +44,9 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
         use_wandb = True
 
     if use_wandb:
-        run_name = f"ccfm_{source_dist_name}_{target_dist_name}_{timestamp}"
+        run_name = f"{cfm}_ccfm_{source_dist_name}_{target_dist_name}_{timestamp}"
         base_group = wandb_config.get("group")
-        group_name = f"{base_group}_ccfm_{source_dist_name}_{target_dist_name}" if base_group else f"ccfm_{source_dist_name}_{target_dist_name}"
+        group_name = f"{base_group}_{cfm}_ccfm_{source_dist_name}_{target_dist_name}" if base_group else f"{cfm}_ccfm_{source_dist_name}_{target_dist_name}"
 
         # Convert config (Namespace, dict, or dataclass) to a dictionary
         if isinstance(config, dict):
@@ -65,12 +65,13 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
             "model_name": "ccfm",
             "source_dist": source_dist_name,
             "target_dist": target_dist_name,
+            "cfm": cfm,
             "epochs": epochs,
             "batch_size": batch_size,
             "w": w,
             "device": str(device),
             "lr": 1e-4,
-            "optimizer": "Adam",
+            "optimizer": "AdamW",
             "sigma": 0.0
         })
 
@@ -102,8 +103,7 @@ def train_cc_cfm_ot_early_stop(source_dist_name, target_dist_name, device="cuda"
                             lr=1e-4, 
                             weight_decay=0.0)
     # scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=5e-7)
-    # FM = ExactOptimalTransportConditionalFlowMatcher(sigma=0.0)
-    FM = ConditionalFlowMatcher(sigma=0.0)
+    FM = get_cfm(cfm, sigma=0.0)
     
     x0_dist = get_distribution(source_dist_name)
     x1_dist = get_distribution(target_dist_name)
@@ -193,6 +193,7 @@ if __name__ == "__main__":
     parser.add_argument("--target", "--x1-dist", dest="target", type=str, default="8gaussian", help="Target distribution")
     parser.add_argument("--epochs", type=int, default=20000)
     parser.add_argument("--batch_size", type=int, default=512)
+    parser.add_argument("--cfm", type=str, default="cfm", help="CFM coupling type ('cfm' or 'ot_cfm')")
     parser.add_argument("--device", type=str,
         default="cuda" if torch.cuda.is_available()
         else "mps" if torch.backends.mps.is_available()
@@ -205,24 +206,22 @@ if __name__ == "__main__":
     # 1. Train the model
     model, timestamp = train_cc_cfm_ot_early_stop(
         args.source, args.target, 
+        cfm=args.cfm,
         device=args.device, epochs=args.epochs, batch_size=args.batch_size,
         w=512,
         config=args
     )
 
     # 2. Dynamically resolve the absolute path to the project's root 'logs' directory
-    # (Assuming this script is located in `scripts/` or `guided_flow/train/`)
     current_file_path = Path(__file__).resolve()
-    
-    # Adjust the parent depending on how deep this file is. 
-    # E.g., if it's in `scripts/train.py`, parents[1] is the project root.
     project_root = current_file_path.parents[2] 
     
-    # Create the target directory: logs/{source}-{target}/cc_cfm_{source}_{target}/
-    log_dir = project_root / "logs" / f"{args.source}-{args.target}" / f"cc_cfm_{args.source}_{args.target}"
+    # Create the target directory: logs/{source}-{target}/{folder_name}/
+    folder_name = f"ot_cc_cfm_{args.source}_{args.target}" if args.cfm == "ot_cfm" else f"cc_cfm_{args.source}_{args.target}"
+    log_dir = project_root / "logs" / f"{args.source}-{args.target}" / folder_name
     os.makedirs(log_dir, exist_ok=True)
     
     # Save the weights
-    save_path = log_dir / f"cc_cfm_{args.source}_{args.target}_{timestamp}.pth"
+    save_path = log_dir / f"{folder_name}_{timestamp}.pth"
     torch.save(model.state_dict(), save_path)
     print(f"Successfully saved weights to: {save_path}")
