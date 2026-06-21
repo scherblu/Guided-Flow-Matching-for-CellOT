@@ -34,7 +34,7 @@ def compute_kl_divergence(target_dist, samples, scale=1.0):
         return target_dist.log_prob(x) - scale * target_dist.get_J(x) - log_z
 
     # 2. Forward KL: D_KL(P_samples || P_target) = E_samples [ log P_samples - log P_target ]
-    log_p_samples = torch.tensor(kde.score_samples(samples_np), device=device)
+    log_p_samples = torch.tensor(kde.score_samples(samples_np), dtype=torch.float32, device=device)
     log_p_target_at_samples = get_log_p_target(samples)
     kl = (log_p_samples - log_p_target_at_samples).mean().item()
     
@@ -45,7 +45,7 @@ def compute_kl_divergence(target_dist, samples, scale=1.0):
     weights = torch.exp(log_weights)
     weights = weights / weights.sum()
     
-    log_p_samples_at_target = torch.tensor(kde.score_samples(x1_samples.detach().cpu().numpy()), device=device)
+    log_p_samples_at_target = torch.tensor(kde.score_samples(x1_samples.detach().cpu().numpy()), dtype=torch.float32, device=device)
     log_p_target_at_target = get_log_p_target(x1_samples)
     
     rev_kl = (weights * (log_p_target_at_target - log_p_samples_at_target)).sum().item()
