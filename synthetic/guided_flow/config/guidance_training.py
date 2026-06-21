@@ -14,7 +14,7 @@ class GuidanceTrainingConfig:
     x0_dist: str = 'gaussian' # can be 'gaussian', '8gaussian', 'uniform', 'circle'
     x1_dist: str = '8gaussian' # can be 'gaussian', '8gaussian', 'uniform', 'circle'
 
-    cfm: str = 'cfm' # can be 'cfm', 'vp_cfm', 'ot_cfm', 'sb_cfm'
+    cfm: str = 'cfm' # can be 'cfm', 'vp_cfm', 'ot_cfm', 'entropic_ot_cfm', 'sb_cfm'
     which_model: str = 'z-g-g2-g3-rwft' # can be 'g', 'g2', 'g3', 'rwft'
 
     # Guidance
@@ -31,7 +31,7 @@ class GuidanceTrainingConfig:
     overwrite: bool = False
 
     def __post_init__(self):
-        if self.cfm == 'ot_cfm': # If batch size is too large, OT will be too expensive
+        if self.cfm in ['ot_cfm', 'entropic_ot_cfm']: # If batch size is too large, OT will be too expensive
             self.batch_size = min(self.batch_size, 1024)
 
         slow_dist = ['moon', 's_curve']

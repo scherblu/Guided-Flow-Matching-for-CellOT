@@ -217,7 +217,12 @@ if __name__ == "__main__":
     project_root = current_file_path.parents[2] 
     
     # Create the target directory: logs/{source}-{target}/{folder_name}/
-    folder_name = f"ot_cc_cfm_{args.source}_{args.target}" if args.cfm == "ot_cfm" else f"cc_cfm_{args.source}_{args.target}"
+    if args.cfm == "ot_cfm":
+        folder_name = f"ot_cc_cfm_{args.source}_{args.target}"
+    elif args.cfm == "entropic_ot_cfm":
+        folder_name = f"entropic_ot_cc_cfm_{args.source}_{args.target}"
+    else:
+        folder_name = f"cc_cfm_{args.source}_{args.target}"
     log_dir = project_root / "logs" / f"{args.source}-{args.target}" / folder_name
     os.makedirs(log_dir, exist_ok=True)
     

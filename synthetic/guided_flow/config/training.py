@@ -11,7 +11,7 @@ class FlowMatchingTrainingConfig:
     seed: int = 0
     device: str = field(default_factory=get_device)
 
-    cfm: str = 'cfm' # can be 'cfm', 'vp_cfm', 'ot_cfm', 'sb_cfm'
+    cfm: str = 'cfm' # can be 'cfm', 'vp_cfm', 'ot_cfm', 'entropic_ot_cfm', 'sb_cfm'
     
     # source and target distributions
     x0_dist: Annotated[str, tyro.conf.arg(aliases=("--source",))] = 'gaussian' # can be 'gaussian', '8gaussian', 'uniform', 'circle'
@@ -27,7 +27,7 @@ class FlowMatchingTrainingConfig:
     overwrite: bool = False
 
     def __post_init__(self):
-        if self.cfm == 'ot_cfm': # If batch size is too large, OT will be too expensive
+        if self.cfm in ['ot_cfm', 'entropic_ot_cfm']: # If batch size is too large, OT will be too expensive
             self.batch_size = min(self.batch_size, 256)
 
         slow_dist = ['moon', 's_curve', 'concentric_circle']

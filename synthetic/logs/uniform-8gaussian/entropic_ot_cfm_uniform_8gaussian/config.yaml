@@ -1,0 +1,11 @@
+batch_size: 256
+cfm: entropic_ot_cfm
+device: mps
+epochs: 40000
+lr: 0.0001
+overwrite: true
+seed: 0
+sigma: 0.0
+width: 256
+x0_dist: uniform
+x1_dist: 8gaussian

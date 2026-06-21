@@ -312,6 +312,16 @@ class ExactOptimalTransportConditionalFlowMatcher(ConditionalFlowMatcher):
             return t, xt, ut, y0, y1
 
 
+class EntropicOptimalTransportConditionalFlowMatcher(ExactOptimalTransportConditionalFlowMatcher):
+    """Child class for entropic optimal transport conditional flow matching method. 
+    This class implements the Entropic OT-CFM methods using a Sinkhorn plan sampler.
+    """
+
+    def __init__(self, sigma: Union[float, int] = 0.0, reg: float = 0.05):
+        super().__init__(sigma)
+        self.ot_sampler = OTPlanSampler(method="sinkhorn", reg=reg)
+
+
 class TargetConditionalFlowMatcher(ConditionalFlowMatcher):
     """Lipman et al. 2023 style target OT conditional flow matching. This class inherits the
     ConditionalFlowMatcher and override the compute_mu_t, compute_sigma_t and
@@ -616,6 +626,8 @@ def get_cfm(cfm_name: str, sigma: float) -> ConditionalFlowMatcher:
         return VariancePreservingConditionalFlowMatcher(sigma=sigma)
     elif cfm_name == 'ot_cfm':
         return ExactOptimalTransportConditionalFlowMatcher(sigma=sigma)
+    elif cfm_name == 'entropic_ot_cfm':
+        return EntropicOptimalTransportConditionalFlowMatcher(sigma=sigma)
     elif cfm_name == 'sb_cfm':
         return SchrodingerBridgeConditionalFlowMatcher(sigma=sigma)
     else:

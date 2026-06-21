@@ -127,7 +127,7 @@ def train_z(
             x1 = x1_sampler(batch_size=batch_size, device=device)
 
             t = torch.rand(x0.shape[0]).to(device)
-            if cfm == 'ot_cfm':
+            if cfm in ['ot_cfm', 'entropic_ot_cfm']:
                 t, xt, ut, _, x1 = FM.guided_sample_location_and_conditional_flow(x0, x1, y0=None, y1=x1, t=t) # NOTE: we need correct x1!
             else:
                 t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1, t)
@@ -190,7 +190,7 @@ def train_g(
             x1 = x1_sampler(batch_size=batch_size, device=device)
 
             t = torch.rand(x0.shape[0]).to(device)
-            if cfm == 'ot_cfm':
+            if cfm in ['ot_cfm', 'entropic_ot_cfm']:
                 t, xt, ut, _, x1 = FM.guided_sample_location_and_conditional_flow(x0, x1, y0=None, y1=x1, t=t) # NOTE: we need correct x1!
             else:
                 t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1, t)
@@ -261,7 +261,7 @@ def train_g2(
             x1 = x1_sampler(batch_size=batch_size, device=device)
 
             t = torch.rand(x0.shape[0]).to(device)
-            if cfm == 'ot_cfm':
+            if cfm in ['ot_cfm', 'entropic_ot_cfm']:
                 t, xt, ut, _, x1 = FM.guided_sample_location_and_conditional_flow(x0, x1, y0=None, y1=x1, t=t) # NOTE: we need correct x1!
             else:
                 t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1, t)
@@ -334,7 +334,7 @@ def train_g3(
             x1 = x1_sampler(batch_size=batch_size, device=device)
 
             t = torch.rand(x0.shape[0]).to(device)
-            if cfm == 'ot_cfm':
+            if cfm in ['ot_cfm', 'entropic_ot_cfm']:
                 t, xt, ut, _, x1 = FM.guided_sample_location_and_conditional_flow(x0, x1, y0=None, y1=x1, t=t) # NOTE: we need correct x1!
             else:
                 t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1, t)
@@ -407,7 +407,7 @@ def train_rwft(
             x1 = x1_sampler(batch_size=batch_size, device=device)
 
             t = torch.rand(x0.shape[0]).to(device)
-            if cfm == 'ot_cfm':
+            if cfm in ['ot_cfm', 'entropic_ot_cfm']:
                 t, xt, ut, _, x1 = FM.guided_sample_location_and_conditional_flow(x0, x1, y0=None, y1=x1, t=t) # NOTE: we need correct x1!
             else:
                 t, xt, ut = FM.sample_location_and_conditional_flow(x0, x1, t)

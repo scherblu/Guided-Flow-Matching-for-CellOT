@@ -1,0 +1,82 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            evvw7vgzgkewfeia36occ6wkw988b3fv:
+                args:
+                    - --x0-dist
+                    - uniform
+                    - --x1-dist
+                    - 8gaussian
+                    - --cfm
+                    - entropic_ot_cfm
+                    - --epochs
+                    - "20000"
+                    - --batch_size
+                    - "512"
+                cpu_count: 8
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "994662584320"
+                        used: "554174312448"
+                email: lucas.scherberger@tum.de
+                executable: /Users/LS/miniconda3/envs/bio_ml/bin/python
+                git:
+                    commit: 3567caeb468d99359c3829bd0c547859610e508d
+                    remote: https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git
+                host: Lucass-MacBook-Air.local
+                memory:
+                    total: "25769803776"
+                os: macOS-26.5.1-arm64-arm-64bit
+                program: -m guided_flow.train.ccfm
+                python: CPython 3.12.13
+                root: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic
+                startedAt: "2026-06-21T12:57:40.354081Z"
+                writerId: evvw7vgzgkewfeia36occ6wkw988b3fv
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+            "2":
+                - 1
+                - 5
+                - 53
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.12.13
+            "5": 0.26.1
+            "12": 0.26.1
+            "13": darwin-arm64
+batch_size:
+    value: 512
+cfm:
+    value: entropic_ot_cfm
+device:
+    value: mps
+epochs:
+    value: 20000
+lr:
+    value: 0.0001
+model_name:
+    value: ccfm
+optimizer:
+    value: AdamW
+sigma:
+    value: 0
+source:
+    value: uniform
+source_dist:
+    value: uniform
+target:
+    value: 8gaussian
+target_dist:
+    value: 8gaussian
+w:
+    value: 512
