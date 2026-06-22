@@ -1,0 +1,97 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            fjo35kviq3d5xuw2nq9mre4yr93x6egw:
+                args:
+                    - --cfm
+                    - entropic_ot_cfm
+                    - --x0_dist
+                    - uniform
+                    - --x1_dist
+                    - 8gaussian
+                    - --energy_fn
+                    - three_blobs_continuous_multi_well
+                    - --energy_kwargs
+                    - '{"target_indices": [0, 2, 5], "std_target": 0.1}'
+                    - --scale
+                    - "1.0"
+                    - --epochs
+                    - "1000"
+                    - --device
+                    - mps
+                cpu_count: 8
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "994662584320"
+                        used: "556421632000"
+                email: lucas.scherberger@tum.de
+                executable: /Users/LS/miniconda3/envs/bio_ml/bin/python
+                git:
+                    commit: d555770a7bfdf076aa17a3d16150359c86166e58
+                    remote: https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git
+                host: Lucass-MacBook-Air.local
+                memory:
+                    total: "25769803776"
+                os: macOS-26.5.1-arm64-arm-64bit
+                program: -m guided_flow.train.value_guidance_matching
+                python: CPython 3.12.13
+                root: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic
+                startedAt: "2026-06-21T20:28:34.804424Z"
+                writerId: fjo35kviq3d5xuw2nq9mre4yr93x6egw
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+            "2":
+                - 1
+                - 5
+                - 53
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.12.13
+            "5": 0.26.1
+            "12": 0.26.1
+            "13": darwin-arm64
+batch_size:
+    value: 1024
+cfm:
+    value: entropic_ot_cfm
+device:
+    value: mps
+energy_fn:
+    value: three_blobs_continuous_multi_well
+energy_std_target:
+    value: 0.1
+energy_target_indices:
+    value:
+        - 0
+        - 2
+        - 5
+g_scale:
+    value: 1
+lr:
+    value: 0.0001
+model_name:
+    value: guidance_matching_g3
+model_v_path:
+    value: logs/uniform-8gaussian/entropic_ot_cfm_uniform_8gaussian/entropic_ot_cfm_uniform_8gaussian_20260620_230314.pth
+model_z_path:
+    value: logs/uniform-8gaussian/entropic_ot_cfm_uniform_8gaussian/guidance_matching_z_scale_1.0_uniform_8gaussian_20260621_220602.pth
+num_steps:
+    value: 1000
+sigma:
+    value: 0
+width:
+    value: 256
+x0_dist:
+    value: uniform
+x1_dist:
+    value: EightGaussiansDistribution

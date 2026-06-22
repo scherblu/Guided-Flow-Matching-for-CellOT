@@ -1,0 +1,61 @@
+=========================================================================================================
+Model Summary: ClassConditionalMLP
+=========================================================================================================
+   Layer (type)                             | Input Shape            | Output Shape           | Param #
+---------------------------------------------------------------------------------------------------------
+   class_embedding (Embedding)              | [512]                  | [512, 16]              | 128
+   net.0 (Linear)                           | [512, 22]              | [512, 512]             | 11,776
+   net.1 (SELU)                             | [512, 512]             | [512, 512]             | --
+   net.2 (Linear)                           | [512, 512]             | [512, 512]             | 262,656
+   net.3 (SELU)                             | [512, 512]             | [512, 512]             | --
+   net.4 (Linear)                           | [512, 512]             | [512, 512]             | 262,656
+   net.5 (SELU)                             | [512, 512]             | [512, 512]             | --
+   net.6 (Linear)                           | [512, 512]             | [512, 2]               | 1,026
+   net (Sequential)                         | [512, 22]              | [512, 2]               | --
+---------------------------------------------------------------------------------------------------------
+   Total Params:         538,242
+   Trainable Params:     538,242
+   Non-Trainable Params: 0
+   Model Size:           2.053 MB
+=========================================================================================================
+_Step 00000 | Moving Avg Loss (last 100): 0.1230 | Inst Loss: 0.1230
+_Step 00500 | Moving Avg Loss (last 100): 0.0220 | Inst Loss: 0.0256
+_Step 01000 | Moving Avg Loss (last 100): 0.0203 | Inst Loss: 0.0219
+_Step 01500 | Moving Avg Loss (last 100): 0.0207 | Inst Loss: 0.0183
+_Step 02000 | Moving Avg Loss (last 100): 0.0201 | Inst Loss: 0.0166
+_Step 02500 | Moving Avg Loss (last 100): 0.0198 | Inst Loss: 0.0181
+_Step 03000 | Moving Avg Loss (last 100): 0.0199 | Inst Loss: 0.0198
+_Step 03500 | Moving Avg Loss (last 100): 0.0197 | Inst Loss: 0.0200
+_Step 04000 | Moving Avg Loss (last 100): 0.0198 | Inst Loss: 0.0214
+_Step 04500 | Moving Avg Loss (last 100): 0.0198 | Inst Loss: 0.0211
+_Step 05000 | Moving Avg Loss (last 100): 0.0193 | Inst Loss: 0.0191
+_Step 05500 | Moving Avg Loss (last 100): 0.0197 | Inst Loss: 0.0178
+_Step 06000 | Moving Avg Loss (last 100): 0.0197 | Inst Loss: 0.0192
+_Step 06500 | Moving Avg Loss (last 100): 0.0194 | Inst Loss: 0.0216
+_Step 07000 | Moving Avg Loss (last 100): 0.0198 | Inst Loss: 0.0214
+_Step 07500 | Moving Avg Loss (last 100): 0.0193 | Inst Loss: 0.0212
+_Step 08000 | Moving Avg Loss (last 100): 0.0194 | Inst Loss: 0.0187
+_Step 08500 | Moving Avg Loss (last 100): 0.0191 | Inst Loss: 0.0208
+_Step 09000 | Moving Avg Loss (last 100): 0.0189 | Inst Loss: 0.0171
+_Step 09500 | Moving Avg Loss (last 100): 0.0191 | Inst Loss: 0.0179
+_Step 10000 | Moving Avg Loss (last 100): 0.0191 | Inst Loss: 0.0216
+_Step 10500 | Moving Avg Loss (last 100): 0.0192 | Inst Loss: 0.0196
+_Step 11000 | Moving Avg Loss (last 100): 0.0188 | Inst Loss: 0.0196
+_Step 11500 | Moving Avg Loss (last 100): 0.0189 | Inst Loss: 0.0203
+_Step 12000 | Moving Avg Loss (last 100): 0.0191 | Inst Loss: 0.0220
+_Step 12500 | Moving Avg Loss (last 100): 0.0189 | Inst Loss: 0.0175
+_Step 13000 | Moving Avg Loss (last 100): 0.0186 | Inst Loss: 0.0184
+_Step 13500 | Moving Avg Loss (last 100): 0.0189 | Inst Loss: 0.0186
+_Step 14000 | Moving Avg Loss (last 100): 0.0189 | Inst Loss: 0.0178
+_Step 14500 | Moving Avg Loss (last 100): 0.0189 | Inst Loss: 0.0194
+_Step 15000 | Moving Avg Loss (last 100): 0.0188 | Inst Loss: 0.0189
+_Step 15500 | Moving Avg Loss (last 100): 0.0187 | Inst Loss: 0.0173
+_Step 16000 | Moving Avg Loss (last 100): 0.0188 | Inst Loss: 0.0177
+_Step 16500 | Moving Avg Loss (last 100): 0.0187 | Inst Loss: 0.0188
+_Step 17000 | Moving Avg Loss (last 100): 0.0188 | Inst Loss: 0.0205
+_Step 17500 | Moving Avg Loss (last 100): 0.0189 | Inst Loss: 0.0195
+_Step 18000 | Moving Avg Loss (last 100): 0.0186 | Inst Loss: 0.0210
+_Step 18500 | Moving Avg Loss (last 100): 0.0188 | Inst Loss: 0.0195
+_Step 19000 | Moving Avg Loss (last 100): 0.0190 | Inst Loss: 0.0186
+_Step 19500 | Moving Avg Loss (last 100): 0.0189 | Inst Loss: 0.0191
+Training finished. Best Loss: 0.0186
