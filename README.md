@@ -8,11 +8,20 @@ The repository is structured into two main components:
 
 ---
 
+> ### 📍 Start here — current status
+> The project **pivoted (~Jun 2026)** from "survey & match steering methods" to **mapping
+> where guidance methods fail on a phase diagram** (plus a parallel `bio4i/` 4i-feasibility
+> track). This README covers setup and the original synthetic layout; for current direction,
+> progress, results, and how to reproduce them, **read [STATUS.md](STATUS.md) — the single
+> source of truth for project state.**
+
+---
+
 ## 🛠 Prerequisites
 
-* **Conda** (Anaconda or Miniconda)
+* **Conda** (Anaconda or Miniconda) — or **pixi** (see "Dependency management with pixi" below; the current pivot scripts use the pixi env)
 * **Python 3.11+ / 3.12+**
-* **CUDA-enabled GPU** (recommended for training, though MPS also works)
+* **CPU is sufficient** — the toy/synthetic and bio4i workloads are small and run CPU-only; no GPU is required (CUDA/MPS are optional, not needed).
 
 ---
 
@@ -55,7 +64,9 @@ pip install -e .
   ├── environment.yml                  # Main conda environment file (bio_ml)
   ├── environment_with_versions.yml    # Main conda environment file with pinned dependency versions
   ├── LICENSE                          # License file
-  ├── README.md                        # You are here!
+  ├── README.md                        # Setup & original layout (see STATUS.md for current state)
+  ├── STATUS.md                        # 📍 Living project-status hub (direction, progress, results)
+  ├── bio4i/                           # 4i flow-matching feasibility prototype — see bio4i/README.md (gitignored)
   ├── src/                             # Biological data and model scripts
   │   ├── data/
   │   │   └── 4i/                      # 4i single-cell multiplexed imaging data
@@ -105,15 +116,24 @@ pip install -e .
       │   ├── fig.ipynb                # Notebook for generating figures
       │   ├── test_distributions.ipynb # Notebook for testing distributions
       │   └── test_unconditional.ipynb # Notebook for testing unconditional flow
-      └── script/                      # Bash scripts for training the models
+      └── script/                      # Training shell scripts + the pivot Python scripts
           ├── train_cfm.sh             # Training script for CFM
           ├── train_ceg.sh             # Training script for CEG
-          └── train_guidance_matching.sh # Training script for Guidance Matching
+          ├── train_guidance_matching.sh # Training script for Guidance Matching
+          ├── go_nogo_spike.py         # [PIVOT] GO/NO-GO spike (see GO_NOGO_SPIKE_REPORT.md)
+          ├── phase_diagram.py         # [PIVOT] guidance-failure phase-diagram sweep
+          └── (debug_*.py, test_*.py, tune_pigdm.py) # [PIVOT] debug / unit-test / tuning scripts
 ```
+
+*See [STATUS.md](STATUS.md) for the current pivot layout, entry points, and where results live.*
 
 ---
 
 ## 🚀 Running the Code
+
+> **Note:** the commands below are the *original* synthetic-training entry points. The current
+> pivot entry points (GO/NO-GO spike, phase diagram, bio4i) and their exact run commands live
+> in [STATUS.md](STATUS.md).
 
 ### 1. Exploring Biological Data
 To inspect the single-cell data properties, ensure you have the `bio_ml` environment activated:
@@ -141,15 +161,17 @@ Navigate to the `synthetic/` directory, ensure the `guided_flow_synthetic_data` 
   ```
 
 ### 3. Notebooks & Visualizations
-Inside `synthetic/notebooks/`, you will find several Jupyter notebooks:
-* [fig.ipynb](file:///Users/LS/Documents/Studium/8-SS26/Deep%20Learning%20Seminar/own%20Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks/fig.ipynb): Generates plots/figures comparing different guidance methods and baselines.
-* [fig_compare_to_class-cond_CFM.ipynb](file:///Users/LS/Documents/Studium/8-SS26/Deep%20Learning%20Seminar/own%20Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks/fig_compare_to_class-cond_CFM.ipynb): Visualizes and compares flow matching variants against class-conditional baselines.
-* [mc.ipynb](file:///Users/LS/Documents/Studium/8-SS26/Deep%20Learning%20Seminar/own%20Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks/mc.ipynb): Explores Monte Carlo/Markov Chain guidance compared to Contrastive Energy Guidance (CEG) and Guidance Matching.
-* [test_distributions.ipynb](file:///Users/LS/Documents/Studium/8-SS26/Deep%20Learning%20Seminar/own%20Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks/test_distributions.ipynb): Sanity check of the synthetic source/target distribution samplers.
-* [test_grad.ipynb](file:///Users/LS/Documents/Studium/8-SS26/Deep%20Learning%20Seminar/own%20Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks/test_grad.ipynb): Tests gradient calculations and guidance vector fields.
-* [test_guidance_matching.ipynb](file:///Users/LS/Documents/Studium/8-SS26/Deep%20Learning%20Seminar/own%20Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks/test_guidance_matching.ipynb): Tests training and sampling with Guidance Matching.
-* [test_mc.ipynb](file:///Users/LS/Documents/Studium/8-SS26/Deep%20Learning%20Seminar/own%20Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks/test_mc.ipynb): Evaluates Monte Carlo sampling and validation of guidance formulas.
-* [test_unconditional.ipynb](file:///Users/LS/Documents/Studium/8-SS26/Deep%20Learning%20Seminar/own%20Project/Guided-Flow-Matching-for-CellOT/synthetic/notebooks/test_unconditional.ipynb): Evaluation of unconditional flow trajectories.
+Inside `synthetic/notebooks/`, you will find several Jupyter notebooks (paths relative to that directory):
+* [fig.ipynb](synthetic/notebooks/fig.ipynb): Generates plots/figures comparing different guidance methods and baselines.
+* [fig_compare_to_class-cond_CFM.ipynb](synthetic/notebooks/fig_compare_to_class-cond_CFM.ipynb): Visualizes and compares flow matching variants against class-conditional baselines.
+* [mc.ipynb](synthetic/notebooks/mc.ipynb): Explores Monte Carlo/Markov Chain guidance compared to Contrastive Energy Guidance (CEG) and Guidance Matching.
+* [test_distributions.ipynb](synthetic/notebooks/test_distributions.ipynb): Sanity check of the synthetic source/target distribution samplers.
+* [test_grad.ipynb](synthetic/notebooks/test_grad.ipynb): Tests gradient calculations and guidance vector fields.
+* [test_guidance_matching.ipynb](synthetic/notebooks/test_guidance_matching.ipynb): Tests training and sampling with Guidance Matching.
+* [test_mc.ipynb](synthetic/notebooks/test_mc.ipynb): Evaluates Monte Carlo sampling and validation of guidance formulas.
+* [test_unconditional.ipynb](synthetic/notebooks/test_unconditional.ipynb): Evaluation of unconditional flow trajectories.
+
+*(The `*_gcovfix.ipynb` variants alongside these are the later `g^cov`-fix reruns.)*
 
 ---
 
