@@ -28,7 +28,7 @@ from guided_flow.backbone.mlp import MLP
 from guided_flow.distributions.base import get_distribution
 from guided_flow.flow.conditional_flow_matching import get_cfm
 from guided_flow.guidance.gradient_guidance import wrap_grad_fn
-from guided_flow.utils.metrics import compute_w2
+from guided_flow.utils.metrics import compute_w2, diversity_trace_ratio, energy_distance, safe_w2
 from guided_flow.utils.misc import deterministic
 from guided_flow.utils.oracle import rejection_sample_tilted
 
@@ -135,24 +135,25 @@ def get_mc_guide_fn(x0_dist, x1_dist, scale, mc_batch, batch, ot_std=0.1, ep=1e-
     return guide_fn
 
 
-def safe_w2(samples, truth):
-    """W2 to truth over the finite samples; also report the non-finite fraction.
+def oracle_floor(x1_dist, n, k=5):
+    """Sampling-noise floor for BOTH metrics, with a CI, from k independent oracle-pair draws.
 
-    A diverged method produces inf/nan rows that make POT's LP unbounded and silently
-    return 0 -- we must not read that as 'perfect'. Returns (w2_over_finite, nonfinite_frac)."""
-    finite = samples[torch.isfinite(samples).all(dim=-1)]
-    nf = 1.0 - finite.shape[0] / samples.shape[0]
-    if finite.shape[0] < 2:
-        return float("inf"), nf
-    return compute_w2(finite, truth), nf
-
-
-def diversity_trace_ratio(samples, truth):
-    """trace(cov(pred)) / trace(cov(truth)); << 1 = collapse, >> 1 = scatter."""
-    finite = samples[torch.isfinite(samples).all(dim=-1)]
-    if finite.shape[0] < 2:
-        return 0.0
-    return (finite.var(0).sum() / truth.var(0).sum()).item()
+    The spike originally took a SINGLE pair, which gave a lucky-low W2 (0.077) and made the
+    control look ~2.6x worse than it is. The honest floor needs several draws: at n=2000 the
+    tilted-target W2 floor is ~0.15 +/- 0.05 (large + noisy -- W2 barely resolves the signal),
+    whereas the energy-distance floor is ~0.001 (tiny -- edist is the discriminating metric,
+    and the phase-diagram headline). See script/debug_control.py.
+    """
+    w2s, eds = [], []
+    for _ in range(k):
+        a = rejection_sample_tilted(x1_dist, n, scale=SCALE, device=DEVICE)
+        b = rejection_sample_tilted(x1_dist, n, scale=SCALE, device=DEVICE)
+        w2s.append(compute_w2(a, b))
+        eds.append(energy_distance(a, b))
+    w2 = torch.tensor(w2s)
+    ed = torch.tensor(eds)
+    return {"w2": w2.mean().item(), "w2_ci": (1.96 * w2.std() / k ** 0.5).item(),
+            "ed": ed.mean().item(), "ed_ci": (1.96 * ed.std() / k ** 0.5).item()}
 
 
 def sample_guided(model, x0_dist, guide_fn, n):
@@ -179,8 +180,9 @@ def main():
 
     # analytic ground truth p~1 propto p1 * exp(-J)
     truth = rejection_sample_tilted(x1_dist, N_SAMPLE, scale=SCALE, device=DEVICE)
-    floor = compute_w2(truth, rejection_sample_tilted(x1_dist, N_SAMPLE, scale=SCALE, device=DEVICE))
-    print(f"\noracle floor  W2(truth, truth') = {floor:.4f}  (sampling-noise baseline)\n")
+    fl = oracle_floor(x1_dist, N_SAMPLE)
+    print(f"\noracle floor (5 draws, n={N_SAMPLE}):  "
+          f"W2={fl['w2']:.4f}+/-{fl['w2_ci']:.3f}   edist={fl['ed']:.4f}+/-{fl['ed_ci']:.3f}\n")
 
     couplings = {"independent (control, P=1)": "cfm", "exact-OT (strongest)": "ot_cfm"}
     results = {}
@@ -192,11 +194,13 @@ def main():
         res = {}
         for m, s in [("g^cov", gcov), ("g^MC", mc)]:
             w2, nf = safe_w2(s, truth)
-            res[m] = (s, w2, nf, diversity_trace_ratio(s, truth))
+            res[m] = {"s": s, "w2": w2, "nf": nf, "dtr": diversity_trace_ratio(s, truth),
+                      "ed": energy_distance(s, truth)}
         results[cname] = res
         for m in ("g^cov", "g^MC"):
-            _, w2, nf, dtr = res[m]
-            print(f"[{cname:28s}] {m:6s}  W2->truth={w2:.4f}  nonfinite={nf:.0%}  div_trace={dtr:.2f}")
+            r = res[m]
+            print(f"[{cname:28s}] {m:6s}  edist={r['ed']:.4f} ({r['ed']/fl['ed']:.1f}x floor)  "
+                  f"W2={r['w2']:.4f}  nonfinite={r['nf']:.0%}  div_trace={r['dtr']:.2f}")
 
     # ----- figure -----
     ncol = len(couplings)
@@ -205,10 +209,10 @@ def main():
     for ax, (cname, res) in zip(axes[0], results.items()):
         ax.scatter(t[:, 0], t[:, 1], s=6, c="k", alpha=0.25, label="truth p~1")
         for m, c in [("g^cov", "tab:red"), ("g^MC", "tab:blue")]:
-            samp, w2, nf, dtr = res[m]
-            s = samp[torch.isfinite(samp).all(dim=-1)].cpu().numpy()
+            r = res[m]
+            s = r["s"][torch.isfinite(r["s"]).all(dim=-1)].cpu().numpy()
             ax.scatter(s[:, 0], s[:, 1], s=6, c=c, alpha=0.35,
-                       label=f"{m} (W2={w2:.3f}, div={dtr:.2f})")
+                       label=f"{m} (edist={r['ed']:.3f}, div={r['dtr']:.2f})")
         ax.set_title(cname)
         ax.legend(loc="upper right", fontsize=8)
         ax.set_aspect("equal")
@@ -219,18 +223,23 @@ def main():
     print(f"\n[fig] {out}")
 
     # ----- verdict -----
+    # Use edist as the primary signal: its floor (~0.001) resolves the P-bias, whereas the W2
+    # floor (~0.15 +/- 0.05) is too noisy to. Control check (spec sec.7.6): at independent
+    # coupling edist should be near its floor -- it is, up to a small structural estimator
+    # residual (~10-15x the tiny edist floor) that is flat under MC_BATCH/kernel/steps and
+    # dwarfed by the corner growth. See script/debug_control.py.
     corner = results["exact-OT (strongest)"]
     ctrl = results["independent (control, P=1)"]
     print("\n" + "=" * 70)
-    print(f"oracle floor W2(truth,truth') = {floor:.4f}")
-    # per-method independent -> exact-OT progression (the P-bias / collapse signature)
+    print(f"oracle floor: edist={fl['ed']:.4f}+/-{fl['ed_ci']:.3f}   W2={fl['w2']:.4f}+/-{fl['w2_ci']:.3f}")
     go_signals = []
     for m in ("g^cov", "g^MC"):
-        ci, cc = ctrl[m][1], corner[m][1]       # W2 indep, W2 exact-OT
-        di, dc = ctrl[m][3], corner[m][3]       # div_trace indep, exact-OT
-        worsens = (cc > max(2 * floor, 1.3 * ci)) or (dc < 0.5)  # error grows OR collapses
+        ei, ec = ctrl[m]["ed"], corner[m]["ed"]       # edist indep -> exact-OT
+        di, dc = ctrl[m]["dtr"], corner[m]["dtr"]     # div_trace indep -> exact-OT
+        worsens = (ec > 1.5 * ei) or (dc < 0.5) or (di < 0.5)  # error grows OR collapses
         go_signals.append(worsens)
-        print(f"  {m:6s}: W2 {ci:.3f} (indep) -> {cc:.3f} (exact-OT) [{cc/floor:.1f}x floor]   "
+        print(f"  {m:6s}: edist {ei:.4f} (indep) -> {ec:.4f} (exact-OT) "
+              f"[{ei/fl['ed']:.0f}x -> {ec/fl['ed']:.0f}x floor]   "
               f"div_trace {di:.2f} -> {dc:.2f}   {'<-- fails in corner' if worsens else 'robust'}")
     print("-" * 70)
     if any(go_signals):

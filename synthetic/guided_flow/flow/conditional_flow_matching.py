@@ -312,6 +312,42 @@ class ExactOptimalTransportConditionalFlowMatcher(ConditionalFlowMatcher):
             return t, xt, ut, y0, y1
 
 
+class EntropicOTConditionalFlowMatcher(ExactOptimalTransportConditionalFlowMatcher):
+    r"""OT-CFM with an *entropic* (Sinkhorn) coupling -- the continuous coupling axis.
+
+    Identical to ``ExactOptimalTransportConditionalFlowMatcher`` (same straight path
+    x_t = t*x1 + (1-t)*x0, same field u_t = x1 - x0); the ONLY change is the coupling plan,
+    drawn from ``OTPlanSampler(method="sinkhorn", reg=reg)`` instead of the exact LP. This
+    is deliberately NOT the Schrodinger-bridge matcher, which would also add Brownian-bridge
+    path noise -- here only the coupling moves, so the phase diagram's x-axis isolates
+    coupling strength from the path (IMPLEMENTATION_SPEC_pivot.md sec.2).
+
+    Sweep semantics (verify empirically -- spec sec.2/7.2): the entropic plan interpolates
+    between the two extremes by ``reg`` on the squared-Euclidean cost --
+        reg -> infinity : plan -> product/independent coupling (a (X) b)  [near ConditionalFlowMatcher]
+        reg -> 0        : plan -> exact OT coupling                       [near ExactOptimalTransport...]
+    so sweep ``reg`` large -> small to move independent -> exact OT.
+
+    Parameters
+    ----------
+    reg : float
+        Sinkhorn entropic regularization on the (un-normalized) squared-Euclidean cost.
+    num_threads : int or str
+        passed through to the OT solver.
+    warn : bool
+        if True, warn when the Sinkhorn plan is non-finite and reverts to the uniform
+        (product) plan. At large ``reg`` that revert IS the intended independent coupling,
+        so this warning is expected near that extreme.
+    """
+
+    def __init__(self, reg: float = 0.05, num_threads: Union[int, str] = 1, warn: bool = True):
+        # Skip ExactOptimalTransport's __init__ (which hard-codes method="exact"); set up the
+        # straight-path base directly, then install the entropic sampler.
+        ConditionalFlowMatcher.__init__(self, sigma=0.0)
+        self.reg = reg
+        self.ot_sampler = OTPlanSampler(method="sinkhorn", reg=reg, num_threads=num_threads, warn=warn)
+
+
 class TargetConditionalFlowMatcher(ConditionalFlowMatcher):
     """Lipman et al. 2023 style target OT conditional flow matching. This class inherits the
     ConditionalFlowMatcher and override the compute_mu_t, compute_sigma_t and
@@ -609,13 +645,16 @@ class VariancePreservingConditionalFlowMatcher(ConditionalFlowMatcher):
 
 ### Getter
 
-def get_cfm(cfm_name: str, sigma: float) -> ConditionalFlowMatcher:
+def get_cfm(cfm_name: str, sigma: float, reg: float = 0.05) -> ConditionalFlowMatcher:
     if cfm_name == 'cfm':
         return ConditionalFlowMatcher(sigma=sigma)
     elif cfm_name == 'vp_cfm':
         return VariancePreservingConditionalFlowMatcher(sigma=sigma)
     elif cfm_name == 'ot_cfm':
         return ExactOptimalTransportConditionalFlowMatcher(sigma=sigma)
+    elif cfm_name == 'entropic_ot_cfm':
+        # `reg` is the Sinkhorn coupling axis (large=independent, small=exact OT); `sigma` unused
+        return EntropicOTConditionalFlowMatcher(reg=reg)
     elif cfm_name == 'sb_cfm':
         return SchrodingerBridgeConditionalFlowMatcher(sigma=sigma)
     else:
