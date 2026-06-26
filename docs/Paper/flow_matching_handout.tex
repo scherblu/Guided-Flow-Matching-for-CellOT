@@ -1,0 +1,106 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{mathpazo}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+
+% Define colors
+\definecolor{tumblue}{RGB}{0,101,189}
+
+% Title format
+\titleformat{\section}{\large\bfseries\color{tumblue}}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.2ex plus 1ex minus .2ex}{0.5ex plus .2ex}
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textcolor{tumblue}{\textbf{Deep Learning Seminar, TUM}}}
+\rhead{\textit{Lucas Scherberger}}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{tumblue}\leaders\hrule height \headrulewidth\hfill}}
+
+\begin{document}
+
+\begin{center}
+    \LARGE \textbf{\textcolor{tumblue}{On the Guidance of Flow Matching:}} \\
+    \vspace{0.2cm}
+    \LARGE \textbf{\textcolor{tumblue}{Review on synthetic data and towards cell data}} \\
+    \vspace{0.2cm}
+    \normalsize \textbf{Speaker:} Lucas Scherberger \hspace{1cm} \textbf{Supervisor:} Lea Zimmermann
+\end{center}
+\vspace{0.4cm}
+
+\begin{tcolorbox}[colback=tumblue!5!white, colframe=tumblue, title=\textbf{Motivation \& Core Objective}]
+\begin{itemize}[leftmargin=*, nosep]
+    \item \textbf{Flow Matching (FM):} Generative method learning a velocity field $v_t(x)$ to transport a tractable source distribution $p_0$ into a complex data distribution $p_1$.
+    \item \textbf{The Question:} How can we generate \textit{specific parts} of the complex target distribution?
+    \item \textbf{Solution:} Energy-based guidance! Steer a frozen model toward a defined objective.
+\end{itemize}
+\end{tcolorbox}
+
+\section*{1. Notation \& Abbreviations Overview}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Variables \& Distributions:}
+    \begin{itemize}
+        \item $p_0 \rightarrow p_1$: Source distribution to Target data distribution
+        \item $v_t(x)$: Learned base velocity field
+        \item $J(x)$: Energy function (defines the target subset)
+        \item $g_t(x_t)$: Guidance vector field (proportional to $-\nabla J$)
+        \item $v' = v_t + g_t$: Guided velocity field
+        \item $z = (x_0, x_1)$: Coupling of source and target
+        \item $\pi(x_0, x_1)$: distribution over the source-target coupling
+        \item $\mathcal{P}$: Reverse coupling ratio ($\mathcal{P} = 1$ for independent coupling)
+    \end{itemize}
+    \item \textbf{Guidance Methods:}
+    \begin{itemize}
+        \item \textbf{MC} ($g^{MC}$): Monte Carlo estimation of the intractable integral (due to $p(z|x_t)$) describing the guidance vector field.
+        \item \textbf{sim-MC} ($g^{sim-MC}$): Simulated Monte Carlo Gradient Guidance. Approximates the intractable distribution with a Gaussian. Samples from this simpler shape to estimate guidance when the energy function lacks a clean math formula.
+        \item \textbf{cov-A} ($g^{cov-A}$): Affine path covariance approximation. Uses Taylor expansion to approximate guidance locally around the mean.
+        \item \textbf{cov-G} ($g^{cov-G}$): Affine path covariance approximation. Assumes a standard Gaussian path to mathematically map flow matching back to classic diffusion guidance. Computes exact covariance using network gradients, offering strong performance at a higher computational cost.
+        \item \textbf{GM / Learned} ($g_\phi$): Guidance Matching. Training-based method where a neural network is explicitly trained to become the guidance vector field. Trains multiple models: one for $Z$ to estimate the normalizing constant, and a second model that directly learns the guidance vector field.
+    \end{itemize}
+\end{itemize}
+
+\section*{2. Steering Mechanisms}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Training-time Steering (Conditioning):} Requires data and a label $y$ during training. The model reproduces seen labels directly.
+    \item \textbf{Inference-time Steering (Guidance):} Train the model purely on data. Keep the base flow model frozen. Add guidance $g_t$ at sampling to push the flow toward low energy $J$.
+\end{itemize}
+
+\section*{3. Guidance}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Guided Target Distribution:} Reweighting the original target $p_1(x)$ by the energy $J$.
+    \begin{equation*}
+        p'(x) = \frac{1}{Z} p_1(x) e^{-J(x)}
+    \end{equation*}
+\end{itemize}
+
+\section*{4. The Hidden Assumption \& Phase Diagram}
+\begin{itemize}[leftmargin=*]
+    \item Guidance validity relies heavily on the reverse coupling ratio: $\mathcal{P} = \frac{\pi'(x_0|x_1)}{\pi(x_0|x_1)}$.
+    \item \textbf{When it works:} Valid when $\mathcal{P} \approx 1$ (have $\mathcal{P} = 1$ for independent coupling).
+    \item \textbf{When it breaks:} The guidance $g_t$ points in a systematically wrong direction when coupling is \textbf{strong} (e.g., Exact Optimal Transport) \underline{AND} the energy $J$ is \textbf{sharp}.
+\end{itemize}
+
+\section*{5. Comparison of Coupling Methods}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{p{3.5cm} p{4cm} p{4cm} p{4cm}}
+\toprule
+\textbf{Feature} & \textbf{Independent} & \textbf{Entropic OT} & \textbf{Exact OT} \\
+\midrule
+Mapping Style & All-to-All (Random) & "Fuzzy" 1-to-Many & 1-to-1 (Deterministic) \\
+Path Trajectories & Highly crossing, complex & Localized, less crossing & Straight, direct, non-crossing \\
+VF Smoothness & Very High & Moderate to High & Low (Sharp) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+\end{document}

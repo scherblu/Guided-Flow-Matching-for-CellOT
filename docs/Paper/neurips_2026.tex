@@ -117,6 +117,24 @@ Please read the instructions below carefully and follow them faithfully.
 $$J(x) = -\log \sum_{i \in {0, 2, 5}} \exp\left(-\frac{|x - c_i|_2^2}{2\sigma^2}\right)$$
 $$J(x) = \frac{|x - c_0|_2^2}{2\sigma^2} + \frac{|x - c_2|_2^2}{2\sigma^2} + \frac{|x - c_5|_2^2}{2\sigma^2}$$
 
+\begin{table}[htbp]
+\centering
+\caption{Comparison of methods across various metrics. The best method for each metric is \textbf{bolded}, and the second best is \underline{underlined}.}
+\label{tab:method_comparison_no_index}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Method} & \textbf{W2} $\downarrow$ & \textbf{Energy Dist} $\downarrow$ & \textbf{Div Trace Ratio} & \textbf{Off-Manifold Rate} $\downarrow$ \\
+\midrule
+Learned (GM)    & \textbf{0.0802} & \textbf{0.0006} & 0.9757 & 0.0659 \\
+Class-cond. CFM & \underline{0.1632} & 0.0033 & \underline{1.0069} & 0.0786 \\
+MC              & 0.1698 & \underline{0.0030} & \textbf{0.9969} & 0.0801 \\
+cov-G           & 0.2772 & 0.0296 & 1.2113 & \underline{0.0068} \\
+sim-MC          & 0.3908 & 0.0739 & 0.7570 & 0.5098 \\
+cov-A           & 0.7905 & 0.2578 & 0.5410 & \textbf{0.0000} \\
+CFM             & 0.8852 & 0.3804 & 1.5355 & 0.6782 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Style}
 
