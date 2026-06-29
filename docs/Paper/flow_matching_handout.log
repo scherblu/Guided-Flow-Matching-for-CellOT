@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.22)  26 JUN 2026 16:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.22)  30 JUN 2026 00:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -411,31 +411,54 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count314
 \@lastruleclass=\count315
 \@thisrulewidth=\dimen286
+) (/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen287
+\captionmargin=\dimen288
+\caption@leftmargin=\dimen289
+\caption@rightmargin=\dimen290
+\caption@width=\dimen291
+\caption@indent=\dimen292
+\caption@parindent=\dimen293
+\caption@hangindent=\dimen294
+Package caption Info: Standard document class detected.
 )
-LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 28.
+\c@caption@flags=\count316
+\c@continuedfloat=\count317
+) (/usr/local/texlive/2025/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count318
+\float@exts=\toks41
+\float@box=\box76
+\@float@everytoks=\toks42
+\@floatcapt=\box77
+)
+LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 33.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count316
-\l__pdf_internal_box=\box76
+\l__color_backend_stack_int=\count319
+\l__pdf_internal_box=\box78
 ) (./flow_matching_handout.aux)
 \openout1 = `flow_matching_handout.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -445,15 +468,15 @@ LaTeX Font Info:    ... okay on input line 28.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
-* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
+* h-part:(L,W,R)=(61.42993pt, 474.64801pt, 61.42993pt)
+* v-part:(T,H,B)=(61.42993pt, 722.18698pt, 61.42993pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=452.9679pt
-* \textheight=700.50687pt
-* \oddsidemargin=0.0pt
-* \evensidemargin=0.0pt
-* \topmargin=-37.0pt
+* \textwidth=474.64801pt
+* \textheight=722.18698pt
+* \oddsidemargin=-10.84006pt
+* \evensidemargin=-10.84006pt
+* \topmargin=-47.84006pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=11.0pt
@@ -473,55 +496,71 @@ LaTeX Font Info:    ... okay on input line 28.
 
 (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count317
-\scratchdimen=\dimen287
-\scratchbox=\box77
-\nofMPsegments=\count318
-\nofMParguments=\count319
-\everyMPshowfont=\toks41
-\MPscratchCnt=\count320
-\MPscratchDim=\dimen288
-\MPnumerator=\count321
-\makeMPintoPDFobject=\count322
-\everyMPtoPDFconversion=\toks42
+\scratchcounter=\count320
+\scratchdimen=\dimen295
+\scratchbox=\box79
+\nofMPsegments=\count321
+\nofMParguments=\count322
+\everyMPshowfont=\toks43
+\MPscratchCnt=\count323
+\MPscratchDim=\dimen296
+\MPnumerator=\count324
+\makeMPintoPDFobject=\count325
+\everyMPtoPDFconversion=\toks44
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 40.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 43.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
-LaTeX Font Info:    Trying to load font information for OML+zplm on input line 41.
+LaTeX Font Info:    Trying to load font information for OML+zplm on input line 44.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 41.
+LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 44.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 41.
+LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 44.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 41.
+(Font)              scaled to size 11.40997pt on input line 44.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 41.
+(Font)              scaled to size 8.33606pt on input line 44.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 41.
+(Font)              scaled to size 6.25204pt on input line 44.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 41.
+(Font)              scaled to size 11.40997pt on input line 44.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 41.
+(Font)              scaled to size 8.33606pt on input line 44.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 41.
-LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 41.
+(Font)              scaled to size 6.25204pt on input line 44.
+LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 44.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 12.50409pt on input line 84.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 9.37807pt on input line 84.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 7.29405pt on input line 84.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 12.50409pt on input line 84.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 9.37807pt on input line 84.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 7.29405pt on input line 84.
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -533,15 +572,23 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [1{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 ]
-Underfull \hbox (badness 4366) in paragraph at lines 99--100
-[]\OT1/ppl/m/n/10.95 Straight, di-rect, non-
+Overfull \hbox (11.5812pt too wide) in paragraph at lines 91--92
+\OT1/ppl/m/n/10.95 Gaussian, 8-Gaussian $\OMS/zplm/m/n/10.95 !$ \OT1/ppl/m/n/10.95 Moons), then frozen and steered by an en-ergy $\OML/zplm/m/it/10.95 J$ \OT1/ppl/m/n/10.95 that se-lects a sub-distribution
  []
 
-
-Overfull \hbox (36.0498pt too wide) in paragraph at lines 94--103
- [] 
- []
-
+<figs/synthetic_data_three_energy_functions.png, id=17, 961.5925pt x 336.25626pt>
+File: figs/synthetic_data_three_energy_functions.png Graphic file (type png)
+<use figs/synthetic_data_three_energy_functions.png>
+Package pdftex.def Info: figs/synthetic_data_three_energy_functions.png  used on input line 95.
+(pdftex.def)             Requested size: 417.69257pt x 146.06505pt.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 10.42007pt on input line 96.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 7.91925pt on input line 96.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 10.42007pt on input line 96.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 7.91925pt on input line 96.
 
 
 
@@ -551,25 +598,25 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-11.11996pt}.
 
-[2] (./flow_matching_handout.aux)
+[2 <./figs/synthetic_data_three_energy_functions.png>] (./flow_matching_handout.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 17184 strings out of 473190
- 350200 string characters out of 5715800
- 728351 words of memory out of 5000000
- 40150 multiletter control sequences out of 15000+600000
- 577263 words of font info for 85 fonts, out of 8000000 for 9000
+ 18658 strings out of 473190
+ 378211 string characters out of 5715800
+ 755235 words of memory out of 5000000
+ 41595 multiletter control sequences out of 15000+600000
+ 596119 words of font info for 139 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 116i,12n,121p,571b,593s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on flow_matching_handout.pdf (2 pages, 84870 bytes).
+ 116i,11n,121p,637b,593s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on flow_matching_handout.pdf (2 pages, 1048881 bytes).
 PDF statistics:
- 45 PDF objects out of 1000 (max. 8388607)
- 28 compressed objects within 1 object stream
+ 58 PDF objects out of 1000 (max. 8388607)
+ 35 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 
