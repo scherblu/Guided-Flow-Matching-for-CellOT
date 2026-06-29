@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.22)  30 JUN 2026 00:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.22)  30 JUN 2026 00:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -576,7 +576,7 @@ Overfull \hbox (11.5812pt too wide) in paragraph at lines 91--92
 \OT1/ppl/m/n/10.95 Gaussian, 8-Gaussian $\OMS/zplm/m/n/10.95 !$ \OT1/ppl/m/n/10.95 Moons), then frozen and steered by an en-ergy $\OML/zplm/m/it/10.95 J$ \OT1/ppl/m/n/10.95 that se-lects a sub-distribution
  []
 
-<figs/synthetic_data_three_energy_functions.png, id=17, 961.5925pt x 336.25626pt>
+<figs/synthetic_data_three_energy_functions.png, id=16, 961.5925pt x 336.25626pt>
 File: figs/synthetic_data_three_energy_functions.png Graphic file (type png)
 <use figs/synthetic_data_three_energy_functions.png>
 Package pdftex.def Info: figs/synthetic_data_three_energy_functions.png  used on input line 95.
@@ -607,16 +607,16 @@ L3 programming layer <2025-01-18>
 Here is how much of TeX's memory you used:
  18658 strings out of 473190
  378211 string characters out of 5715800
- 755235 words of memory out of 5000000
+ 755237 words of memory out of 5000000
  41595 multiletter control sequences out of 15000+600000
  596119 words of font info for 139 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  116i,11n,121p,637b,593s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on flow_matching_handout.pdf (2 pages, 1048881 bytes).
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on flow_matching_handout.pdf (2 pages, 1044169 bytes).
 PDF statistics:
- 58 PDF objects out of 1000 (max. 8388607)
- 35 compressed objects within 1 object stream
+ 53 PDF objects out of 1000 (max. 8388607)
+ 32 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  18 words of extra memory for PDF output out of 10000 (max. 10000000)
 
