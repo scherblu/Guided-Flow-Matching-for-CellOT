@@ -1,0 +1,83 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            37xk0mnkk21kdhkdtae8zc34crcfxs3o:
+                args:
+                    - --cfm
+                    - ot_cfm
+                    - --x0_dist
+                    - 8gaussian
+                    - --x1_dist
+                    - moon
+                    - --epochs
+                    - "100"
+                    - --overwrite
+                codePath: synthetic/guided_flow/train/cfm.py
+                codePathLocal: guided_flow/train/cfm.py
+                cpu_count: 8
+                cpu_count_logical: 8
+                disk:
+                    /:
+                        total: "994662584320"
+                        used: "580802613248"
+                email: lucas.scherberger@tum.de
+                executable: /Users/LS/miniconda3/envs/bio_ml/bin/python
+                git:
+                    commit: 900fda936d85daceac2661c43a0de14e3e0fa9b1
+                    remote: https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.git
+                host: Lucass-MacBook-Air.local
+                memory:
+                    total: "25769803776"
+                os: macOS-26.5.1-arm64-arm-64bit
+                program: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic/guided_flow/train/cfm.py
+                python: CPython 3.12.13
+                root: /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/synthetic
+                startedAt: "2026-06-28T09:50:13.343930Z"
+                writerId: 37xk0mnkk21kdhkdtae8zc34crcfxs3o
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+            "2":
+                - 1
+                - 5
+                - 53
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.12.13
+            "5": 0.26.1
+            "12": 0.26.1
+            "13": darwin-arm64
+batch_size:
+    value: 256
+cfm:
+    value: ot_cfm
+device:
+    value: mps
+epochs:
+    value: 100
+lr:
+    value: 0.0001
+model_name:
+    value: ot_cfm
+optimizer:
+    value: Adam
+overwrite:
+    value: true
+seed:
+    value: 0
+sigma:
+    value: 0
+width:
+    value: 256
+x0_dist:
+    value: 8gaussian
+x1_dist:
+    value: moon

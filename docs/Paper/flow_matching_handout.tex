@@ -33,7 +33,7 @@
 \begin{document}
 
 \begin{center}
-    \Large \textbf{\textcolor{tumblue}{On the Guidance of Flow Matching: Review on synthetic data}} \\
+    \Large \textbf{\textcolor{tumblue}{On the Guidance of Flow Matching: Review on synthetic data}}\footnote{Feng et al., \textit{On the Guidance of Flow Matching}, ICML 2025.} \\
     \vspace{0.15cm}
     \normalsize \textbf{Speaker:} Lucas Scherberger \hspace{1cm} \textbf{Supervisor:} Lea Zimmermann
 \end{center}
@@ -77,7 +77,7 @@ The intractable posterior $p(z|x_t)$ is what the methods below approximate. \emp
     \item \textbf{Monte Carlo (MC)} -- \textit{training-free, unbiased in the limit.} Estimates the integral by importance sampling from the prior $p(z)$ instead of the posterior. No gradient of $J$ needed and stays on the data manifold, but has high variance in high dimensions.
     \item \textbf{Simulated Monte Carlo Gradient Guidance (sim-MC)} -- \textit{training-free.} Approximates the intractable posterior with a Gaussian and samples from it. Useful when $J$ lacks a clean closed-form expression.
     \item \textbf{Affine-path covariance approximation (cov-A)} -- \textit{training-free, cheapest.} Taylor-expands the guidance locally around the mean (affine path) and replaces the covariance with a hand-set schedule $\lambda_t I$. No extra network evaluations.
-    \item \textbf{Affine-path covariance approximation (cov-G)} -- \textit{training-free.} Assumes a Gaussian path and computes the exact covariance via network Jacobians. Stronger, but costs backprop through the velocity field.
+    \item \textbf{Affine-path covariance approximation (cov-G)} -- \textit{training-free.} Assumes a Gaussian path and computes the exact covariance via network Jacobians. 
     \item \textbf{Guidance Matching (GM / Learned)} -- \textit{training-based, exact in expectation.} Trains one network for the normalizing constant $Z$ and a second that directly learns the guidance field. Accurate, at the price of additional training.
 \end{itemize}
 
@@ -88,7 +88,7 @@ The intractable posterior $p(z|x_t)$ is what the methods below approximate. \emp
 \end{itemize}
 
 \section*{5. Results (Synthetic Data)}
-\textbf{Setup.} A single CFM is trained once on a 2D transport task (e.g.\ Uniform / 8-Gaussian $\rightarrow$ 8-Gaussian, 8-Gaussian $\rightarrow$ Moons), then frozen and steered by an energy $J$ that selects a sub-distribution (here: three of the modes). Guidance methods are compared against unguided CFM and class-conditional CFM (CCFM), which needs the label at training time.
+\textbf{Setup.} A single CFM is trained once on a 2D transport task, then frozen and steered by an energy $J$ that selects a sub-distribution (here: three of the modes). Guidance methods are compared against unguided CFM and class-conditional CFM (CCFM), which needs the label at training time.
 
 \begin{figure}[H]
     \centering
@@ -96,7 +96,7 @@ The intractable posterior $p(z|x_t)$ is what the methods below approximate. \emp
     \caption{Qualitative comparison. Columns: target $p_1$, ground-truth guided target $p_1 e^{-J}/Z$, unguided CFM, each guidance method, CCFM (last). Learned (GM) and MC reproduce the selected modes most faithfully; gradient-based approximations (cov-A, cov-G, sim-MC) collapse onto points or drift off the data manifold.}
 \end{figure}
 
-\noindent\textbf{Takeaways.} Learned (GM) performs best visually and MC stays on the data manifold. Guidance beats the unguided CFM baseline and matches CCFM \emph{without retraining} -- one frozen model generates many sub-distributions, just by changing $J$. A quantitative comparison over four metrics (W2, energy distance, $|1-\text{diversity trace ratio}|$, off-manifold rate) agrees: Learned (GM) and MC are balanced across all four, while unguided CFM is worst.
+\noindent\textbf{Takeaways.} Learned (GM) performs best visually and MC stays on the data manifold. Guidance beats the unguided CFM baseline and matches CCFM \emph{without retraining} -- one frozen model generates many sub-distributions, just by changing $J$. A quantitative comparison over four metrics (W2, energy distance, diversity trace ratio, off-manifold rate) agrees: Learned (GM) and MC are balanced across all four, while unguided CFM is worst.
 
 \noindent\textbf{Where MC breaks.} The off-manifold rate of MC (Uniform $\rightarrow$ 8-Gaussian, energy $J$ for three Gaussians) confirms Section~4: failures grow towards \emph{stronger coupling} (left $\to$ right) and \emph{sharper} $J$ (smaller energy width, top of table).
 
@@ -120,7 +120,7 @@ $0.2$ (wide)   & 0.15 & 0.10 & 0.22 & 0.23 & 0.29 & 0.26 \\
 \begin{itemize}[leftmargin=*, nosep]
     \item Introduced different guidance methods for conditional flow matching.
     \item Learned (GM) performs slightly better than MC on synthetic data, but at the cost of additional training.
-    \item Guidance with MC under stronger OT coupling and sharp energy functions performs worse.
+    \item MC Guidance performs worse under stronger OT coupling and sharp energy functions.
 \end{itemize}
 
 \end{document}

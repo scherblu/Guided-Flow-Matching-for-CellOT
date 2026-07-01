@@ -23,6 +23,7 @@ class FlowMatchingTrainingConfig:
     epochs: Annotated[int, tyro.conf.arg(aliases=("--num-steps", "--num_steps"))] = 100000
     sigma: float = 0.0 # minimum variance in CFM
     width: int = 256 # width of the MLP
+    reg: float = 0.05 # regularization parameter for entropic_ot_cfm
 
     overwrite: bool = False
 

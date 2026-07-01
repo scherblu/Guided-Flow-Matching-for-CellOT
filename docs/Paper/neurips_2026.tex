@@ -59,7 +59,7 @@
 \usepackage{xcolor}         % colors
 
 % Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote. 
-\title{On the Guidance of Flow Matching: \\review on synthetic data and towards cell data}
+\title{On the Guidance of Flow Matching: \\review on synthetic data}
 
 
 % The \author macro works with any number of authors. There are two commands
@@ -113,7 +113,6 @@ In many applicatons, it is desirable to generate specific parts of the target di
 Guidance methods have been proposed to steer a frozen flow matching model towards a defined objective.
 In this paper, we evaluate the guidance methods for flow matching on synthetic data
 and discuss the limiting assumptions of the methods.
-This is important to understand for potential applications in single-cell data.
 \end{abstract}
 
 
@@ -151,11 +150,11 @@ The 2D synthetic data allows to have interpretable results and visualize the gen
 
 \subsection{Compare guidance methods}
 
+We define the energy function $J$ to select three of the eight modes of the target distribution.
+For this, we define the energy function $J$ as the sum of the squared distances to the three selected modes, scaled by a factor $\sigma^2$, which is the energy width.
 
-Please read the instructions below carefully and follow them faithfully.
-
-$$J(x) = -\log \sum_{i \in {0, 2, 5}} \exp\left(-\frac{|x - c_i|_2^2}{2\sigma^2}\right)$$
-$$J(x) = \frac{|x - c_0|_2^2}{2\sigma^2} + \frac{|x - c_2|_2^2}{2\sigma^2} + \frac{|x - c_5|_2^2}{2\sigma^2}$$
+$$J(x) = -\log \sum_{i \in {0, 2, 3}} \exp\left(-\frac{|x - c_i|_2^2}{2\sigma^2}\right)$$
+$$J(x) = \frac{|x - c_0|_2^2}{2\sigma^2} + \frac{|x - c_2|_2^2}{2\sigma^2} + \frac{|x - c_3|_2^2}{2\sigma^2}$$
 
 \begin{table}[htbp]
 \centering
@@ -170,7 +169,7 @@ Class-cond. CFM & \underline{0.1632} & 0.0033 & \underline{1.0069} & 0.0786 \\
 MC              & 0.1698 & \underline{0.0030} & \textbf{0.9969} & 0.0801 \\
 cov-G           & 0.2772 & 0.0296 & 1.2113 & \underline{0.0068} \\
 sim-MC          & 0.3908 & 0.0739 & 0.7570 & 0.5098 \\
-cov-A           & 0.7905 & 0.2578 & 0.5410 & \textbf{0.0000} \\
+cov-A           & 0.7905 & 0.2578 & 0.5410 & \textbf{0.0008} \\
 CFM             & 0.8852 & 0.3804 & 1.5355 & 0.6782 \\
 \bottomrule
 \end{tabular}
@@ -217,6 +216,8 @@ $0.100$           & 0.2032 & 0.004 \\
 \label{Conclusion}
 
 Conclusion
+
+$p'(x) = \frac{1}{Z} p_{1}(x) e^{-J(x)}$
 
 
 \begin{ack}

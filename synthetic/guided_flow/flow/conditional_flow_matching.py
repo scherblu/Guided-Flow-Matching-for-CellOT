@@ -619,7 +619,7 @@ class VariancePreservingConditionalFlowMatcher(ConditionalFlowMatcher):
 
 ### Getter
 
-def get_cfm(cfm_name: str, sigma: float) -> ConditionalFlowMatcher:
+def get_cfm(cfm_name: str, sigma: float, reg: float = 0.05) -> ConditionalFlowMatcher:
     if cfm_name == 'cfm':
         return ConditionalFlowMatcher(sigma=sigma)
     elif cfm_name == 'vp_cfm':
@@ -627,7 +627,7 @@ def get_cfm(cfm_name: str, sigma: float) -> ConditionalFlowMatcher:
     elif cfm_name == 'ot_cfm':
         return ExactOptimalTransportConditionalFlowMatcher(sigma=sigma)
     elif cfm_name == 'entropic_ot_cfm':
-        return EntropicOptimalTransportConditionalFlowMatcher(sigma=sigma)
+        return EntropicOptimalTransportConditionalFlowMatcher(sigma=sigma, reg=reg)
     elif cfm_name == 'sb_cfm':
         return SchrodingerBridgeConditionalFlowMatcher(sigma=sigma)
     else:

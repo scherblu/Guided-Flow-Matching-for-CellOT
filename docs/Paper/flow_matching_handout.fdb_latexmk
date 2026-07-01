@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1782773460.88877 "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/flow_matching_handout.tex" "flow_matching_handout.pdf" "flow_matching_handout" 1782773462.68421 0
-  "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/flow_matching_handout.tex" 1782773458.77766 8173 7047f7a048856b36d10e48a1be843919 ""
+["pdflatex"] 1782818217.44979 "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/flow_matching_handout.tex" "flow_matching_handout.pdf" "flow_matching_handout" 1782818219.49555 0
+  "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/flow_matching_handout.tex" 1782818217.15844 8090 b5b4b8a6ba5fb9b51926785937b1a0e2 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/palatino/pplb7t.tfm" 1136768653 1616 371d1ee60c04b008c8fd760060cd34f1 ""
@@ -148,8 +148,8 @@
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1758570541 3345739 c54f62ef9fc05ef99d055f4f83143587 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "figs/synthetic_data_three_energy_functions.png" 1782770417.27087 1162219 1ac8ecef068663388640578241cb80f2 ""
-  "flow_matching_handout.aux" 1782773462.55917 638 1ff962dec02529d089a27b22589012cd "pdflatex"
-  "flow_matching_handout.tex" 1782773458.77766 8173 7047f7a048856b36d10e48a1be843919 ""
+  "flow_matching_handout.aux" 1782818219.35361 638 1ff962dec02529d089a27b22589012cd "pdflatex"
+  "flow_matching_handout.tex" 1782818217.15844 8090 b5b4b8a6ba5fb9b51926785937b1a0e2 ""
   (generated)
   "flow_matching_handout.aux"
   "flow_matching_handout.log"

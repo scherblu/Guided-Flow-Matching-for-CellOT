@@ -103,7 +103,14 @@ def train_unconditional(
 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
-    FM = get_cfm(cfm, sigma)
+    reg = 0.05
+    if config is not None:
+        if hasattr(config, "reg"):
+            reg = config.reg
+        elif isinstance(config, dict) and "reg" in config:
+            reg = config["reg"]
+
+    FM = get_cfm(cfm, sigma, reg=reg)
 
     for k in tqdm.tqdm(range(epochs)):
         optimizer.zero_grad()
