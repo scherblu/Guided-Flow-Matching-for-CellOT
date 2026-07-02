@@ -60,6 +60,7 @@
 \usepackage{xcolor}         % colors
 \usepackage{graphicx}       % figures
 \usepackage{subcaption}     % subfigures
+\usepackage{float}          % [H] placement specifier
 \graphicspath{{figs/}}
 
 % Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote. 
@@ -124,10 +125,28 @@ and discuss the limiting assumptions of the methods.
 
 Flow matching is a generative method \citep{lipman2023flow}. 
 
-\section{Method}
+We summarize our contributions as follows:
+\textbf{(1)} We provide a review of the guidance methods for flow matching.
+\textbf{(2)} We experimentally test the guidance methods on synthetic data, visualize their behavior, and compare their performance in terms of different metrics.
+\textbf{(3)} We experimentally examine the limitations of the guidance methods regarding different coupling strengths and desired subdistributions and their effect on the generated samples.
 
+\section{Background}
+
+\subsection{Conditional Flow Matching}
+
+Flow Matching (FM) is a generative method that learns a velocity field $v_t(x)$ to transport a tractable source distribution $p_0$ into a complex data distribution $p_1$.
+The velocity field is learned by minimizing the flow matching loss:
+\begin{equation}
+    \mathcal{L}_{FM} = \mathbb{E}_{t, z \sim p(z)} \left[ \| v_t(x_t) - u_t(x_t|z) \|^2 \right],
+\end{equation}
+where $u_t(x_t|z)$ is the conditional velocity field that transports $x_0$ to $x_1$ along the path defined by $z = (x_0, x_1)$.
 
 \subsection{Coupling}
+
+In Fig. \ref{fig:coupling_comparison}, we compare three coupling strategies for flow matching: 
+Independent-CFM, Entropic-CFM, and OT-CFM. 
+Each panel shows sample trajectories (red) from the source distribution (8 Gaussians, black) to the target distribution (Moons, blue). 
+OT-CFM produces shorter, straighter trajectories by minimizing transport cost, while Independent-CFM yields crossing paths.
 
 \begin{figure}[htbp]
     \centering
@@ -136,7 +155,17 @@ Flow matching is a generative method \citep{lipman2023flow}.
     \label{fig:coupling_comparison}
 \end{figure}
 
-\subsection{Guidance}
+\subsection{Class-conditional Flow Matching (CCFM)}
+
+\section{Guidance}
+
+\subsection{Monte Carlo (MC) estimation}
+
+\subsection{Simulated-based Monte Carlo estimation}
+
+\subsection{Covariance Guidance (cov-A / cov-G)}
+
+\subsection{Learned guidance (GM) }
 
 \subsubsection{Discussion on guidance methods}
 
