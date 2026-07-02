@@ -1,9 +1,15 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{12}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Chen and Lipman(2024)]{chen2024flow}
+Ricky T.~Q. Chen and Yaron Lipman.
+\newblock Flow matching on general geometries.
+\newblock In \emph{The Twelfth International Conference on Learning Representations}, 2024.
+\newblock URL \url{https://openreview.net/forum?id=g7ohDlTITL}.
 
 \bibitem[Dhariwal and Nichol(2021)]{dhariwal2021diffusion}
 Prafulla Dhariwal and Alexander~Quinn Nichol.
