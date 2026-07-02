@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex neurips_2026"] 1782995504.89611 "neurips_2026.aux" "neurips_2026.bbl" "neurips_2026" 1782995508.09469 0
+["bibtex neurips_2026"] 1783002588.71174 "neurips_2026.aux" "neurips_2026.bbl" "neurips_2026" 1783004707.95718 0
   "./references.bib" 1782994865.03374 6323 a9611a9852199e2f3594e6f27adc3c6e ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "neurips_2026.aux" 1782995507.70996 10644 62912cd13afa4cbaca8fdc72912e1dee "pdflatex"
+  "neurips_2026.aux" 1783004707.40587 11409 984e19455a5df84aa2554af80ec9d393 "pdflatex"
   (generated)
   "neurips_2026.bbl"
   "neurips_2026.blg"
   (rewritten before read)
-["pdflatex"] 1782995505.03865 "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/neurips_2026.tex" "neurips_2026.pdf" "neurips_2026" 1782995508.09507 0
-  "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/neurips_2026.tex" 1782995497.81386 19941 105688c5477de70583f8c04070aff20a ""
+["pdflatex"] 1783004702.20841 "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/neurips_2026.tex" "neurips_2026.pdf" "neurips_2026" 1783004707.9576 0
+  "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/neurips_2026.tex" 1783004701.55099 25349 d97d02da1e7044df1f350842de8b3ab8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -36,10 +36,12 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm" 1136768653 1116 25a7bf822c58caf309a702ef79f4afbb ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1248133631 30251 6afa5cb1d0204815a708a080681d4674 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb" 1248133631 37912 77d683123f92148345f3fc36a38d9ab1 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb" 1248133631 37166 8ab3487cbe3ab49ebce74c29ea2418db ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1248133631 36281 c355509802a035cadc5f15869451dcee ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb" 1248133631 36094 798f80770b3b148ceedd006d487db67c ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb" 1248133631 31809 8670ca339bf94e56da1fc21c80635e2a ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb" 1248133631 32734 69e00a6b65cedb993666e42eedb3d48f ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1248133631 32762 224316ccc9ad3ca0423a14971cfa7fc1 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb" 1248133631 33993 9b89b85fd2d9df0482bd47194d1d3bf3 ""
@@ -142,11 +144,11 @@
   "figs/phase_diagram_energy_dist.png" 1782940952.31229 64901 6d5c775e9c7e7f9eebac524e31d92e7d ""
   "figs/phase_diagram_off_manifold.png" 1782940999.31663 59018 577aa7de5a193a6213f3e4d4cab9d79d ""
   "figs/synthetic_data_three_energy_functions.png" 1782770417.27087 1162219 1ac8ecef068663388640578241cb80f2 ""
-  "neurips_2026.aux" 1782995507.70996 10644 62912cd13afa4cbaca8fdc72912e1dee "pdflatex"
-  "neurips_2026.bbl" 1782995505.03454 5414 27859beca2d4654966b7156300502ce2 "bibtex neurips_2026"
-  "neurips_2026.out" 1782995507.71115 3356 c53b53d4c69391fa37155b7567a8bb97 "pdflatex"
+  "neurips_2026.aux" 1783004707.40587 11409 984e19455a5df84aa2554af80ec9d393 "pdflatex"
+  "neurips_2026.bbl" 1783002588.85881 5414 27859beca2d4654966b7156300502ce2 "bibtex neurips_2026"
+  "neurips_2026.out" 1783004707.40744 3356 c53b53d4c69391fa37155b7567a8bb97 "pdflatex"
   "neurips_2026.sty" 1778273136 13462 818d80447f57703e59b8270885421e82 ""
-  "neurips_2026.tex" 1782995497.81386 19941 105688c5477de70583f8c04070aff20a ""
+  "neurips_2026.tex" 1783004701.55099 25349 d97d02da1e7044df1f350842de8b3ab8 ""
   (generated)
   "neurips_2026.aux"
   "neurips_2026.log"
