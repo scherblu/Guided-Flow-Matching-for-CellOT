@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex neurips_2026"] 1783033560.6422 "neurips_2026.aux" "neurips_2026.bbl" "neurips_2026" 1783033565.50697 0
-  "./references.bib" 1783009611.2456 6584 3878cbb35c246f831998b4cbc2c8d4cf ""
+["bibtex neurips_2026"] 1783071378.50936 "neurips_2026.aux" "neurips_2026.bbl" "neurips_2026" 1783071436.83488 0
+  "./references.bib" 1783068415.70398 6946 0afaacc9586db2a3c2ccd702f18b60c6 ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "neurips_2026.aux" 1783033564.99609 12087 918bb00afa89393e9dd3746205ee6fb1 "pdflatex"
+  "neurips_2026.aux" 1783071436.43368 12374 2266886275b2fdb45ce70560b09ef477 "pdflatex"
   (generated)
   "neurips_2026.bbl"
   "neurips_2026.blg"
   (rewritten before read)
-["pdflatex"] 1783033560.87464 "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/neurips_2026.tex" "neurips_2026.pdf" "neurips_2026" 1783033565.50742 0
-  "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/neurips_2026.tex" 1783033554.60917 29589 129ff4fe78ffa66070757f2bed683515 ""
+["pdflatex"] 1783071432.15161 "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/neurips_2026.tex" "neurips_2026.pdf" "neurips_2026" 1783071436.83522 0
+  "/Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/neurips_2026.tex" 1783071431.7963 30430 bd4eb1fd34bf23f2837f2237d716d59a ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -144,11 +144,11 @@
   "figs/phase_diagram_energy_dist.png" 1782940952.31229 64901 6d5c775e9c7e7f9eebac524e31d92e7d ""
   "figs/phase_diagram_off_manifold.png" 1782940999.31663 59018 577aa7de5a193a6213f3e4d4cab9d79d ""
   "figs/synthetic_data_three_energy_functions.png" 1782770417.27087 1162219 1ac8ecef068663388640578241cb80f2 ""
-  "neurips_2026.aux" 1783033564.99609 12087 918bb00afa89393e9dd3746205ee6fb1 "pdflatex"
-  "neurips_2026.bbl" 1783033560.86552 5699 e476d479764e82d6dee5b25246470e62 "bibtex neurips_2026"
-  "neurips_2026.out" 1783033564.99797 3809 11ceb38597d9ac7db4d617a67c43191d "pdflatex"
+  "neurips_2026.aux" 1783071436.43368 12374 2266886275b2fdb45ce70560b09ef477 "pdflatex"
+  "neurips_2026.bbl" 1783071378.65025 6122 7ec0c09672d704a113e4767caf09c926 "bibtex neurips_2026"
+  "neurips_2026.out" 1783071436.43611 3960 79e434ab68e15cbe6b0484e950c092c2 "pdflatex"
   "neurips_2026.sty" 1778273136 13462 818d80447f57703e59b8270885421e82 ""
-  "neurips_2026.tex" 1783033554.60917 29589 129ff4fe78ffa66070757f2bed683515 ""
+  "neurips_2026.tex" 1783071431.7963 30430 bd4eb1fd34bf23f2837f2237d716d59a ""
   (generated)
   "neurips_2026.aux"
   "neurips_2026.log"

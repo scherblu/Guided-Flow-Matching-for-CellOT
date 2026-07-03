@@ -1,4 +1,4 @@
-\begin{thebibliography}{12}
+\begin{thebibliography}{13}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -61,6 +61,12 @@ Yaron Lipman, Ricky T.~Q. Chen, Heli Ben-Hamu, Maximilian Nickel, and Matthew Le
 \newblock Flow matching for generative modeling.
 \newblock In \emph{The Eleventh International Conference on Learning Representations}, 2023.
 \newblock URL \url{https://openreview.net/forum?id=PqvMRDCJT9t}.
+
+\bibitem[Ma et~al.(2024)Ma, Goldstein, Albergo, Boffi, Vanden-Eijnden, and Xie]{ma2024sit}
+Nanye Ma, Mark Goldstein, Michael~S. Albergo, Nicholas~M. Boffi, Eric Vanden-Eijnden, and Saining Xie.
+\newblock Sit: Exploring flow and diffusion-based generative models with scalable interpolant transformers.
+\newblock In \emph{European Conference on Computer Vision}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2401.08740}.
 
 \bibitem[Rombach et~al.(2022)Rombach, Blattmann, Lorenz, Esser, and Ommer]{rombach2022highresolution}
 Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Bj{\"o}rn Ommer.

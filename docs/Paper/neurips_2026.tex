@@ -158,7 +158,7 @@ We summarize our contributions as follows:
 
 \section{Background}
 
-\subsection{Conditional Flow Matching}
+\subsection{Conditional Flow Matching (CFM)}
 
 Flow Matching (FM) is a generative method that learns a time-dependent velocity field $v_t(x)$ (with $t \in [0,1]$ and $x \in \mathbb{R}^d$) that transports a tractable source distribution $p_0$ (e.g.\ a standard Gaussian) into a complex target distribution $p_1$ on $\mathbb{R}^d$ \citep{lipman2023flow}.
 The velocity field $v_t(x)$ is a map with $(t, x) \in [0,1]\times\mathbb{R}^d \to \mathbb{R}^d$ since the source and target distributions live in the same space.
@@ -215,8 +215,10 @@ Some applications instead call for a stochastic rather than a deterministic gene
 \subsection{Coupling}
 \label{sec:coupling}
 
-Equation~\eqref{eq:linear_path} only fixes the shape of the path once the pair $z$ is given. It says nothing about how $x_0$ and $x_1$ are paired up in the first place. That second choice is called the \emph{coupling} $\pi$.
-A coupling $\pi$ is any joint distribution over $(x_0,x_1)$ with marginals $p_0$ and $p_1$ from which $z \sim \pi$ is drawn instead of the independent sampling $x_0\sim p_0$ and $x_1 \sim p_1$ used above.
+Equation~\eqref{eq:linear_path} only fixes the shape of the path once the pair $z$ is given. 
+It says nothing about how $x_0$ and $x_1$ are paired up in the first place. 
+That second choice is called the \emph{coupling} $\pi$.
+A coupling $\pi$ is any joint distribution over $(x_0,x_1)$ with marginals $p_0$ and $p_1$ from which $z \sim \pi$ is drawn instead of the independent sampling $x_0\sim p_0$ and $x_1 \sim p_1$ used above \citep{tong2024improving}.
 Only the joint distribution $\pi$ that produces the pair $z$ changes between the three coupling strategies discussed below. The same linear path from Eq.~\eqref{eq:linear_path} is used throughout. Figure~\ref{fig:coupling_comparison} compares the resulting trajectories.
 
 \begin{figure}[htbp]
@@ -226,39 +228,56 @@ Only the joint distribution $\pi$ that produces the pair $z$ changes between the
     \label{fig:coupling_comparison}
 \end{figure}
 
-\subsubsection{OT Coupling}
+\subsubsection{Optimal Transport (OT) Coupling}
 
-The most natural choice follows directly from the motivation above. The \emph{OT coupling} is the coupling $\pi$ with marginals $p_0$ and $p_1$ that minimizes the expected squared transport cost between $x_0$ and $x_1$
+The most natural choice follows directly from the motivation above. The OT coupling is the coupling $\pi$ with marginal distributions $p_0$ and $p_1$ that minimizes the expected squared transport cost between $x_0$ and $x_1$
 \begin{equation}
-    \pi^{\star} = \argmin_{\pi} \; \mathbb{E}_{(x_0,x_1)\sim\pi}\left[\|x_1-x_0\|^2\right],
+    \pi^{\star} = \argmin_{\pi} \; \mathbb{E}_{(x_0,x_1)\sim\pi}\left[\|x_1-x_0\|^2\right].
     \label{eq:ot_coupling}
 \end{equation}
-the Kantorovich formulation of optimal transport. Sampling $z \sim \pi^{\star}$ pairs each source point with the target point it can reach most cheaply so trajectories stay short and rarely cross, as seen in the OT-CFM panel of Fig.~\ref{fig:coupling_comparison}. Such straight non-crossing paths are easier for $v_t$ to approximate and require fewer ODE integration steps at inference \citep{tong2024improving}. The downside is computational since for a training batch of $n$ source and $n$ target points $\pi^{\star}$ is obtained by solving an assignment problem that has to be repeated for every batch.
+We use the \emph{minibatch OT} coupling of \citet{tong2024improving}: for each training batch of $n$ source and $n$ target points, Eq.~\eqref{eq:ot_coupling} is solved exactly on just these $2n$ points with the network simplex algorithm, giving the cheapest one-to-one pairing within the batch.
+Sampling $z \sim \pi^{\star}$ then pairs each source point with the target point it can reach most cheaply, so trajectories stay short and rarely cross, as seen in the OT-CFM panel of Fig.~\ref{fig:coupling_comparison}. 
+Such straight non-crossing paths are easier for $v_t$ to approximate and require fewer ODE integration steps at inference \citep{tong2024improving}. 
 
 \subsubsection{Independent Coupling}
 
-The simplest and cheapest alternative avoids solving Eq.~\eqref{eq:ot_coupling} altogether by taking the \emph{independent coupling} $\pi(x_0,x_1) = p_0(x_0)\,p_1(x_1)$. This pairs source and target points at random (Independent-CFM panel of Fig.~\ref{fig:coupling_comparison}). Because the pairing ignores distance, a source point can end up paired with a far-away unrelated target point. Trajectories can then cross one another and place conflicting demands on $v_t$ at the same $(t,x)$. This makes the vector field harder to learn and typically requires more ODE integration steps at inference.
+The simplest and cheapest alternative avoids solving Eq.~\eqref{eq:ot_coupling} altogether by taking the independent coupling $\pi(x_0,x_1) = p_0(x_0)\,p_1(x_1)$ \citep{tong2024improving}.
+This pairs source and target points at random (Independent-CFM panel of Fig.~\ref{fig:coupling_comparison}). 
+Because the pairing ignores distance, a source point can end up paired with a far-away unrelated target point. 
+Trajectories can then cross one another and place conflicting demands on $v_t$ at the same $(t,x)$.
+Since $v_t$ must assign a single velocity to every point $(t,x)$, it cannot follow two crossing trajectories at once and instead ends up learning something close to their mean direction, distorting both.
+This makes the vector field harder to learn and typically requires more ODE integration steps at inference.
 
 \subsubsection{Entropic Coupling}
 
-Exact OT couplings are costly to recompute for every minibatch and can be unstable to estimate from a finite sample of an empirical distribution. The \emph{entropic coupling} trades some of the straightness of Eq.~\eqref{eq:ot_coupling} for robustness and speed by relaxing the transport problem with an added entropy term on $\pi$. This is solved efficiently with the Sinkhorn algorithm rather than an exact assignment solver. Its regularization strength trades off between the two extremes above. It approaches the independent coupling when strong and the exact OT coupling when weak. The intermediate trajectories of the Entropic-CFM panel of Fig.~\ref{fig:coupling_comparison} reflect this. This construction extends naturally to unpaired settings such as single-cell genomics \citep{klein2024genot}.
+Exact OT couplings are costly to recompute for every minibatch and can be unstable to estimate from a finite sample of an empirical distribution.
+The \emph{entropic coupling} trades some of the straightness of Eq.~\eqref{eq:ot_coupling} for robustness and speed by relaxing the transport problem with an added entropy term on $\pi$, weighted by a regularization strength $\lambda \in (0, \infty)$.
+This regularized problem is solved efficiently with the Sinkhorn algorithm rather than an exact assignment solver.
+As $\lambda \to 0$ the entropic coupling recovers the exact OT coupling, and as $\lambda \to \infty$ it approaches the independent coupling.
+For instance, we will use $\lambda \in \{0.1, 1.0, 10.0\}$ in our experiments.
+The intermediate trajectories of the Entropic-CFM panel of Fig.~\ref{fig:coupling_comparison} reflect this.
+This construction extends naturally to unpaired settings such as single-cell genomics \citep{klein2024genot}.
 
 The coupling overall controls how straight and non-crossing the training trajectories are. Section~\ref{sec:limitations} shows that this choice directly affects how well an already trained flow can be steered by inference-time guidance.
 
 \subsection{Class-conditional Flow Matching (CCFM)}
 \label{sec:ccfm}
 
-The guidance methods introduced in Section~\ref{sec:guidance} steer an unconditional flow matching model $v_t(x)$ at inference time, without the model ever seeing the desired subdistribution during training.
-As a training-time alternative, we consider Class-conditional Flow Matching (CCFM), which instead conditions the velocity field on a discrete label, analogous to conditional generation in diffusion models \citep{ho2022classifier}.
-Each target sample $x_1$ is assigned a label $y = c(x_1) \in \{1,\dots,K\}$ by a fixed partition $c$ of the target distribution (e.g., its mixture component), and the conditional velocity field $v_t(x,y)$ is trained by minimizing
+The guidance methods introduced in Section~\ref{sec:guidance} steer a flow matching model $v_t(x)$ at inference time, without the model ever seeing the desired subdistribution during training.
+As a training-time alternative, we consider Class-conditional Flow Matching (CCFM), which instead conditions the velocity field on a discrete label, analogous to conditional generation in diffusion models \citep{ho2022classifier} and to class-conditional flow-based generative models trained on labeled image data \citep{ma2024sit}.
+Each target sample $x_1$ is assigned a label $y = c(x_1) \in \{1,\dots,K\}$ by a fixed partition $c$ of the target distribution.
+Crucially, $y$ requires no additional sampling step.
+It is a deterministic function of $x_1$, which is already part of the pair $z=(x_0,x_1)$ drawn for the ordinary CFM loss, so $y$ is fixed as soon as $z$ is, before $x_t$ is drawn from the conditional path $p_t(\cdot|z)$.
+The conditional velocity field $v_t(x,y)$ is trained by minimizing
 \begin{equation}
-    \mathcal{L}_{CCFM} = \mathbb{E}_{t \sim \mathcal{U}(0,1),\, z \sim p(z),\, x_t \sim p_t(\cdot|z)} \left[ \| v_t(x_t, y) - u_t(x_t|z) \|^2 \right],
+    \mathcal{L}_{CCFM} = \mathbb{E}_{t \sim \mathcal{U}(0,1),\, z=(x_0,x_1) \sim p(z),\, x_t \sim p_t(\cdot|z)} \left[ \| v_t(x_t, c(x_1)) - u_t(x_t|z) \|^2 \right],
     \label{eq:ccfm_loss}
 \end{equation}
-which is identical to Eq.~\eqref{eq:cfm_loss} except that the network additionally receives $y$ as input. The coupling and path construction of Section~\ref{sec:coupling} are unaffected, but the label must be carried through the reshuffling induced by non-trivial couplings so that $y$ stays attached to its source-target pair $z$.
+which is identical to Eq.~\eqref{eq:cfm_loss} except that the network additionally receives the label $c(x_1)$ as input. The coupling and path construction of Section~\ref{sec:coupling} are unaffected, but the label must be carried through the reshuffling induced by couplings so that $c(x_1)$ stays attached to its source-target pair $z$.
 
 At inference, a sample from a desired subdistribution is generated by drawing $y$ from the label distribution of that subdistribution and integrating Eq.~\eqref{eq:flow_ode} with $v_t(\cdot,y)$ in place of $v_t(\cdot)$, i.e., no test-time modification of the vector field is required.
-This makes CCFM substantially less general than the guidance methods of Section~\ref{sec:guidance}: it requires the label partition $c$ to be fixed in advance and a separate model to be retrained whenever the target subdistribution changes, and it can only reach subdistributions expressible as a mixture of the fixed classes.
+This makes CCFM substantially less general than the guidance methods of Section~\ref{sec:guidance}.
+It requires the label partition $c$ to be fixed in advance and a separate model to be retrained whenever the target subdistribution changes, and it can only reach subdistributions expressible as a mixture of the fixed classes.
 In exchange, because the conditioning is learned rather than approximated at inference, we use CCFM in Section~\ref{sec:results} as an oracle baseline against which the training-free guidance methods are compared.
 
 \section{Guidance}
