@@ -240,6 +240,7 @@ Sampling $z \sim \pi^{\star}$ then pairs each source point with the target point
 Such straight non-crossing paths are easier for $v_t$ to approximate and require fewer ODE integration steps at inference \citep{tong2024improving}. 
 
 \subsubsection{Independent Coupling}
+\label{sec:independent_coupling}
 
 The simplest and cheapest alternative avoids solving Eq.~\eqref{eq:ot_coupling} altogether by taking the independent coupling $\pi(x_0,x_1) = p_0(x_0)\,p_1(x_1)$ \citep{tong2024improving}.
 This pairs source and target points at random (Independent-CFM panel of Fig.~\ref{fig:coupling_comparison}). 
@@ -283,32 +284,99 @@ In exchange, because the conditioning is learned rather than approximated at inf
 \section{Guidance}
 \label{sec:guidance}
 
+This section presents the guidance methods for flow matching introduced by \citet{feng25s_guidance}.
+Guidance modifies an already trained flow matching model at inference time so that it generates samples from a desired subdistribution of the target distribution $p_1$ without retraining the underlying model.
+Following \citet{feng25s_guidance}, we look for a guidance vector field $g_t(x_t)$ that is added to the trained velocity field, $v_t'(x_t) = v_t(x_t) + g_t(x_t)$, so that the modified field transports $p_0$ to the desired subdistribution instead of $p_1$.
+Which subdistribution is desired is expressed through a scalar energy function $J$, mapping $\mathbb{R}^d$ to $\mathbb{R}$, that assigns low values to preferred outcomes and high values to everything else, so that only the low-energy region is effectively generated.
+A concrete example of such an energy function, together with the subdistribution of $p_1$ it selects in our experiments, is given in Section~\ref{sec:results}.
+Low-energy regions are exponentially up-weighted while the rest of $p_1$ is left untouched, so $J$ can encode anything from selecting a subset of the modes of $p_1$ to steering generation toward a desired property more generally.
+Formally, this amounts to sampling from a tilted target distribution
+\begin{equation}
+    p'(x) = \frac{1}{Z}\, p_1(x)\, e^{-J(x)}, \qquad Z = \int p_1(x)\, e^{-J(x)}\, dx,
+    \label{eq:guided_target}
+\end{equation}
+where $Z$ is simply the normalizing constant that makes $p'$ a valid probability distribution.
+Producing samples from $p'$ instead of $p_1$ also means deciding how each new $x_1$ is paired with a source point $x_0$.
+Analogously to $p'$ above, reweighting the joint coupling $\pi(x_0,x_1)$ used during training defines a new joint coupling for the guided process,
+\begin{equation}
+    \pi'(x_0,x_1) = \frac{1}{Z}\, \pi(x_0,x_1)\, e^{-J(x_1)}.
+    \label{eq:reverse_coupling}
+\end{equation}
+\citet{feng25s_guidance} compare the reverse coupling implied by $\pi'$ to the one implied by the training coupling $\pi$ through the reverse coupling ratio
+\begin{equation}
+    \mathcal{P} = \frac{\pi'(x_0|x_1)}{\pi(x_0|x_1)}.
+    \label{eq:reverse_coupling_ratio}
+\end{equation}
+This ratio is exactly one for the independent coupling of Section~\ref{sec:independent_coupling}, since there $\pi(x_0|x_1) = p_0(x_0)$ does not depend on $x_1$, and only approximately one for the OT and entropic couplings, where the pairing does depend on $x_1$.
+Accounting for $\mathcal{P}$, the exact guidance field takes the form
+\begin{equation}
+    \begin{split}
+        g_t(x_t) &= \int \left(\mathcal{P}\,\frac{e^{-J(x_1)}}{Z_t(x_t)} - 1\right) u_t(x_t|z)\, p(z|x_t)\, dz \\
+        &= \mathbb{E}_{z \sim p(z|x_t)}\left[\left(\mathcal{P}\,\frac{e^{-J(x_1)}}{Z_t(x_t)} - 1\right) u_t(x_t|z)\right], \\[6pt]
+        Z_t(x_t) &= \int \mathcal{P}\, e^{-J(x_1)}\, p(z|x_t)\, dz \\
+        &= \mathbb{E}_{z \sim p(z|x_t)}\left[\mathcal{P}\, e^{-J(x_1)}\right],
+    \end{split}
+    \label{eq:exact_guidance_full}
+\end{equation}
+where the integral can be rewritten as an expectation over the posterior $p(z|x_t)$ of the latent variable $z=(x_0,x_1)$ given the current state $x_t$.
+Following \citet{feng25s_guidance}, we assume $\mathcal{P} = 1$ for the remainder of this section, which simplifies Eq.~\eqref{eq:exact_guidance_full}. 
+This expression still cannot be evaluated directly, even under $\mathcal{P} = 1$. The posterior $p(z|x_t)$, the distribution over endpoints $z=(x_0,x_1)$ that are consistent with the current state $x_t$, has no closed form.
+The four methods below differ only in how they approximate this posterior or the resulting expectation, trading accuracy for computational cost, and we return to the effect of the $\mathcal{P} = 1$ assumption itself in Section~\ref{sec:limitations}.
+
 \subsection{Monte Carlo (MC) estimation}
+
+MC guidance replaces the expectation over the intractable posterior $p(z|x_t)$ with self-normalized importance sampling from the tractable training coupling $p(z)$.
+Drawing pairs $z^i=(x_0^i,x_1^i) \sim p(z)$ and reweighting by the known conditional density $p_t(x_t|z)$ gives the estimator
+\begin{equation}
+    g_t^{MC}(x_t) = \mathbb{E}_{z \sim p(z)}\left[\left(\frac{e^{-J(x_1)}}{\hat{Z}_t} - 1\right) u_t(x_t|z)\, \frac{p_t(x_t|z)}{p_t(x_t)}\right], \qquad p_t(x_t) = \mathbb{E}_{z \sim p(z)}\big[p_t(x_t|z)\big],
+    \label{eq:mc_guidance}
+\end{equation}
+with $\hat{Z}_t$ estimated the same way from the same samples.
+As the number of samples grows, this estimator converges to the exact field of Eq.~\eqref{eq:exact_guidance}, so $g^{MC}$ makes no assumption on the source distribution or on the coupling.
+Its price is variance. Once $J$ is even moderately selective, most sampled $x_1^i$ receive a near-zero weight $e^{-J(x_1^i)}$, so a large number of samples is needed for a stable estimate, and this requirement grows quickly with the dimensionality of the data.
 
 \subsection{Simulated-based Monte Carlo estimation}
 
+Rather than sampling from the training coupling and hoping enough samples land near the low-energy region of $J$, simulated (sim-)MC guidance approximates the posterior itself with a Gaussian $\tilde{p}(x_1|x_t) = \mathcal{N}(x_1;\, \hat{x}_1(x_t), \Sigma_t(x_t))$ fitted to match its first two moments, and draws samples directly from it,
+\begin{equation}
+    g_t^{\text{sim-MC}}(x_t) = \frac{1}{N} \sum_{i=1}^N \left(\frac{e^{-J(x_1^i)}}{\tilde{Z}_t} - 1\right) u_t(x_t|z^i), \qquad x_1^i \sim \tilde{p}(x_1|x_t).
+    \label{eq:sim_mc_guidance}
+\end{equation}
+Because samples are now drawn already concentrated near the relevant region, far fewer of them are needed than for $g^{MC}$.
+This comes at the cost of a bias introduced by the Gaussian approximation, which can be poor when the true posterior $p(x_1|x_t)$ is multimodal.
+
 \subsection{Covariance Guidance (cov-A / cov-G)}
 
-\subsection{Learned guidance (GM) }
+A cheaper alternative common in the diffusion literature avoids sampling altogether.
+If the posterior $p(x_1|x_t)$ is assumed to be concentrated around its mean $\hat{x}_1(x_t) := \mathbb{E}_{z \sim p(z|x_t)}[x_1]$, which under the straight-line path of Eq.~\eqref{eq:linear_path} is obtained cheaply from the current network prediction as $\hat{x}_1(x_t) = x_t + (1-t)\,v_t(x_t)$, a first-order Taylor expansion of $e^{-J(x_1)}$ around $\hat{x}_1$ turns the intractable expectation of Eq.~\eqref{eq:exact_guidance} into a gradient of $J$ evaluated at this single point estimate, preconditioned by the covariance $\Sigma_{1|t}$ of $p(x_1|x_t)$,
+\begin{equation}
+    g_t^{cov}(x_t) \propto \Sigma_{1|t}\, \nabla_{\hat{x}_1} J(\hat{x}_1).
+    \label{eq:cov_guidance}
+\end{equation}
+The two variants considered here differ only in how $\Sigma_{1|t}$ is obtained.
+\textbf{cov-A} replaces it with a hand-tuned decaying schedule $\lambda_t I$, so the guidance reduces to a rescaled gradient of $J$ that requires no extra network evaluations.
+\textbf{cov-G} instead computes $\Sigma_{1|t}$ exactly under the additional assumption that the source distribution is Gaussian and independent of the target, the special case in which flow matching coincides with a diffusion model, using the Jacobian of $v_t$ with respect to $x_t$.
+This recovers classical diffusion guidance methods such as DPS and LGD as a special case, but it requires backpropagating through the network at every sampling step.
 
-\subsubsection{Discussion on guidance methods}
+\subsection{Learned guidance (GM)}
 
-The MC method needs only minimal assumptions and minimal tuning in terms of hyperparameter 
-but still produces solid results.
-However, the MC method does not scale well to higher dimensions because the variance explodes.
+The methods above are training-free and are evaluated at sampling time on top of a fixed base model.
+Learned guidance instead amortizes the cost of guidance into a one-time training step. A network $g_\phi$, together with an auxiliary network $Z_\phi \approx Z_t$, is fitted with a regression loss whose minimizer provably coincides with the exact field of Eq.~\eqref{eq:exact_guidance},
+\begin{equation}
+    \mathcal{L}_\phi = \mathbb{E}_{t,\, z,\, x_t}\left[\Big\| g_\phi(x_t,t) - \Big(\tfrac{e^{-J(x_1)}}{Z_\phi(x_t,t)} - 1\Big)\, u_t(x_t|z) \Big\|_2^2\right],
+    \label{eq:gm_loss}
+\end{equation}
+mirroring how the conditional flow matching loss of Eq.~\eqref{eq:cfm_loss} replaces an intractable marginal objective with a tractable conditional one.
+Once trained, $g_\phi$ is a single cheap forward pass at inference time.
+The trade-off is that a new pair of networks must be trained for every energy function $J$, unlike the training-free methods above, which can be reused across arbitrarily many choices of $J$ on the same base model.
 
-The learned (GM) model performs best in terms of W2 distance and energy distance, 
-but several models need to be trained (first disadvantage) 
-and one has to do so for each new energy function (second disadvantage).
+\subsection{Discussion}
 
-The disadvantage of the covariance methods are the additional assumptions that are made,
-which can be violated in practice.
-
-How does the bias of the guidance methods look like? Maybe something like mode collapse in the Cov methods
-
-\subsubsection{Synthetic data experiments}
-We evaluate the guidance methods on synthetic data and compare the results in terms of W2 distance, energy distance, divergence trace ratio and off-manifold rate.
-The 2D synthetic data allows to have interpretable results and visualize the generated samples compared to other complex real-world tasks like image generation or single-cell data.
+The four methods trade off bias, variance, and computational cost differently.
+$g^{MC}$ makes the fewest assumptions and needs no additional training, but its variance grows quickly with the dimensionality of the data and the selectivity of $J$.
+Learned guidance removes this variance by shifting the cost to a one-time training step, at the price of retraining whenever $J$ changes.
+The covariance methods are the cheapest at inference and need no sampling at all, but they rest on the assumption that $p(x_1|x_t)$ is well summarized by a point estimate and a covariance, an assumption that can fail once $J$ carves out a small or oddly shaped region of $p_1$.
+We compare all methods empirically in Section~\ref{sec:results} and examine in Section~\ref{sec:limitations} how their accuracy depends on the strength of the coupling used during training.
 
 \section{Results}
 \label{sec:results}
@@ -337,25 +405,6 @@ $$J(x) = \frac{|x - c_0|_2^2}{2\sigma^2} + \frac{|x - c_2|_2^2}{2\sigma^2} + \fr
     \caption{Left: the energy function $J(x)$ selecting three of the eight Gaussian modes (low values indicate preferred regions). Right: the corresponding exponentially weighted density $e^{-J(x)}$, proportional to the guided target $p'(x) \propto p_1(x)\,e^{-J(x)}$, with the three target modes clearly localized.}
     \label{fig:energy_functions}
 \end{figure}
-
-\begin{table}[htbp]
-\centering
-\caption{Comparison of methods across various metrics. The best method for each metric is \textbf{bolded}, and the second best is \underline{underlined}.}
-\label{tab:method_comparison_no_index}
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Method} & \textbf{W2} $\downarrow$ & \textbf{Energy Dist} $\downarrow$ & \textbf{Div Trace Ratio} & \textbf{Off-Manifold Rate} $\downarrow$ \\
-\midrule
-Learned (GM)    & \textbf{0.0802} & \textbf{0.0006} & 0.9757 & 0.0659 \\
-Class-cond. CFM & \underline{0.1632} & 0.0033 & \underline{1.0069} & 0.0786 \\
-MC              & 0.1698 & \underline{0.0030} & \textbf{0.9969} & 0.0801 \\
-cov-G           & 0.2772 & 0.0296 & 1.2113 & \underline{0.0068} \\
-sim-MC          & 0.3908 & 0.0739 & 0.7570 & 0.5098 \\
-cov-A           & 0.7905 & 0.2578 & 0.5410 & \textbf{0.0008} \\
-CFM             & 0.8852 & 0.3804 & 1.5355 & 0.6782 \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \begin{figure}[htbp]
     \centering
@@ -458,7 +507,27 @@ Acknowledgement
 \appendix
 
 \section{Appendix}
-Appendix
+
+\subsection{Result data in tabular form}
+
+\begin{table}[htbp]
+\centering
+\caption{Comparison of methods across various metrics. The best method for each metric is \textbf{bolded}, and the second best is \underline{underlined}.}
+\label{tab:method_comparison_no_index}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Method} & \textbf{W2} $\downarrow$ & \textbf{Energy Dist} $\downarrow$ & \textbf{Div Trace Ratio} & \textbf{Off-Manifold Rate} $\downarrow$ \\
+\midrule
+Learned (GM)    & \textbf{0.0802} & \textbf{0.0006} & 0.9757 & 0.0659 \\
+Class-cond. CFM & \underline{0.1632} & 0.0033 & \underline{1.0069} & 0.0786 \\
+MC              & 0.1698 & \underline{0.0030} & \textbf{0.9969} & 0.0801 \\
+cov-G           & 0.2772 & 0.0296 & 1.2113 & \underline{0.0068} \\
+sim-MC          & 0.3908 & 0.0739 & 0.7570 & 0.5098 \\
+cov-A           & 0.7905 & 0.2578 & 0.5410 & \textbf{0.0008} \\
+CFM             & 0.8852 & 0.3804 & 1.5355 & 0.6782 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
