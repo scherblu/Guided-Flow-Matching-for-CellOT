@@ -326,7 +326,7 @@ The four methods below differ only in how they approximate this posterior or the
 \subsection{Monte Carlo (MC) estimation}
 
 MC guidance targets the exact guidance field of Eq.~\eqref{eq:exact_guidance_full} directly.
-By Bayes' rule, the intractable posterior can be written as $p(z|x_t) = p_t(x_t|z)\, p(z) / p_t(x_t)$, where $p(z)$ is the coupling used to train the model (Section~\ref{sec:coupling}) and is therefore easy to sample from, whichever coupling strategy was used.
+By Bayes' rule, the intractable posterior can be written as $p(z|x_t) = p_t(x_t|z)\, p(z) / p_t(x_t)$, where $p(z) = \pi(x_0,x_1)$ is precisely the coupling used to train the model, be it the OT, entropic, or independent coupling of Section~\ref{sec:coupling}, and is therefore easy to sample from regardless of which one was used.
 Substituting this into Eq.~\eqref{eq:exact_guidance_full} turns the expectation over the intractable posterior into an expectation over the tractable coupling $p(z)$, reweighted by $p_t(x_t|z)/p_t(x_t)$.
 Both this reweighted expectation and the normalizing constant $Z_t(x_t)$ are then approximated by Monte Carlo estimation, drawing $N$ pairs $z^i=(x_0^i,x_1^i) \sim p(z)$ once and reusing them to self-normalize $p_t(x_t)$, which gives the estimator
 \begin{equation}
@@ -346,20 +346,23 @@ Rather than sampling from the training coupling and hoping enough samples land n
     \label{eq:sim_mc_guidance}
 \end{equation}
 Because samples are now drawn already concentrated near the relevant region, far fewer of them are needed than for $g^{MC}$.
-This comes at the cost of a bias introduced by the Gaussian approximation, which can be poor when the true posterior $p(x_1|x_t)$ is multimodal.
+This comes at the cost of a bias introduced by the Gaussian approximation, which can be poor when the true posterior $p(x_1|x_t)$ has multiple modes.
 
 \subsection{Covariance Guidance (cov-A / cov-G)}
 
-A cheaper alternative common in the diffusion literature avoids sampling altogether.
-If the posterior $p(x_1|x_t)$ is assumed to be concentrated around its mean $\hat{x}_1(x_t) := \mathbb{E}_{z \sim p(z|x_t)}[x_1]$, which under the straight-line path of Eq.~\eqref{eq:linear_path} is obtained cheaply from the current network prediction as $\hat{x}_1(x_t) = x_t + (1-t)\,v_t(x_t)$, a first-order Taylor expansion of $e^{-J(x_1)}$ around $\hat{x}_1$ turns the intractable expectation of Eq.~\eqref{eq:exact_guidance_full} into a gradient of $J$ evaluated at this single point estimate, preconditioned by the covariance $\Sigma_{1|t}$ of $p(x_1|x_t)$,
+A cheaper alternative common in the diffusion literature avoids sampling altogether, at the cost of assuming that the posterior $p(x_1|x_t)$ is concentrated around its mean $\hat{x}_1(x_t) := \mathbb{E}_{z \sim p(z|x_t)}[x_1]$.
+\citet{feng25s_guidance} estimate $\hat{x}_1(x_t)$ cheaply from the current network prediction under the \emph{affine path assumption}, namely that the conditional path takes the form $x_t = \alpha_t x_1 + \beta_t x_0 + \sigma_t \varepsilon$ for some schedules $\alpha_t,\beta_t,\sigma_t$ and noise $\varepsilon$.
+This assumption is satisfied exactly by the straight-line path of Eq.~\eqref{eq:linear_path}, with $\alpha_t = t$, $\beta_t = 1-t$, and $\sigma_t = 0$, which gives $\hat{x}_1(x_t) = x_t + (1-t)\,v_t(x_t)$.
+A first-order Taylor expansion of $e^{-J(x_1)}$ around $\hat{x}_1$ then turns the intractable expectation of Eq.~\eqref{eq:exact_guidance_full} into a gradient of $J$ evaluated at this single point estimate, preconditioned by the covariance $\Sigma_{1|t}$ of $p(x_1|x_t)$,
 \begin{equation}
     g_t^{cov}(x_t) \propto \Sigma_{1|t}\, \nabla_{\hat{x}_1} J(\hat{x}_1).
     \label{eq:cov_guidance}
 \end{equation}
 The two variants considered here differ only in how $\Sigma_{1|t}$ is obtained.
-\textbf{cov-A} replaces it with a hand-tuned decaying schedule $\lambda_t I$, so the guidance reduces to a rescaled gradient of $J$ that requires no extra network evaluations.
-\textbf{cov-G} instead computes $\Sigma_{1|t}$ exactly under the additional assumption that the source distribution is Gaussian and independent of the target, the special case in which flow matching coincides with a diffusion model, using the Jacobian of $v_t$ with respect to $x_t$.
-This recovers classical diffusion guidance methods such as DPS and LGD as a special case, but it requires backpropagating through the network at every sampling step.
+\begin{itemize}
+\item \textbf{cov-A} replaces it with a hand-tuned decaying schedule of scaling the identity matrix $\lambda_t I$, so the guidance reduces to a rescaled gradient of $J$ that requires no extra network evaluations.
+\item \textbf{cov-G} instead computes $\Sigma_{1|t}$ exactly under the additional assumption that the source distribution is Gaussian and independent of the target.
+\end{itemize}
 
 \subsection{Learned guidance (GM)}
 
