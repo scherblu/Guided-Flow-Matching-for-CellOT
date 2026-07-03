@@ -325,15 +325,18 @@ The four methods below differ only in how they approximate this posterior or the
 
 \subsection{Monte Carlo (MC) estimation}
 
-MC guidance replaces the expectation over the intractable posterior $p(z|x_t)$ with self-normalized importance sampling from the tractable training coupling $p(z)$.
-Drawing pairs $z^i=(x_0^i,x_1^i) \sim p(z)$ and reweighting by the known conditional density $p_t(x_t|z)$ gives the estimator
+MC guidance targets the exact guidance field of Eq.~\eqref{eq:exact_guidance_full} directly.
+By Bayes' rule, the intractable posterior can be written as $p(z|x_t) = p_t(x_t|z)\, p(z) / p_t(x_t)$, where $p(z)$ is the coupling used to train the model (Section~\ref{sec:coupling}) and is therefore easy to sample from, whichever coupling strategy was used.
+Substituting this into Eq.~\eqref{eq:exact_guidance_full} turns the expectation over the intractable posterior into an expectation over the tractable coupling $p(z)$, reweighted by $p_t(x_t|z)/p_t(x_t)$.
+Both this reweighted expectation and the normalizing constant $Z_t(x_t)$ are then approximated by Monte Carlo estimation, drawing $N$ pairs $z^i=(x_0^i,x_1^i) \sim p(z)$ once and reusing them to self-normalize $p_t(x_t)$, which gives the estimator
 \begin{equation}
-    g_t^{MC}(x_t) = \mathbb{E}_{z \sim p(z)}\left[\left(\frac{e^{-J(x_1)}}{\hat{Z}_t} - 1\right) u_t(x_t|z)\, \frac{p_t(x_t|z)}{p_t(x_t)}\right], \qquad p_t(x_t) = \mathbb{E}_{z \sim p(z)}\big[p_t(x_t|z)\big],
+    g_t^{MC}(x_t) = \frac{1}{N}\sum_{i=1}^N \left(\frac{e^{-J(x_1^i)}}{\hat{Z}_t(x_t)} - 1\right) u_t(x_t|z^i)\, \frac{p_t(x_t|z^i)}{\hat{p}_t(x_t)}, \qquad \hat{p}_t(x_t) = \frac{1}{N}\sum_{i=1}^N p_t(x_t|z^i),
     \label{eq:mc_guidance}
 \end{equation}
-with $\hat{Z}_t$ estimated the same way from the same samples.
-As the number of samples grows, this estimator converges to the exact field of Eq.~\eqref{eq:exact_guidance}, so $g^{MC}$ makes no assumption on the source distribution or on the coupling.
+with $\hat{Z}_t(x_t)$ estimated the same way from the same $N$ samples.
+As $N \to \infty$, this estimator converges to the exact field of Eq.~\eqref{eq:exact_guidance_full}, so $g^{MC}$ makes no assumption on the source distribution or on the coupling.
 Its price is variance. Once $J$ is even moderately selective, most sampled $x_1^i$ receive a near-zero weight $e^{-J(x_1^i)}$, so a large number of samples is needed for a stable estimate, and this requirement grows quickly with the dimensionality of the data.
+Hence, this MC method is not computationally efficient in practise for high-dimensional data and selective energy functions.
 
 \subsection{Simulated-based Monte Carlo estimation}
 
@@ -348,7 +351,7 @@ This comes at the cost of a bias introduced by the Gaussian approximation, which
 \subsection{Covariance Guidance (cov-A / cov-G)}
 
 A cheaper alternative common in the diffusion literature avoids sampling altogether.
-If the posterior $p(x_1|x_t)$ is assumed to be concentrated around its mean $\hat{x}_1(x_t) := \mathbb{E}_{z \sim p(z|x_t)}[x_1]$, which under the straight-line path of Eq.~\eqref{eq:linear_path} is obtained cheaply from the current network prediction as $\hat{x}_1(x_t) = x_t + (1-t)\,v_t(x_t)$, a first-order Taylor expansion of $e^{-J(x_1)}$ around $\hat{x}_1$ turns the intractable expectation of Eq.~\eqref{eq:exact_guidance} into a gradient of $J$ evaluated at this single point estimate, preconditioned by the covariance $\Sigma_{1|t}$ of $p(x_1|x_t)$,
+If the posterior $p(x_1|x_t)$ is assumed to be concentrated around its mean $\hat{x}_1(x_t) := \mathbb{E}_{z \sim p(z|x_t)}[x_1]$, which under the straight-line path of Eq.~\eqref{eq:linear_path} is obtained cheaply from the current network prediction as $\hat{x}_1(x_t) = x_t + (1-t)\,v_t(x_t)$, a first-order Taylor expansion of $e^{-J(x_1)}$ around $\hat{x}_1$ turns the intractable expectation of Eq.~\eqref{eq:exact_guidance_full} into a gradient of $J$ evaluated at this single point estimate, preconditioned by the covariance $\Sigma_{1|t}$ of $p(x_1|x_t)$,
 \begin{equation}
     g_t^{cov}(x_t) \propto \Sigma_{1|t}\, \nabla_{\hat{x}_1} J(\hat{x}_1).
     \label{eq:cov_guidance}
@@ -361,7 +364,7 @@ This recovers classical diffusion guidance methods such as DPS and LGD as a spec
 \subsection{Learned guidance (GM)}
 
 The methods above are training-free and are evaluated at sampling time on top of a fixed base model.
-Learned guidance instead amortizes the cost of guidance into a one-time training step. A network $g_\phi$, together with an auxiliary network $Z_\phi \approx Z_t$, is fitted with a regression loss whose minimizer provably coincides with the exact field of Eq.~\eqref{eq:exact_guidance},
+Learned guidance instead amortizes the cost of guidance into a one-time training step. A network $g_\phi$, together with an auxiliary network $Z_\phi \approx Z_t$, is fitted with a regression loss whose minimizer provably coincides with the exact field of Eq.~\eqref{eq:exact_guidance_full},
 \begin{equation}
     \mathcal{L}_\phi = \mathbb{E}_{t,\, z,\, x_t}\left[\Big\| g_\phi(x_t,t) - \Big(\tfrac{e^{-J(x_1)}}{Z_\phi(x_t,t)} - 1\Big)\, u_t(x_t|z) \Big\|_2^2\right],
     \label{eq:gm_loss}
