@@ -114,10 +114,12 @@
 
 
 \begin{abstract}
-Flow matching has shown state-of-the-art performance in various generative tasks in image generation and scientific application.
-In many applications, it is desirable to generate specific parts of the target distribution which can be dynamically controlled after training.
-Guidance methods have been proposed to steer a frozen flow matching model towards a defined objective.
-In this paper, we evaluate the guidance methods for flow matching on synthetic data and discuss the limiting assumptions of the methods.
+Flow matching learns a deterministic mapping from a simple source distribution to a complex target distribution and has shown strong performance in image generation and scientific applications.
+After training, it is often desirable to generate only a specific part of the target distribution without retraining the model, for instance samples that satisfy some criterion.
+Guidance methods achieve this by modifying the trained velocity field at inference time, but existing guidance methods for flow matching have not been systematically compared.
+We review four training-free guidance methods and one learned guidance method, and evaluate them on a two-dimensional synthetic benchmark using several distributional metrics and a class-conditional model as reference.
+Monte Carlo guidance and the learned method perform best and stay competitive with the class-conditional reference.
+All methods rely on an assumption that only holds exactly when source and target samples are paired independently during training, and we show that guidance quality degrades as this pairing gets tighter and the desired subdistribution becomes more selective.
 \end{abstract}
 
 
