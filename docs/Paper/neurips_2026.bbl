@@ -1,4 +1,4 @@
-\begin{thebibliography}{13}
+\begin{thebibliography}{15}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -68,6 +68,11 @@ Nanye Ma, Mark Goldstein, Michael~S. Albergo, Nicholas~M. Boffi, Eric Vanden-Eij
 \newblock In \emph{European Conference on Computer Vision}, 2024.
 \newblock URL \url{https://arxiv.org/abs/2401.08740}.
 
+\bibitem[Peyré and Cuturi(2020)]{peyre2019computational}
+Gabriel Peyré and Marco Cuturi.
+\newblock Computational optimal transport, 2020.
+\newblock URL \url{https://arxiv.org/abs/1803.00567}.
+
 \bibitem[Rombach et~al.(2022)Rombach, Blattmann, Lorenz, Esser, and Ommer]{rombach2022highresolution}
 Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Bj{\"o}rn Ommer.
 \newblock High-resolution image synthesis with latent diffusion models.
@@ -79,6 +84,14 @@ Yang Song, Jascha Sohl-Dickstein, Diederik~P Kingma, Abhishek Kumar, Stefano Erm
 \newblock Score-based generative modeling through stochastic differential equations.
 \newblock In \emph{International Conference on Learning Representations}, 2021.
 \newblock URL \url{https://openreview.net/forum?id=PxTIG12RRHS}.
+
+\bibitem[Székely and Rizzo(2013)]{szekely2013energy}
+Gábor~J. Székely and Maria~L. Rizzo.
+\newblock Energy statistics: A class of statistics based on distances.
+\newblock \emph{Journal of Statistical Planning and Inference}, 143\penalty0 (8):\penalty0 1249--1272, 2013.
+\newblock ISSN 0378-3758.
+\newblock \doi{https://doi.org/10.1016/j.jspi.2013.03.018}.
+\newblock URL \url{https://www.sciencedirect.com/science/article/pii/S0378375813000633}.
 
 \bibitem[Tong et~al.(2024)Tong, FATRAS, Malkin, Huguet, Zhang, Rector-Brooks, Wolf, and Bengio]{tong2024improving}
 Alexander Tong, Kilian FATRAS, Nikolay Malkin, Guillaume Huguet, Yanlei Zhang, Jarrid Rector-Brooks, Guy Wolf, and Yoshua Bengio.

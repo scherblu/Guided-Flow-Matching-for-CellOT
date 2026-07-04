@@ -480,8 +480,8 @@ We quantify this ranking next.
 \subsection{Quantitative comparison of guidance methods}
 
 We now measure the three-mode setting of Figure~\ref{fig:synthetic_comparison} with four complementary metrics, each capturing a different way a guidance method can fail.
-The Wasserstein-2 (W2) distance measures the overall transport cost between generated and ground truth samples.
-The energy distance measures whether the two point clouds occupy the same region of space.
+The Wasserstein-2 (W2) distance measures the overall transport cost between generated and ground truth samples \citep{peyre2019computational}.
+The energy distance measures whether the two point clouds occupy the same region of space \citep{szekely2013energy}.
 The diversity trace ratio compares the spread of the generated samples to the spread of the ground truth, so a value below one means the guided samples are too concentrated and a value above one means they are too spread out.
 The off-manifold rate measures how often a generated sample lands far from any real data point, that is, how often guidance produces an unrealistic outlier.
 
@@ -495,6 +495,9 @@ The off-manifold rate measures how often a generated sample lands far from any r
 \end{figure}
 
 Figure~\ref{fig:metrics_comparison} reports all four metrics, with exact values listed in Table~\ref{tab:method_comparison_no_index}.
+Note the logarithmic scale for the scores. 
+For three of the four metrics, namely the W2 distance, energy distance, and off-manifold rate, lower values mean that generated and ground truth samples are closer together.
+For the diversity trace ratio, a value of one is ideal, hence the absolute difference from one is plotted on the logarithmic scale so that lower values are better and the scale is consistent across all four metrics.
 GM reaches the best W2 distance (0.080) and energy distance (0.0006), roughly five times lower than both class-conditional flow matching and MC guidance on the energy distance.
 MC guidance follows closely, matching class-conditional flow matching within a few percent on W2 (0.170 versus 0.163) and slightly beating it on the diversity trace ratio (0.997 versus 1.007), all without ever training on the target labels.
 The covariance methods each trade accuracy for a low off-manifold rate.
