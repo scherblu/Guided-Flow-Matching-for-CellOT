@@ -515,30 +515,39 @@ The sim-MC's Gaussian approximation of the posterior is the most fragile of the 
 \subsection{Limitations of guidance}
 \label{sec:limitations}
 
-All four guidance methods of Section~\ref{sec:guidance} rely on the assumption $\mathcal{P}=1$, which holds exactly only for the independent coupling of Section~\ref{sec:independent_coupling}.
+All four guidance methods of Section~\ref{sec:guidance} rely on the assumption $\mathcal{P}=1$ on the reverse coupling ratio, which holds exactly only for the independent coupling of Section~\ref{sec:independent_coupling}.
 In practice, base models are often trained with the OT or entropic coupling instead, because the resulting straighter trajectories are cheaper to integrate at inference.
 We test how much this mismatch matters for MC guidance, the training-free method with the best overall balance in Figure~\ref{fig:metrics_comparison}.
 We train separate base models with coupling strength ranging from the independent coupling through entropic regularization at several strengths to the exact OT coupling, and we vary the width $\sigma$ of the energy function in Eq.~\eqref{eq:energy_function} from sharp ($\sigma=0.03$) to broad ($\sigma=0.2$).
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[width=\textwidth]{phase_diagram_diversity_trace.png}
-        \caption{Diversity trace ratio.}
-        \label{fig:phase_diversity}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[width=\textwidth]{phase_diagram_energy_dist.png}
-        \caption{Energy distance.}
-        \label{fig:phase_energy}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[width=\textwidth]{phase_diagram_off_manifold.png}
-        \caption{Off-manifold rate.}
-        \label{fig:phase_offmanifold}
-    \end{subfigure}
+    \noindent
+    \begin{minipage}[c]{0.04\textwidth}
+        \centering
+        \rotatebox{90}{energy width (top is sharp)}
+    \end{minipage}%
+    \begin{minipage}[c]{0.95\textwidth}
+        \centering
+        \begin{subfigure}[b]{0.32\textwidth}
+            \caption{Diversity trace ratio.}
+            \label{fig:phase_diversity}
+            \includegraphics[width=\textwidth]{phase_diagram_diversity_trace.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \caption{Energy distance.}
+            \label{fig:phase_energy}
+            \includegraphics[width=\textwidth]{phase_diagram_energy_dist.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \caption{Off-manifold rate.}
+            \label{fig:phase_offmanifold}
+            \includegraphics[width=\textwidth]{phase_diagram_off_manifold.png}
+        \end{subfigure}
+    \end{minipage}\\[4pt]
+    coupling strength
     \caption{Phase diagrams for MC guidance across coupling strength (columns, from the independent coupling to exact OT) and the width $\sigma$ of the energy function (rows, from sharp at the top to broad at the bottom).
     Stronger coupling consistently increases the energy distance and the off-manifold rate, while the diversity trace ratio stays close to one throughout, showing that the independence assumption behind MC guidance degrades gradually rather than suddenly as the training coupling tightens.}
     \label{fig:phase_diagrams}
@@ -565,10 +574,6 @@ Both guidance methods remain competitive with class-conditional flow matching (C
 However, all four methods rely on the $\mathcal{P}=1$ assumption, which only holds exactly for the independent coupling, and our phase-diagram analysis shows that guidance quality degrades as the training coupling tightens toward exact OT and as the energy function becomes more selective.
 Since non-independent couplings are common in practice, e.g., in single-cell trajectory models, guidance should not be applied to such models without first checking that this assumption is not severely violated.
 
-
-\begin{ack}
-Acknowledgement
-\end{ack}
 
 \bibliographystyle{plainnat}
 \nocite{*}
