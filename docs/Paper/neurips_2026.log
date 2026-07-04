@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.22)  4 JUL 2026 01:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.22)  4 JUL 2026 18:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -538,7 +538,7 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
 [2]
-<figs/coupling_comparison.png, id=201, 1461.0585pt x 444.9423pt>
+<figs/coupling_comparison.png, id=205, 1461.0585pt x 444.9423pt>
 File: figs/coupling_comparison.png Graphic file (type png)
 <use figs/coupling_comparison.png>
 Package pdftex.def Info: figs/coupling_comparison.png  used on input line 241.
@@ -552,17 +552,17 @@ Package pdftex.def Info: figs/coupling_comparison.png  used on input line 241.
 [5]
 
 [6]
-<figs/energy_function_3gaussians.png, id=293, 402.5439pt x 338.2236pt>
+<figs/energy_function_3gaussians.png, id=297, 402.5439pt x 338.2236pt>
 File: figs/energy_function_3gaussians.png Graphic file (type png)
 <use figs/energy_function_3gaussians.png>
 Package pdftex.def Info: figs/energy_function_3gaussians.png  used on input line 434.
 (pdftex.def)             Requested size: 190.79109pt x 160.30693pt.
-<figs/exp_weighted_energy_3gaussians.png, id=294, 398.9304pt x 338.2236pt>
+<figs/exp_weighted_energy_3gaussians.png, id=298, 398.9304pt x 338.2236pt>
 File: figs/exp_weighted_energy_3gaussians.png Graphic file (type png)
 <use figs/exp_weighted_energy_3gaussians.png>
 Package pdftex.def Info: figs/exp_weighted_energy_3gaussians.png  used on input line 440.
 (pdftex.def)             Requested size: 190.79109pt x 161.75714pt.
-<figs/synthetic_data_three_energy_functions.png, id=300, 831.8277pt x 290.5254pt>
+<figs/synthetic_data_three_energy_functions.png, id=304, 831.8277pt x 290.5254pt>
 File: figs/synthetic_data_three_energy_functions.png Graphic file (type png)
 <use figs/synthetic_data_three_energy_functions.png>
 Package pdftex.def Info: figs/synthetic_data_three_energy_functions.png  used on input line 462.
@@ -570,7 +570,7 @@ Package pdftex.def Info: figs/synthetic_data_three_energy_functions.png  used on
 
 
 [7]
-<figs/Fig_metrics_3gaussians.png, id=314, 1011.78pt x 505.89pt>
+<figs/Fig_metrics_3gaussians.png, id=318, 1011.78pt x 505.89pt>
 File: figs/Fig_metrics_3gaussians.png Graphic file (type png)
 <use figs/Fig_metrics_3gaussians.png>
 Package pdftex.def Info: figs/Fig_metrics_3gaussians.png  used on input line 490.
@@ -578,30 +578,24 @@ Package pdftex.def Info: figs/Fig_metrics_3gaussians.png  used on input line 490
 
 
 [8 <./figs/energy_function_3gaussians.png> <./figs/exp_weighted_energy_3gaussians.png> <./figs/synthetic_data_three_energy_functions.png>]
-<figs/phase_diagram_diversity_trace.png, id=338, 323.2075pt x 257.96375pt>
+<figs/phase_diagram_diversity_trace.png, id=344, 323.2075pt x 257.96375pt>
 File: figs/phase_diagram_diversity_trace.png Graphic file (type png)
 <use figs/phase_diagram_diversity_trace.png>
-Package pdftex.def Info: figs/phase_diagram_diversity_trace.png  used on input line 523.
+Package pdftex.def Info: figs/phase_diagram_diversity_trace.png  used on input line 526.
 (pdftex.def)             Requested size: 127.1981pt x 101.52258pt.
-<figs/phase_diagram_energy_dist.png, id=339, 320.19624pt x 238.8925pt>
+<figs/phase_diagram_energy_dist.png, id=345, 320.19624pt x 238.8925pt>
 File: figs/phase_diagram_energy_dist.png Graphic file (type png)
 <use figs/phase_diagram_energy_dist.png>
-Package pdftex.def Info: figs/phase_diagram_energy_dist.png  used on input line 529.
+Package pdftex.def Info: figs/phase_diagram_energy_dist.png  used on input line 532.
 (pdftex.def)             Requested size: 127.1981pt x 94.89915pt.
-<figs/phase_diagram_off_manifold.png, id=340, 300.12125pt x 245.91875pt>
+<figs/phase_diagram_off_manifold.png, id=346, 300.12125pt x 245.91875pt>
 File: figs/phase_diagram_off_manifold.png Graphic file (type png)
 <use figs/phase_diagram_off_manifold.png>
-Package pdftex.def Info: figs/phase_diagram_off_manifold.png  used on input line 535.
+Package pdftex.def Info: figs/phase_diagram_off_manifold.png  used on input line 538.
 (pdftex.def)             Requested size: 127.1981pt x 104.22702pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 
 
 [9 <./figs/Fig_metrics_3gaussians.png>] (./neurips_2026.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 
 [10 <./figs/phase_diagram_diversity_trace.png> <./figs/phase_diagram_energy_dist.png> <./figs/phase_diagram_off_manifold.png>]
 Underfull \hbox (badness 3343) in paragraph at lines 33--37
@@ -635,21 +629,21 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `neurips_2026.out' has not changed.
-(rerunfilecheck)             Checksum: 87648BFF3C76C3F1EAB975D4955CB191;4293.
+(rerunfilecheck)             Checksum: 7E14A827B7BC4B8F8BC9A4B21DD418C4;4571.
  ) 
 Here is how much of TeX's memory you used:
- 15454 strings out of 473190
- 249084 string characters out of 5715800
+ 15456 strings out of 473190
+ 249124 string characters out of 5715800
  694438 words of memory out of 5000000
- 38196 multiletter control sequences out of 15000+600000
+ 38197 multiletter control sequences out of 15000+600000
  601166 words of font info for 215 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,18n,79p,1123b,598s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on neurips_2026.pdf (13 pages, 3161912 bytes).
+Output written on neurips_2026.pdf (13 pages, 3163079 bytes).
 PDF statistics:
- 511 PDF objects out of 1000 (max. 8388607)
- 433 compressed objects within 5 object streams
- 81 named destinations out of 1000 (max. 500000)
- 44273 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 521 PDF objects out of 1000 (max. 8388607)
+ 443 compressed objects within 5 object streams
+ 82 named destinations out of 1000 (max. 500000)
+ 44281 words of extra memory for PDF output out of 51595 (max. 10000000)
 
