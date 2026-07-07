@@ -1,4 +1,4 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{16}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -55,6 +55,11 @@ John Jumper, Richard Evans, Alexander Pritzel, Tim Green, Michael Figurnov,
 \newblock \emph{Nature}, 596\penalty0 (7873):\penalty0 583--589, 2021.
 \newblock \doi{10.1038/s41586-021-03819-2}.
 \newblock URL \url{https://doi.org/10.1038/s41586-021-03819-2}.
+
+\bibitem[Kingma and Ba(2015)]{kingma2015adam}
+Diederik~P. Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization.
+\newblock In \emph{International Conference on Learning Representations}, 2015.
 
 \bibitem[Klein et~al.(2024)Klein, Uscidda, Theis, and Cuturi]{klein2024genot}
 Dominik Klein, Th\'{e}o Uscidda, Fabian Theis, and Marco Cuturi.

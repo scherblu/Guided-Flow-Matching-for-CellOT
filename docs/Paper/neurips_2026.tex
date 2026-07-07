@@ -125,8 +125,9 @@ We replicate this comparison of four training-free guidance methods and one lear
 We evaluate them using distributional metrics that separate fidelity, diversity, and off-manifold errors, with a class-conditional model as reference.
 Monte Carlo guidance and the learned method perform best and stay competitive with the class-conditional reference.
 All methods rely on an assumption that only holds exactly when source and target samples are paired independently during training.
-We show that guidance quality degrades as this pairing gets tighter and the desired subdistribution becomes more selective.
-This is precisely the setting of flow-matching-based single-cell models, which are commonly trained with optimal-transport couplings and could be guided toward a rare cell fate.
+For Monte Carlo guidance on our benchmark, we show that quality degrades as this pairing gets tighter and the desired subdistribution becomes more selective.
+One possible application of this analysis, which we do not evaluate here, is guiding flow-matching-based single-cell models toward a rare cell phenotype, since such models are commonly trained with tighter, optimal-transport couplings.
+Code to reproduce the experiments can be found at https://github.com/scherblu/Guided-Flow-Matching-for-CellOT.
 \end{abstract}
 
 
@@ -456,7 +457,7 @@ The three low-energy areas around the selected centers are clearly separated fro
     \label{fig:energy_functions}
 \end{figure}
 
-Full training and hyperparameter details are given in Appendix~\ref{app:Tuning hyperparameters}.
+Base model architecture and training details are given in Appendix~\ref{app:base_model}, and further guidance hyperparameter tuning is discussed in Appendix~\ref{app:Tuning hyperparameters}.
 
 \subsection{Qualitative comparison of guidance methods}
 
@@ -504,18 +505,16 @@ Formal definitions of all four metrics are given in Appendix~\ref{app:metrics}.
     \label{fig:metrics_comparison}
 \end{figure}
 
-Figure~\ref{fig:metrics_comparison} reports all four metrics, with exact values listed in Table~\ref{tab:method_comparison_no_index}.
-Note the logarithmic scale for the scores. 
-For three of the four metrics, namely the W2 distance, energy distance, and off-manifold rate, lower values mean that generated and ground truth samples are closer together.
-For the diversity trace ratio, a value of one is ideal, hence the absolute difference from one is plotted on the logarithmic scale so that lower values are better and the scale is consistent across all four metrics.
+Figure~\ref{fig:metrics_comparison} reports all four metrics on a logarithmic scale, with exact values listed in Table~\ref{tab:method_comparison_no_index}.
+For the W2 distance, energy distance, and off-manifold rate, lower is better; for the diversity trace ratio, we plot the absolute difference from the ideal value of one, so lower is better throughout.
 GM reaches the best W2 distance (0.080) and energy distance (0.0006), roughly five times lower than both class-conditional flow matching and MC guidance on the energy distance.
 This is coherent with the qualitative comparison of Figure~\ref{fig:synthetic_comparison}, where learned GM produces the most concentrated samples inside the low-energy region.
-MC guidance follows closely on the energy distance, matching class-conditional flow matching within a few percent on W2 (0.170 versus 0.163) and slightly beating it on the diversity trace ratio (0.997 versus 1.007), all without ever training on the target labels.
+MC guidance trails GM by roughly the same five-fold margin on the energy distance, but it closely matches class-conditional flow matching instead: within a few percent on W2 (0.170 versus 0.163), within a similar margin on energy distance (0.0030 versus 0.0033), and slightly better on the diversity trace ratio (0.997 versus 1.007), all without ever training on the target labels.
 The covariance methods each trade accuracy for a low off-manifold rate.
 Cov-A reaches the lowest off-manifold rate of all seven methods (0.0008), but its diversity trace ratio of 0.541 confirms the mode collapse already visible in Figure~\ref{fig:synthetic_comparison}.
-Cov-G keeps a moderate off-manifold rate (0.007) but over-disperses instead, with a diversity trace ratio of 1.211, and its W2 distance is more than three times worse than GM or MC.
-Sim-MC performs worst among the guided methods on three of the four metrics, most notably an off-manifold rate of 0.510, more than five hundred times higher than cov-A. 
-This is also clearly observable in Figure ~\ref{fig:synthetic_comparison}, where sim-MC produces many scattered outliers in all three rows.
+Cov-G keeps a moderate off-manifold rate (0.007) but over-disperses instead, with a diversity trace ratio of 1.211, and its W2 distance is multiple times worse than GM or MC.
+Despite its low off-manifold rate, cov-A is in fact worst among the guided methods on the other three metrics, W2, energy distance, and diversity trace ratio, since its mode collapse concentrates samples near a few points that still happen to sit close to real data.
+Sim-MC instead has the worst off-manifold rate of any guided method (0.510, more than five hundred times higher than cov-A), which matches its visibly scattered outliers in Figure~\ref{fig:synthetic_comparison}, even though it trails cov-A specifically on the other three metrics.
 The unguided base model performs worst overall, as expected since it does not use the energy function at all.
 
 Overall, the learned GM and MC guidance methods are the most accurate, with GM slightly better than MC but requiring retraining for every energy function. 
@@ -575,14 +574,27 @@ These three metrics together show that MC guidance degrades gradually as the $\m
 The generated samples keep roughly the right spread, but they move further from the true guided target and land off the data manifold more often, and both effects get worse the more selective the desired subdistribution is.
 Applying training-free guidance on top of a model trained with strong OT or entropic coupling, which is common in practice, therefore needs more caution than applying it on top of an independently coupled model, especially when the desired subdistribution is narrow.
 
+\subsection{Limitations of this study}
+\label{sec:study_limitations}
+
+All results above are from a single run without repeated seeds or reported variance, so the close calls between MC guidance and CCFM on the W2 distance and the diversity trace ratio in Section~\ref{sec:results} are only suggestive.
+Confirming which method is actually better would require multiple seeds and a variance estimate.
+The coupling-strength stress test is similarly narrow in scope, covering only MC guidance on a two-dimensional synthetic benchmark.
+The finding that guidance degrades as training coupling tightens has therefore not been verified for the other three methods or for higher-dimensional, more realistic settings such as single-cell trajectory models.
+\citet{feng25s_guidance} themselves report notable performance gaps between their two-dimensional toy experiments and their more complex experiments on image inverse problems and offline reinforcement learning, so such a generalization should not be assumed.
+We restricted the sweep to MC because it already gave the best training-free balance in Section~\ref{sec:results}.
+Cov-A was tried as well but excluded here since it already collapses onto a narrow line regardless of coupling strength (diversity trace ratio 0.541, Table~\ref{tab:method_comparison_no_index}), so sweeping it over coupling strength would mostly reflect this pre-existing mode collapse rather than isolate the effect of $\mathcal{P} \neq 1$.
+We expect cov-G and GM to degrade similarly to MC since all methods share the same $\mathcal{P}=1$ approximation, though GM's learned regression objective could in principle absorb some of this mismatch during training rather than only expressing it at inference, and this remains untested.
+
 \section{Conclusion}
 \label{Conclusion}
 
 We reviewed and empirically compared the guidance methods for flow matching proposed by \citet{feng25s_guidance} on synthetic data.
 Among the training-free methods, MC guidance offers the best overall balance across distributional metrics, while learned guidance (GM) gives a further, modest improvement at the cost of retraining for every energy function.
 Both guidance methods remain competitive with class-conditional flow matching (CCFM) despite never observing the target subdistribution during training.
-However, all four methods rely on the $\mathcal{P}=1$ assumption, which only holds exactly for the independent coupling, and our phase-diagram analysis shows that guidance quality degrades as the training coupling tightens toward exact OT and as the energy function becomes more selective.
-Since non-independent couplings are common in practice, e.g., in single-cell trajectory models, guidance should not be applied to such models without first checking that this assumption is not severely violated.
+However, all four methods rely on the $\mathcal{P}=1$ assumption, which only holds exactly for the independent coupling, and our phase-diagram analysis of MC guidance shows that quality degrades as the training coupling tightens toward exact OT and as the energy function becomes more selective.
+Non-independent couplings such as OT are common in practice, so this mismatch deserves caution whenever guidance is applied on top of such a model.
+One possible application we did not evaluate here is guiding flow-matching-based single-cell models, which are commonly trained with such couplings, toward a rare cell phenotype.
 
 
 \bibliographystyle{plainnat}
@@ -595,6 +607,15 @@ Since non-independent couplings are common in practice, e.g., in single-cell tra
 \appendix
 
 \section{Appendix}
+
+\subsection{Base model training details}
+\label{app:base_model}
+
+All base flow matching models in this paper (CFM and its class-conditional variant CCFM, including the coupling sweep of Section~\ref{sec:limitations}) share the same architecture and optimization recipe; only the source/target distributions and the training coupling of Section~\ref{sec:coupling} differ across experiments.
+
+\paragraph{Architecture.} Following \citet{feng25s_guidance}, we parameterize the velocity field with an MLP that has 3 hidden layers of width 256 and SELU activations, mapping the 2-dimensional state $x_t$ concatenated with time $t$ to a 2-dimensional velocity, for $133$k parameters in total. CCFM additionally concatenates a learned class embedding to the input.
+
+\paragraph{Optimization.} We minimize the CFM loss of Eq.~\eqref{eq:cfm_loss} (or Eq.~\eqref{eq:ccfm_loss} for CCFM) with the deterministic straight-line conditional path of Eq.~\eqref{eq:linear_path}, using Adam \citep{kingma2015adam} at a learning rate of $10^{-4}$ for $60{,}000$ steps. Every step draws a fresh batch of 1024 pairs $(x_0,x_1)$ from the source and target distributions under the chosen coupling, so training uses an effectively unlimited synthetic data stream rather than a fixed-size dataset.
 
 \subsection{Definition of evaluation metrics}
 \label{app:metrics}

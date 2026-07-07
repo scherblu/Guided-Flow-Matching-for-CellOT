@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.22)  7 JUL 2026 23:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.22)  8 JUL 2026 01:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -624,17 +624,17 @@ Package microtype Info: Loading generic protrusion settings for font family
 al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2025
 /texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-62.
+63.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
 [2]
-<figs/coupling_comparison.png, id=204, 1461.0585pt x 444.9423pt>
+<figs/coupling_comparison.png, id=211, 1461.0585pt x 444.9423pt>
 File: figs/coupling_comparison.png Graphic file (type png)
 <use figs/coupling_comparison.png>
-Package pdftex.def Info: figs/coupling_comparison.png  used on input line 250.
+Package pdftex.def Info: figs/coupling_comparison.png  used on input line 251.
 (pdftex.def)             Requested size: 397.48499pt x 121.04579pt.
 
 
@@ -645,85 +645,97 @@ Package pdftex.def Info: figs/coupling_comparison.png  used on input line 250.
 [5]
 
 [6]
-<figs/energy_function_3gaussians.png, id=299, 402.5439pt x 338.2236pt>
+<figs/energy_function_3gaussians.png, id=307, 402.5439pt x 338.2236pt>
 File: figs/energy_function_3gaussians.png Graphic file (type png)
 <use figs/energy_function_3gaussians.png>
 Package pdftex.def Info: figs/energy_function_3gaussians.png  used on input lin
-e 443.
+e 444.
 (pdftex.def)             Requested size: 190.79109pt x 160.30693pt.
-<figs/exp_weighted_energy_3gaussians.png, id=300, 398.9304pt x 338.2236pt>
+<figs/exp_weighted_energy_3gaussians.png, id=308, 398.9304pt x 338.2236pt>
 File: figs/exp_weighted_energy_3gaussians.png Graphic file (type png)
 <use figs/exp_weighted_energy_3gaussians.png>
-Package pdftex.dfigs/exp_weighted_energy_3gaussians.png, id=300, 398.9304pt x 338.2236pt>
-File: figs/exp_weighted_energy_3gaussians.png Graphic file (type png)
-<use figs/exp_weighted_energy_3gaussians.png>
-Package pdftex.def Info: figs/exp_weighted_energy_3gaussians.png  used on input line 449.
+Package pdftex.def Info: figs/exp_weighted_energy_3gaussians.png  used on input
+ line 450.
 (pdftex.def)             Requested size: 190.79109pt x 161.75714pt.
 
 
 [7]
-<figs/synthetic_data_three_energy_functions.png, id=315, 831.8277pt x 290.5254pt>
+<figs/synthetic_data_three_energy_functions.png, id=324, 831.8277pt x 290.5254p
+t>
 File: figs/synthetic_data_three_energy_functions.png Graphic file (type png)
 <use figs/synthetic_data_three_energy_functions.png>
-Package pdftex.def Info: figs/synthetic_data_three_energy_functions.png  used on input line 471.
+Package pdftex.def Info: figs/synthetic_data_three_energy_functions.png  used o
+n input line 472.
 (pdftex.def)             Requested size: 397.48499pt x 138.82555pt.
 
 
-[8 <./figs/energy_function_3gaussians.png> <./figs/exp_weighted_energy_3gaussians.png> <./figs/synthetic_data_three_energy_functions.png>]
-<figs/Fig_metrics_3gaussians.png, id=335, 1011.78pt x 505.89pt>
+[8 <./figs/energy_function_3gaussians.png> <./figs/exp_weighted_energy_3gaussia
+ns.png> <./figs/synthetic_data_three_energy_functions.png>]
+<figs/Fig_metrics_3gaussians.png, id=344, 1011.78pt x 505.89pt>
 File: figs/Fig_metrics_3gaussians.png Graphic file (type png)
 <use figs/Fig_metrics_3gaussians.png>
-Package pdftex.def Info: figs/Fig_metrics_3gaussians.png  used on input line 500.
+Package pdftex.def Info: figs/Fig_metrics_3gaussians.png  used on input line 50
+1.
 (pdftex.def)             Requested size: 397.48499pt x 198.74751pt.
 
 
 [9 <./figs/Fig_metrics_3gaussians.png>]
-<figs/phase_diagram_diversity_trace.png, id=356, 702.625pt x 531.9875pt>
+<figs/phase_diagram_diversity_trace.png, id=365, 702.625pt x 531.9875pt>
 File: figs/phase_diagram_diversity_trace.png Graphic file (type png)
 <use figs/phase_diagram_diversity_trace.png>
-Package pdftex.def Info: figs/phase_diagram_diversity_trace.png  used on input line 545.
+Package pdftex.def Info: figs/phase_diagram_diversity_trace.png  used on input 
+line 544.
 (pdftex.def)             Requested size: 120.8378pt x 91.49194pt.
-<figs/phase_diagram_energy_dist.png, id=357, 702.625pt x 531.9875pt>
+<figs/phase_diagram_energy_dist.png, id=366, 702.625pt x 531.9875pt>
 File: figs/phase_diagram_energy_dist.png Graphic file (type png)
 <use figs/phase_diagram_energy_dist.png>
-Package pdftex.def Info: figs/phase_diagram_energy_dist.png  used on input line 551.
+Package pdftex.def Info: figs/phase_diagram_energy_dist.png  used on input line
+ 550.
 (pdftex.def)             Requested size: 120.8378pt x 91.49194pt.
-<figs/phase_diagram_off_manifold.png, id=358, 702.625pt x 531.9875pt>
+<figs/phase_diagram_off_manifold.png, id=367, 702.625pt x 531.9875pt>
 File: figs/phase_diagram_off_manifold.png Graphic file (type png)
 <use figs/phase_diagram_off_manifold.png>
-Package pdftex.def Info: figs/phase_diagram_off_manifold.png  used on input line 557.
+Package pdftex.def Info: figs/phase_diagram_off_manifold.png  used on input lin
+e 556.
 (pdftex.def)             Requested size: 120.8378pt x 91.49194pt.
 
 
-[10 <./figs/phase_diagram_diversity_trace.png (PNG copy)> <./figs/phase_diagram_energy_dist.png (PNG copy)> <./figs/phase_diagram_off_manifold.png (PNG copy)>] (./neurips_2026.bbl
+[10 <./figs/phase_diagram_diversity_trace.png (PNG copy)> <./figs/phase_diagram
+_energy_dist.png (PNG copy)> <./figs/phase_diagram_off_manifold.png (PNG copy)>
+] (./neurips_2026.bbl
 Underfull \hbox (badness 3343) in paragraph at lines 41--47
-[]\T1/ptm/m/n/10 (+20) Jonathan Ho, Ajay Jain, and Pieter Abbeel.  De-nois-ing dif-fu-sion prob-a-bilis-tic mod-
+[]\T1/ptm/m/n/10 (+20) Jonathan Ho, Ajay Jain, and Pieter Abbeel.  De-nois-ing 
+dif-fu-sion prob-a-bilis-tic mod-
  []
 
 
 Underfull \hbox (badness 4739) in paragraph at lines 41--47
-\T1/ptm/m/n/10 (+20) els.  In \T1/ptm/m/it/10 (+20) Ad-vances in Neu-ral In-for-ma-tion Pro-cess-ing Sys-tems\T1/ptm/m/n/10 (+20) , vol-ume 33, pages
+\T1/ptm/m/n/10 (+20) els.  In \T1/ptm/m/it/10 (+20) Ad-vances in Neu-ral In-for
+-ma-tion Pro-cess-ing Sys-tems\T1/ptm/m/n/10 (+20) , vol-ume 33, pages
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 41--47
-\T1/ptm/m/n/10 (+20) 6840--6851, 2020.  URL []$\T1/cmtt/m/n/10 https : / / proceedings . neurips . cc / paper / 2020 / hash /
+\T1/ptm/m/n/10 (+20) 6840--6851, 2020.  URL []$\T1/cmtt/m/n/10 https : / / proc
+eedings . neurips . cc / paper / 2020 / hash /
  []
 
 
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 105--112
-\T1/cmtt/m/n/10 / / openaccess . thecvf . com / content / CVPR2022 / html / Rombach _ High-[]Resolution _
+Underfull \hbox (badness 10000) in paragraph at lines 110--117
+\T1/cmtt/m/n/10 / / openaccess . thecvf . com / content / CVPR2022 / html / Rom
+bach _ High-[]Resolution _
  []
 
 )
-LaTeX Font Info:    Trying to load font information for U+bbm on input line 627.
+
+[12]
+LaTeX Font Info:    Trying to load font information for U+bbm on input line 648
+.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/bbm-macros/ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 )
-
-[12]
 
 [13]
 
@@ -733,21 +745,41 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `neurips_2026.out' has not changed.
-(rerunfilecheck)             Checksum: 45F630BE6ADB7CA283702FBDF14E773C;4804.
+(rerunfilecheck)             Checksum: 7CC12495A98B78BB62137BCFFDB89C68;5199.
  ) 
 Here is how much of TeX's memory you used:
- 15533 strings out of 473190
- 250723 string characters out of 5715800
- 695924 words of memory out of 5000000
- 38252 multiletter control sequences out of 15000+600000
- 601688 words of font info for 220 fonts, out of 8000000 for 9000
+ 15550 strings out of 473190
+ 250647 string characters out of 5715800
+ 695071 words of memory out of 5000000
+ 38259 multiletter control sequences out of 15000+600000
+ 602040 words of font info for 224 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,18n,79p,1123b,598s stack positions out of 10000i,1000n,20000p,200000b,200000s
- </Users/LS/Library/texlive/2025/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.600pk></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on neurips_2026.pdf (14 pages, 3207135 bytes).
+ 75i,18n,79p,1009b,598s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ </Users/LS/Library/texlive/2025/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.6
+00pk></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.
+pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.p
+fb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></u
+sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr
+/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
+ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/loca
+l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/t
+exlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texl
+ive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive
+/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/
+2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/20
+25/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/t
+exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/20
+25/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025
+/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dis
+t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
+pe1/urw/times/utmri8a.pfb>
+Output written on neurips_2026.pdf (14 pages, 3211242 bytes).
 PDF statistics:
- 547 PDF objects out of 1000 (max. 8388607)
- 470 compressed objects within 5 object streams
- 91 named destinations out of 1000 (max. 500000)
- 44289 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 573 PDF objects out of 1000 (max. 8388607)
+ 496 compressed objects within 5 object streams
+ 96 named destinations out of 1000 (max. 500000)
+ 44305 words of extra memory for PDF output out of 51595 (max. 10000000)
 
