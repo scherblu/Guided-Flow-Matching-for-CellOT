@@ -9,8 +9,8 @@
 \citation{lipman2023flow}
 \citation{tong2024improving}
 \citation{klein2024genot}
-\citation{ho2022classifier}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\citation{ho2022classifier}
 \citation{dhariwal2021diffusion,feng25s_guidance}
 \citation{dhariwal2021diffusion}
 \citation{ho2022classifier}
@@ -20,36 +20,36 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2}Background}{2}{section.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Conditional Flow Matching (CFM)}{2}{subsection.2.1}\protected@file@percent }
 \newlabel{eq:flow_ode}{{1}{2}{Conditional Flow Matching (CFM)}{equation.1}{}}
-\newlabel{eq:marginal_vf}{{3}{2}{Conditional Flow Matching (CFM)}{equation.3}{}}
-\newlabel{eq:marginal_fm_loss}{{4}{2}{Conditional Flow Matching (CFM)}{equation.4}{}}
 \citation{chen2024flow}
 \citation{tong2024improving}
 \citation{tong2024improving}
+\citation{tong2024improving}
+\citation{tong2024improving}
+\newlabel{eq:marginal_vf}{{3}{3}{Conditional Flow Matching (CFM)}{equation.3}{}}
+\newlabel{eq:marginal_fm_loss}{{4}{3}{Conditional Flow Matching (CFM)}{equation.4}{}}
 \newlabel{eq:cfm_loss}{{5}{3}{Conditional Flow Matching (CFM)}{equation.5}{}}
 \newlabel{eq:linear_path}{{6}{3}{Conditional Flow Matching (CFM)}{equation.6}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Coupling}{3}{subsection.2.2}\protected@file@percent }
 \newlabel{sec:coupling}{{2.2}{3}{Coupling}{subsection.2.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Comparison of three coupling strategies for flow matching: Independent-CFM, Entropic-CFM, and OT-CFM. Each panel shows sample trajectories (red) from the source distribution (8 Gaussians, black) to the target distribution (Moons, blue). OT-CFM produces shorter, straighter trajectories by minimizing transport cost, while Independent-CFM yields crossing paths.}}{3}{figure.caption.2}\protected@file@percent }
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:coupling_comparison}{{1}{3}{Comparison of three coupling strategies for flow matching: Independent-CFM, Entropic-CFM, and OT-CFM. Each panel shows sample trajectories (red) from the source distribution (8 Gaussians, black) to the target distribution (Moons, blue). OT-CFM produces shorter, straighter trajectories by minimizing transport cost, while Independent-CFM yields crossing paths}{figure.caption.2}{}}
-\citation{tong2024improving}
-\citation{tong2024improving}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Optimal Transport (OT) Coupling}{3}{subsubsection.2.2.1}\protected@file@percent }
+\newlabel{eq:ot_coupling}{{7}{3}{Optimal Transport (OT) Coupling}{equation.7}{}}
 \citation{tong2024improving}
 \citation{klein2024genot}
 \citation{ho2022classifier}
 \citation{ma2024sit}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Optimal Transport (OT) Coupling}{4}{subsubsection.2.2.1}\protected@file@percent }
-\newlabel{eq:ot_coupling}{{7}{4}{Optimal Transport (OT) Coupling}{equation.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Comparison of three coupling strategies for flow matching: Independent-CFM, Entropic-CFM, and OT-CFM. Each panel shows sample trajectories (red) from the source distribution (8 Gaussians, black) to the target distribution (Moons, blue). OT-CFM produces shorter, straighter trajectories by minimizing transport cost, while Independent-CFM yields crossing paths.}}{4}{figure.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:coupling_comparison}{{1}{4}{Comparison of three coupling strategies for flow matching: Independent-CFM, Entropic-CFM, and OT-CFM. Each panel shows sample trajectories (red) from the source distribution (8 Gaussians, black) to the target distribution (Moons, blue). OT-CFM produces shorter, straighter trajectories by minimizing transport cost, while Independent-CFM yields crossing paths}{figure.caption.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Independent Coupling}{4}{subsubsection.2.2.2}\protected@file@percent }
 \newlabel{sec:independent_coupling}{{2.2.2}{4}{Independent Coupling}{subsubsection.2.2.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Entropic Coupling}{4}{subsubsection.2.2.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Class-conditional Flow Matching (CCFM)}{4}{subsection.2.3}\protected@file@percent }
 \newlabel{sec:ccfm}{{2.3}{4}{Class-conditional Flow Matching (CCFM)}{subsection.2.3}{}}
-\newlabel{eq:ccfm_loss}{{8}{4}{Class-conditional Flow Matching (CCFM)}{equation.8}{}}
 \citation{feng25s_guidance}
 \citation{feng25s_guidance}
 \citation{feng25s_guidance}
 \citation{feng25s_guidance}
+\newlabel{eq:ccfm_loss}{{8}{5}{Class-conditional Flow Matching (CCFM)}{equation.8}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Guidance}{5}{section.3}\protected@file@percent }
 \newlabel{sec:guidance}{{3}{5}{Guidance}{section.3}{}}
 \newlabel{eq:guided_target}{{9}{5}{Guidance}{equation.9}{}}
@@ -63,20 +63,20 @@
 \newlabel{eq:sim_mc_guidance}{{14}{6}{Simulation-based Monte Carlo estimation}{equation.14}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Covariance Guidance (cov-A / cov-G)}{6}{subsection.3.3}\protected@file@percent }
 \newlabel{eq:cov_guidance}{{15}{6}{Covariance Guidance (cov-A / cov-G)}{equation.15}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Learned guidance (GM)}{6}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Learned guidance (GM)}{7}{subsection.3.4}\protected@file@percent }
 \newlabel{eq:gm_loss}{{16}{7}{Learned guidance (GM)}{equation.16}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Discussion}{7}{subsection.3.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Results}{7}{section.4}\protected@file@percent }
 \newlabel{sec:results}{{4}{7}{Results}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Synthetic data and energy function}{7}{subsection.4.1}\protected@file@percent }
 \newlabel{eq:energy_function}{{17}{7}{Synthetic data and energy function}{equation.17}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Qualitative comparison of guidance methods}{7}{subsection.4.2}\protected@file@percent }
 \newlabel{fig:energy_function}{{2a}{8}{Energy function $J(x)$}{figure.caption.3}{}}
 \newlabel{sub@fig:energy_function}{{a}{8}{Energy function $J(x)$}{figure.caption.3}{}}
 \newlabel{fig:exp_weighted_energy}{{2b}{8}{Exponentially weighted energy $e^{-J(x)}$}{figure.caption.3}{}}
 \newlabel{sub@fig:exp_weighted_energy}{{b}{8}{Exponentially weighted energy $e^{-J(x)}$}{figure.caption.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Left, the energy function $J(x)$ of Eq.~\eqref  {eq:energy_function} selecting three of the eight Gaussian modes, where low values mark the preferred region. Right, the corresponding weight $e^{-J(x)}$, proportional to the guided target $p'(x) \propto p_1(x)\,e^{-J(x)}$. The three separated peaks show that only samples near the selected modes are preferred once guidance reweights the target distribution.}}{8}{figure.caption.3}\protected@file@percent }
 \newlabel{fig:energy_functions}{{2}{8}{Left, the energy function $J(x)$ of Eq.~\eqref {eq:energy_function} selecting three of the eight Gaussian modes, where low values mark the preferred region. Right, the corresponding weight $e^{-J(x)}$, proportional to the guided target $p'(x) \propto p_1(x)\,e^{-J(x)}$. The three separated peaks show that only samples near the selected modes are preferred once guidance reweights the target distribution}{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Qualitative comparison of guidance methods}{8}{subsection.4.2}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Qualitative comparison of guidance methods across three energy functions (rows), guiding toward one mode, toward three modes, and toward a contiguous arc of the moons distribution. Columns show the target distribution, the ground truth guided density $p'(x)$, and samples generated by the unguided base model and each guidance method. Blue points belong to the source distribution and red points belong to the target distribution. The path between each coupling is colored from blue to red along its way.}}{8}{figure.caption.4}\protected@file@percent }
 \newlabel{fig:synthetic_comparison}{{3}{8}{Qualitative comparison of guidance methods across three energy functions (rows), guiding toward one mode, toward three modes, and toward a contiguous arc of the moons distribution. Columns show the target distribution, the ground truth guided density $p'(x)$, and samples generated by the unguided base model and each guidance method. Blue points belong to the source distribution and red points belong to the target distribution. The path between each coupling is colored from blue to red along its way}{figure.caption.4}{}}
 \citation{peyre2019computational}
@@ -84,7 +84,6 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Quantitative comparison of guidance methods}{9}{subsection.4.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Quantitative comparison of all seven methods on the three-mode setting of Figure~\ref {fig:synthetic_comparison}, using four metrics on a logarithmic scale where lower is always better. Learned guidance (GM) reaches the lowest W2 distance and energy distance. MC guidance offers the best overall balance among the training-free methods.}}{9}{figure.caption.5}\protected@file@percent }
 \newlabel{fig:metrics_comparison}{{4}{9}{Quantitative comparison of all seven methods on the three-mode setting of Figure~\ref {fig:synthetic_comparison}, using four metrics on a logarithmic scale where lower is always better. Learned guidance (GM) reaches the lowest W2 distance and energy distance. MC guidance offers the best overall balance among the training-free methods}{figure.caption.5}{}}
-\citation{feng25s_guidance}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Limitations of guidance}{10}{subsection.4.4}\protected@file@percent }
 \newlabel{sec:limitations}{{4.4}{10}{Limitations of guidance}{subsection.4.4}{}}
 \newlabel{fig:phase_diversity}{{5a}{10}{Diversity trace ratio}{figure.caption.6}{}}
@@ -95,8 +94,7 @@
 \newlabel{sub@fig:phase_offmanifold}{{c}{10}{Off-manifold rate}{figure.caption.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Phase diagrams for MC guidance across coupling strength (columns, from the independent coupling to exact OT) and the width $\sigma $ of the energy function (rows, from sharp at the top to broad at the bottom). Stronger coupling consistently increases the energy distance and the off-manifold rate, while the diversity trace ratio stays close to one throughout, showing that the independence assumption behind MC guidance degrades gradually rather than suddenly as the training coupling tightens.}}{10}{figure.caption.6}\protected@file@percent }
 \newlabel{fig:phase_diagrams}{{5}{10}{Phase diagrams for MC guidance across coupling strength (columns, from the independent coupling to exact OT) and the width $\sigma $ of the energy function (rows, from sharp at the top to broad at the bottom). Stronger coupling consistently increases the energy distance and the off-manifold rate, while the diversity trace ratio stays close to one throughout, showing that the independence assumption behind MC guidance degrades gradually rather than suddenly as the training coupling tightens}{figure.caption.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{10}{section.5}\protected@file@percent }
-\newlabel{Conclusion}{{5}{10}{Conclusion}{section.5}{}}
+\citation{feng25s_guidance}
 \bibstyle{plainnat}
 \citation{*}
 \bibdata{references}
@@ -109,13 +107,14 @@
 \bibcite{klein2024genot}{{7}{2024}{{Klein et~al.}}{{Klein, Uscidda, Theis, and Cuturi}}}
 \bibcite{klein2025cellflow}{{8}{2025}{{Klein et~al.}}{{Klein, Fleck, et~al.}}}
 \bibcite{lipman2023flow}{{9}{2023}{{Lipman et~al.}}{{Lipman, Chen, Ben-Hamu, Nickel, and Le}}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{11}{section.5}\protected@file@percent }
+\newlabel{Conclusion}{{5}{11}{Conclusion}{section.5}{}}
 \bibcite{ma2024sit}{{10}{2024}{{Ma et~al.}}{{Ma, Goldstein, Albergo, Boffi, Vanden-Eijnden, and Xie}}}
 \bibcite{peyre2019computational}{{11}{2020}{{Peyré and Cuturi}}{{}}}
 \bibcite{rombach2022highresolution}{{12}{2022}{{Rombach et~al.}}{{Rombach, Blattmann, Lorenz, Esser, and Ommer}}}
 \bibcite{song2021score}{{13}{2021}{{Song et~al.}}{{Song, Sohl-Dickstein, Kingma, Kumar, Ermon, and Poole}}}
 \bibcite{szekely2013energy}{{14}{2013}{{Székely and Rizzo}}{{}}}
 \bibcite{tong2024improving}{{15}{2024}{{Tong et~al.}}{{Tong, FATRAS, Malkin, Huguet, Zhang, Rector-Brooks, Wolf, and Bengio}}}
-\citation{peyre2019computational}
 \citation{peyre2019computational}
 \citation{szekely2013energy}
 \@writefile{toc}{\contentsline {section}{\numberline {A}Appendix}{12}{appendix.A}\protected@file@percent }
@@ -125,11 +124,11 @@
 \newlabel{eq:w2_metric}{{18}{12}{Wasserstein-2 (W2) distance}{equation.18}{}}
 \@writefile{toc}{\contentsline {paragraph}{Energy distance.}{12}{section*.9}\protected@file@percent }
 \newlabel{eq:energy_metric}{{19}{12}{Energy distance}{equation.19}{}}
-\newlabel{eq:energy_metric_estimate}{{20}{12}{Energy distance}{equation.20}{}}
+\citation{feng25s_guidance}
 \@writefile{toc}{\contentsline {paragraph}{Diversity trace ratio.}{13}{section*.10}\protected@file@percent }
-\newlabel{eq:diversity_metric}{{21}{13}{Diversity trace ratio}{equation.21}{}}
+\newlabel{eq:diversity_metric}{{20}{13}{Diversity trace ratio}{equation.20}{}}
 \@writefile{toc}{\contentsline {paragraph}{Off-manifold rate.}{13}{section*.11}\protected@file@percent }
-\newlabel{eq:off_manifold_metric}{{23}{13}{Off-manifold rate}{equation.23}{}}
+\newlabel{eq:off_manifold_metric}{{21}{13}{Off-manifold rate}{equation.21}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Result data in tabular form}{13}{subsection.A.2}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of methods across various metrics. The best method for each metric is \textbf  {bolded}, and the second best is \underline  {underlined}.}}{13}{table.caption.12}\protected@file@percent }
 \newlabel{tab:method_comparison_no_index}{{1}{13}{Comparison of methods across various metrics. The best method for each metric is \textbf {bolded}, and the second best is \underline {underlined}}{table.caption.12}{}}
@@ -137,8 +136,7 @@
 \newlabel{app:Tuning hyperparameters}{{A.3}{13}{Tuning hyperparameters}{subsection.A.3}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {A.3.1}ODE solver}{13}{subsubsection.A.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {A.3.2}MC Guidance}{13}{subsubsection.A.3.2}\protected@file@percent }
-\citation{feng25s_guidance}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.3.3}Number of samples for computing metrics}{13}{subsubsection.A.3.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Effect of the \texttt  {mc\_ep} parameter $\epsilon $ on sample quality.}}{14}{table.caption.13}\protected@file@percent }
 \newlabel{tab:mc_ep_search}{{2}{14}{Effect of the \texttt {mc\_ep} parameter $\epsilon $ on sample quality}{table.caption.13}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.3.3}Number of samples for computing metrics}{14}{subsubsection.A.3.3}\protected@file@percent }
 \gdef \@abspage@last{14}

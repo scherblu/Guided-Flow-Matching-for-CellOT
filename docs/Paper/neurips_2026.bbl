@@ -8,35 +8,49 @@
 \bibitem[Chen and Lipman(2024)]{chen2024flow}
 Ricky T.~Q. Chen and Yaron Lipman.
 \newblock Flow matching on general geometries.
-\newblock In \emph{The Twelfth International Conference on Learning Representations}, 2024.
+\newblock In \emph{The Twelfth International Conference on Learning
+  Representations}, 2024.
 \newblock URL \url{https://openreview.net/forum?id=g7ohDlTITL}.
 
 \bibitem[Dhariwal and Nichol(2021)]{dhariwal2021diffusion}
 Prafulla Dhariwal and Alexander~Quinn Nichol.
 \newblock Diffusion models beat gans on image synthesis.
-\newblock In \emph{Advances in Neural Information Processing Systems}, volume~34, pages 8780--8794, 2021.
-\newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2021/hash/49ad23d1ec9fa4bd8d77d02681df5cfa-Abstract.html}.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~34, pages 8780--8794, 2021.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper_files/paper/2021/hash/49ad23d1ec9fa4bd8d77d02681df5cfa-Abstract.html}.
 
 \bibitem[Feng et~al.(2025)Feng, Yu, Deng, Hu, and Wu]{feng25s_guidance}
 Ruiqi Feng, Chenglei Yu, Wenhao Deng, Peiyan Hu, and Tailin Wu.
 \newblock On the guidance of flow matching.
-\newblock In Aarti Singh, Maryam Fazel, Daniel Hsu, Simon Lacoste-Julien, Felix Berkenkamp, Tegan Maharaj, Kiri Wagstaff, and Jerry Zhu, editors, \emph{Proceedings of the 42nd International Conference on Machine Learning}, volume 267 of \emph{Proceedings of Machine Learning Research}, pages 16993--17029. PMLR, 13--19 Jul 2025.
+\newblock In Aarti Singh, Maryam Fazel, Daniel Hsu, Simon Lacoste-Julien, Felix
+  Berkenkamp, Tegan Maharaj, Kiri Wagstaff, and Jerry Zhu, editors,
+  \emph{Proceedings of the 42nd International Conference on Machine Learning},
+  volume 267 of \emph{Proceedings of Machine Learning Research}, pages
+  16993--17029. PMLR, 13--19 Jul 2025.
 \newblock URL \url{https://proceedings.mlr.press/v267/feng25s.html}.
 
 \bibitem[Ho and Salimans(2022)]{ho2022classifier}
 Jonathan Ho and Tim Salimans.
 \newblock Classifier-free diffusion guidance.
-\newblock In \emph{NeurIPS 2021 Workshop on Deep Generative Models and Downstream Applications}, 2022.
+\newblock In \emph{NeurIPS 2021 Workshop on Deep Generative Models and
+  Downstream Applications}, 2022.
 \newblock URL \url{https://openreview.net/forum?id=qw8AKxfYbI}.
 
 \bibitem[Ho et~al.(2020)Ho, Jain, and Abbeel]{ho2020denoising}
 Jonathan Ho, Ajay Jain, and Pieter Abbeel.
 \newblock Denoising diffusion probabilistic models.
-\newblock In \emph{Advances in Neural Information Processing Systems}, volume~33, pages 6840--6851, 2020.
-\newblock URL \url{https://proceedings.neurips.cc/paper/2020/hash/4c5bcfec8584af0d967f1ab10179ca4b-Abstract.html}.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~33, pages 6840--6851, 2020.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper/2020/hash/4c5bcfec8584af0d967f1ab10179ca4b-Abstract.html}.
 
-\bibitem[Jumper et~al.(2021)Jumper, Evans, Pritzel, Green, Figurnov, Ronneberger, Tunyasuvunakool, Bates, {\v{Z}}{\'\i}dek, Potapenko, et~al.]{jumper2021alphafold}
-John Jumper, Richard Evans, Alexander Pritzel, Tim Green, Michael Figurnov, Olaf Ronneberger, Kathryn Tunyasuvunakool, Russ Bates, Augustin {\v{Z}}{\'\i}dek, Anna Potapenko, et~al.
+\bibitem[Jumper et~al.(2021)Jumper, Evans, Pritzel, Green, Figurnov,
+  Ronneberger, Tunyasuvunakool, Bates, {\v{Z}}{\'\i}dek, Potapenko,
+  et~al.]{jumper2021alphafold}
+John Jumper, Richard Evans, Alexander Pritzel, Tim Green, Michael Figurnov,
+  Olaf Ronneberger, Kathryn Tunyasuvunakool, Russ Bates, Augustin
+  {\v{Z}}{\'\i}dek, Anna Potapenko, et~al.
 \newblock Highly accurate protein structure prediction with {AlphaFold}.
 \newblock \emph{Nature}, 596\penalty0 (7873):\penalty0 583--589, 2021.
 \newblock \doi{10.1038/s41586-021-03819-2}.
@@ -44,27 +58,40 @@ John Jumper, Richard Evans, Alexander Pritzel, Tim Green, Michael Figurnov, Olaf
 
 \bibitem[Klein et~al.(2024)Klein, Uscidda, Theis, and Cuturi]{klein2024genot}
 Dominik Klein, Th\'{e}o Uscidda, Fabian Theis, and Marco Cuturi.
-\newblock Genot: Entropic (gromov) wasserstein flow matching with applications to single-cell genomics.
-\newblock In A.~Globerson, L.~Mackey, D.~Belgrave, A.~Fan, U.~Paquet, J.~Tomczak, and C.~Zhang, editors, \emph{Advances in Neural Information Processing Systems}, volume~37, pages 103897--103944. Curran Associates, Inc., 2024.
+\newblock Genot: Entropic (gromov) wasserstein flow matching with applications
+  to single-cell genomics.
+\newblock In A.~Globerson, L.~Mackey, D.~Belgrave, A.~Fan, U.~Paquet,
+  J.~Tomczak, and C.~Zhang, editors, \emph{Advances in Neural Information
+  Processing Systems}, volume~37, pages 103897--103944. Curran Associates,
+  Inc., 2024.
 \newblock \doi{10.52202/079017-3301}.
-\newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2024/file/bc46e29f91e676747c584ca181cb0ea1-Paper-Conference.pdf}.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper_files/paper/2024/file/bc46e29f91e676747c584ca181cb0ea1-Paper-Conference.pdf}.
 
 \bibitem[Klein et~al.(2025)Klein, Fleck, et~al.]{klein2025cellflow}
 Dominik Klein, Jonas~Simon Fleck, et~al.
-\newblock {CellFlow} enables generative single-cell phenotype modeling with flow matching.
+\newblock {CellFlow} enables generative single-cell phenotype modeling with
+  flow matching.
 \newblock \emph{bioRxiv}, 2025.
 \newblock \doi{10.1101/2025.04.11.648220}.
-\newblock URL \url{https://www.biorxiv.org/content/10.1101/2025.04.11.648220v1}.
+\newblock URL
+  \url{https://www.biorxiv.org/content/10.1101/2025.04.11.648220v1}.
 
-\bibitem[Lipman et~al.(2023)Lipman, Chen, Ben-Hamu, Nickel, and Le]{lipman2023flow}
-Yaron Lipman, Ricky T.~Q. Chen, Heli Ben-Hamu, Maximilian Nickel, and Matthew Le.
+\bibitem[Lipman et~al.(2023)Lipman, Chen, Ben-Hamu, Nickel, and
+  Le]{lipman2023flow}
+Yaron Lipman, Ricky T.~Q. Chen, Heli Ben-Hamu, Maximilian Nickel, and Matthew
+  Le.
 \newblock Flow matching for generative modeling.
-\newblock In \emph{The Eleventh International Conference on Learning Representations}, 2023.
+\newblock In \emph{The Eleventh International Conference on Learning
+  Representations}, 2023.
 \newblock URL \url{https://openreview.net/forum?id=PqvMRDCJT9t}.
 
-\bibitem[Ma et~al.(2024)Ma, Goldstein, Albergo, Boffi, Vanden-Eijnden, and Xie]{ma2024sit}
-Nanye Ma, Mark Goldstein, Michael~S. Albergo, Nicholas~M. Boffi, Eric Vanden-Eijnden, and Saining Xie.
-\newblock Sit: Exploring flow and diffusion-based generative models with scalable interpolant transformers.
+\bibitem[Ma et~al.(2024)Ma, Goldstein, Albergo, Boffi, Vanden-Eijnden, and
+  Xie]{ma2024sit}
+Nanye Ma, Mark Goldstein, Michael~S. Albergo, Nicholas~M. Boffi, Eric
+  Vanden-Eijnden, and Saining Xie.
+\newblock Sit: Exploring flow and diffusion-based generative models with
+  scalable interpolant transformers.
 \newblock In \emph{European Conference on Computer Vision}, 2024.
 \newblock URL \url{https://arxiv.org/abs/2401.08740}.
 
@@ -73,29 +100,41 @@ Gabriel Peyré and Marco Cuturi.
 \newblock Computational optimal transport, 2020.
 \newblock URL \url{https://arxiv.org/abs/1803.00567}.
 
-\bibitem[Rombach et~al.(2022)Rombach, Blattmann, Lorenz, Esser, and Ommer]{rombach2022highresolution}
-Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Bj{\"o}rn Ommer.
+\bibitem[Rombach et~al.(2022)Rombach, Blattmann, Lorenz, Esser, and
+  Ommer]{rombach2022highresolution}
+Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Bj{\"o}rn
+  Ommer.
 \newblock High-resolution image synthesis with latent diffusion models.
-\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 10684--10695, 2022.
-\newblock URL \url{https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html}.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 10684--10695, 2022.
+\newblock URL
+  \url{https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html}.
 
-\bibitem[Song et~al.(2021)Song, Sohl-Dickstein, Kingma, Kumar, Ermon, and Poole]{song2021score}
-Yang Song, Jascha Sohl-Dickstein, Diederik~P Kingma, Abhishek Kumar, Stefano Ermon, and Ben Poole.
-\newblock Score-based generative modeling through stochastic differential equations.
+\bibitem[Song et~al.(2021)Song, Sohl-Dickstein, Kingma, Kumar, Ermon, and
+  Poole]{song2021score}
+Yang Song, Jascha Sohl-Dickstein, Diederik~P Kingma, Abhishek Kumar, Stefano
+  Ermon, and Ben Poole.
+\newblock Score-based generative modeling through stochastic differential
+  equations.
 \newblock In \emph{International Conference on Learning Representations}, 2021.
 \newblock URL \url{https://openreview.net/forum?id=PxTIG12RRHS}.
 
 \bibitem[Székely and Rizzo(2013)]{szekely2013energy}
 Gábor~J. Székely and Maria~L. Rizzo.
 \newblock Energy statistics: A class of statistics based on distances.
-\newblock \emph{Journal of Statistical Planning and Inference}, 143\penalty0 (8):\penalty0 1249--1272, 2013.
+\newblock \emph{Journal of Statistical Planning and Inference}, 143\penalty0
+  (8):\penalty0 1249--1272, 2013.
 \newblock ISSN 0378-3758.
 \newblock \doi{https://doi.org/10.1016/j.jspi.2013.03.018}.
-\newblock URL \url{https://www.sciencedirect.com/science/article/pii/S0378375813000633}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0378375813000633}.
 
-\bibitem[Tong et~al.(2024)Tong, FATRAS, Malkin, Huguet, Zhang, Rector-Brooks, Wolf, and Bengio]{tong2024improving}
-Alexander Tong, Kilian FATRAS, Nikolay Malkin, Guillaume Huguet, Yanlei Zhang, Jarrid Rector-Brooks, Guy Wolf, and Yoshua Bengio.
-\newblock Improving and generalizing flow-based generative models with minibatch optimal transport.
+\bibitem[Tong et~al.(2024)Tong, FATRAS, Malkin, Huguet, Zhang, Rector-Brooks,
+  Wolf, and Bengio]{tong2024improving}
+Alexander Tong, Kilian FATRAS, Nikolay Malkin, Guillaume Huguet, Yanlei Zhang,
+  Jarrid Rector-Brooks, Guy Wolf, and Yoshua Bengio.
+\newblock Improving and generalizing flow-based generative models with
+  minibatch optimal transport.
 \newblock \emph{Transactions on Machine Learning Research}, 2024.
 \newblock ISSN 2835-8856.
 \newblock URL \url{https://openreview.net/forum?id=CD9Snc73AW}.

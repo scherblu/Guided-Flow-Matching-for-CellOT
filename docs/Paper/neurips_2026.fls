@@ -2,7 +2,7 @@ PWD /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-
 INPUT /usr/local/texlive/2025/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/LS/Documents/Studium/8-SS26/Deep Learning Seminar/own Project/Guided-Flow-Matching-for-CellOT/docs/Paper/neurips_2026.tex
+INPUT neurips_2026.tex
 OUTPUT neurips_2026.log
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls
@@ -103,6 +103,8 @@ INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/bbm-macros/bbm.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/bbm-macros/bbm.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/units/nicefrac.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/units/nicefrac.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/ifthen.sty
@@ -275,9 +277,16 @@ INPUT ./figs/phase_diagram_off_manifold.png
 INPUT ./neurips_2026.bbl
 INPUT ./neurips_2026.bbl
 INPUT neurips_2026.bbl
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/bbm-macros/ubbm.fd
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/bbm-macros/ubbm.fd
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/bbm-macros/ubbm.fd
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/bbm/bbm10.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/bbm/bbm7.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/bbm/bbm5.tfm
 INPUT neurips_2026.aux
 INPUT ./neurips_2026.out
 INPUT ./neurips_2026.out
+INPUT /Users/LS/Library/texlive/2025/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.600pk
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb
