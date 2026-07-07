@@ -362,7 +362,7 @@ Its price is variance.
 Once $J$ is even moderately selective, most sampled $x_1^i$ receive a near-zero weight $e^{-J(x_1^i)}$, so a large number of samples is needed for a stable estimate, and this requirement grows quickly with the dimensionality of the data.
 Hence, this MC method is not computationally efficient in practice for high-dimensional data and selective energy functions.
 
-\subsection{Simulated-based Monte Carlo estimation}
+\subsection{Simulation-based Monte Carlo estimation}
 
 Rather than sampling from the training coupling and hoping enough samples land near the low-energy region of $J$, simulated (sim-)MC guidance approximates the posterior itself with a Gaussian $\tilde{p}(x_1|x_t) = \mathcal{N}(x_1;\, \hat{x}_1(x_t), \Sigma_t(x_t))$ fitted to match its first two moments, and draws samples directly from it,
 \begin{equation}
@@ -486,6 +486,7 @@ The Wasserstein-2 (W2) distance measures the overall transport cost between gene
 The energy distance measures whether the two point clouds occupy the same region of space \citep{szekely2013energy}.
 The diversity trace ratio compares the spread of the generated samples to the spread of the ground truth, so a value below one means the guided samples are too concentrated and a value above one means they are too spread out.
 The off-manifold rate measures how often a generated sample lands far from any real data point, that is, how often guidance produces an unrealistic outlier.
+Formal definitions of all four metrics are given in Appendix~\ref{app:metrics}.
 
 \begin{figure}[htbp]
     \centering
@@ -588,6 +589,57 @@ Since non-independent couplings are common in practice, e.g., in single-cell tra
 
 \section{Appendix}
 
+\subsection{Definition of evaluation metrics}
+\label{app:metrics}
+
+We evaluate every guidance method by comparing a set of $n$ generated samples $X = \{x_i\}_{i=1}^n$ against a set of $m$ ground truth samples $Y = \{y_j\}_{j=1}^m$ drawn from the guided target $p'$ of Eq.~\eqref{eq:guided_target}.
+Non-finite samples, e.g., \texttt{inf} or \texttt{nan} values produced by a diverging ODE solve, are removed from $X$ before computing the W2 distance, the energy distance, and the diversity trace ratio, and are instead counted as off-manifold outliers in the off-manifold rate below.
+
+\paragraph{Wasserstein-2 (W2) distance.}
+We use the empirical W2 distance between $X$ and $Y$, i.e., the square root of the optimal transport cost between the empirical distributions $\hat{p}_X = \frac{1}{n}\sum_i \delta_{x_i}$ and $\hat{p}_Y = \frac{1}{m}\sum_j \delta_{y_j}$ under the squared Euclidean ground cost \citep{peyre2019computational},
+\begin{equation}
+    W_2(X, Y) = \left( \min_{\gamma \in \Pi(\hat{p}_X, \hat{p}_Y)} \sum_{i=1}^n \sum_{j=1}^m \gamma_{ij} \, \|x_i - y_j\|_2^2 \right)^{1/2},
+    \label{eq:w2_metric}
+\end{equation}
+where $\Pi(\hat{p}_X, \hat{p}_Y)$ is the set of couplings $\gamma \in \mathbb{R}_{\geq 0}^{n \times m}$ with row sums $1/n$ and column sums $1/m$. We solve the underlying linear program with the Python Optimal Transport (POT) library \citep{peyre2019computational}.
+
+\paragraph{Energy distance.}
+The energy distance measures whether $X$ and $Y$ occupy the same region of space by comparing average pairwise distances within and between the two sets \citep{szekely2013energy}.
+For samples $X \sim P$ and $Y \sim Q$, the population energy distance is
+\begin{equation}
+    D_E(P, Q) = 2\, \mathbb{E}\|X - Y\|_2 - \mathbb{E}\|X - X'\|_2 - \mathbb{E}\|Y - Y'\|_2,
+    \label{eq:energy_metric}
+\end{equation}
+where $X'$ and $Y'$ are independent copies of $X$ and $Y$, and $D_E(P,Q) \geq 0$ with equality if and only if $P = Q$.
+We estimate Eq.~\eqref{eq:energy_metric} by the corresponding V-statistic on the two finite sample sets,
+\begin{equation}
+    \hat{D}_E(X, Y) = \frac{2}{nm}\sum_{i=1}^n \sum_{j=1}^m \|x_i - y_j\|_2 - \frac{1}{n^2}\sum_{i=1}^n \sum_{i'=1}^n \|x_i - x_{i'}\|_2 - \frac{1}{m^2}\sum_{j=1}^m \sum_{j'=1}^m \|y_j - y_{j'}\|_2,
+    \label{eq:energy_metric_estimate}
+\end{equation}
+clamped at zero to remove negative values that can arise from the finite-sample estimate.
+
+\paragraph{Diversity trace ratio.}
+The diversity trace ratio compares the spread of the generated samples to the spread of the ground truth by taking the ratio of the traces of their empirical covariance matrices,
+\begin{equation}
+    R_{\mathrm{div}}(X, Y) = \frac{\operatorname{tr}\bigl(\widehat{\mathrm{Cov}}(X)\bigr)}{\operatorname{tr}\bigl(\widehat{\mathrm{Cov}}(Y)\bigr)}, \qquad \widehat{\mathrm{Cov}}(X) = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})(x_i - \bar{x})^\top,
+    \label{eq:diversity_metric}
+\end{equation}
+with $\bar{x}$ the sample mean of $X$ and $\widehat{\mathrm{Cov}}(Y)$ defined analogously. A ratio of one indicates matching spread, a ratio below one indicates that guidance over-concentrates the samples (mode collapse), and a ratio above one indicates over-dispersion.
+
+\paragraph{Off-manifold rate.}
+The off-manifold rate measures how often a generated sample lands far from any ground truth sample, i.e., how often guidance produces an unrealistic outlier.
+We first compute the intra-set nearest-neighbor distance of every ground truth point,
+\begin{equation}
+    \delta_j = \min_{j' \neq j} \|y_j - y_{j'}\|_2, \qquad j = 1, \dots, m,
+\end{equation}
+and set the on-manifold threshold $\tau$ to the $q$-quantile of $\{\delta_j\}_{j=1}^m$, with $q = 0.99$ throughout this paper.
+For each generated sample $x_i$, we compute its nearest-neighbor distance to the ground truth set, $d_i = \min_{j} \|x_i - y_j\|_2$, and define the off-manifold rate as the fraction of generated samples whose nearest ground truth neighbor is farther away than this threshold,
+\begin{equation}
+    \mathrm{OMR}(X, Y) = \frac{1}{n}\sum_{i=1}^n \mathbb{1}[d_i > \tau] ,
+    \label{eq:off_manifold_metric}
+\end{equation}
+where non-finite samples removed from $X$ beforehand are counted as off-manifold, i.e., they always contribute $1$ to the sum in Eq.~\eqref{eq:off_manifold_metric}.
+
 \subsection{Result data in tabular form}
 
 \begin{table}[H]
@@ -646,7 +698,7 @@ $0.100$           & 0.2032 & 0.004 \\
 
 In Figure~\ref{fig:metrics_comparison} and Table~\ref{tab:method_comparison_no_index}, we report the metrics for 2048 generated samples,
 i.e., the same 2048 points in the ground truth are compared to 2048 generated points for each method. 
-Fig. 4 of \citet{feng25s_guidance} shows how the W2 distance varys for different numbers of generated points but converge to one value starting from 500 samples.
+Fig. 4 of \citet{feng25s_guidance} shows how the W2 distance varies for different numbers of generated points but converge to one value starting from 500 samples.
 Hence, generating 2048 points is a sufficiently large number of points to make the metrics stable.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

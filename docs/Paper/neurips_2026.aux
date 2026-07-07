@@ -59,8 +59,8 @@
 \citation{feng25s_guidance}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Monte Carlo (MC) estimation}{6}{subsection.3.1}\protected@file@percent }
 \newlabel{eq:mc_guidance}{{13}{6}{Monte Carlo (MC) estimation}{equation.13}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Simulated-based Monte Carlo estimation}{6}{subsection.3.2}\protected@file@percent }
-\newlabel{eq:sim_mc_guidance}{{14}{6}{Simulated-based Monte Carlo estimation}{equation.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Simulation-based Monte Carlo estimation}{6}{subsection.3.2}\protected@file@percent }
+\newlabel{eq:sim_mc_guidance}{{14}{6}{Simulation-based Monte Carlo estimation}{equation.14}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Covariance Guidance (cov-A / cov-G)}{6}{subsection.3.3}\protected@file@percent }
 \newlabel{eq:cov_guidance}{{15}{6}{Covariance Guidance (cov-A / cov-G)}{equation.15}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Learned guidance (GM)}{6}{subsection.3.4}\protected@file@percent }
@@ -115,16 +115,30 @@
 \bibcite{song2021score}{{13}{2021}{{Song et~al.}}{{Song, Sohl-Dickstein, Kingma, Kumar, Ermon, and Poole}}}
 \bibcite{szekely2013energy}{{14}{2013}{{Székely and Rizzo}}{{}}}
 \bibcite{tong2024improving}{{15}{2024}{{Tong et~al.}}{{Tong, FATRAS, Malkin, Huguet, Zhang, Rector-Brooks, Wolf, and Bengio}}}
+\citation{peyre2019computational}
+\citation{peyre2019computational}
+\citation{szekely2013energy}
 \@writefile{toc}{\contentsline {section}{\numberline {A}Appendix}{12}{appendix.A}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Result data in tabular form}{12}{subsection.A.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of methods across various metrics. The best method for each metric is \textbf  {bolded}, and the second best is \underline  {underlined}.}}{12}{table.caption.8}\protected@file@percent }
-\newlabel{tab:method_comparison_no_index}{{1}{12}{Comparison of methods across various metrics. The best method for each metric is \textbf {bolded}, and the second best is \underline {underlined}}{table.caption.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Tuning hyperparameters}{12}{subsection.A.2}\protected@file@percent }
-\newlabel{app:Tuning hyperparameters}{{A.2}{12}{Tuning hyperparameters}{subsection.A.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.1}ODE solver}{12}{subsubsection.A.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.2}MC Guidance}{12}{subsubsection.A.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Definition of evaluation metrics}{12}{subsection.A.1}\protected@file@percent }
+\newlabel{app:metrics}{{A.1}{12}{Definition of evaluation metrics}{subsection.A.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Wasserstein-2 (W2) distance.}{12}{section*.8}\protected@file@percent }
+\newlabel{eq:w2_metric}{{18}{12}{Wasserstein-2 (W2) distance}{equation.18}{}}
+\@writefile{toc}{\contentsline {paragraph}{Energy distance.}{12}{section*.9}\protected@file@percent }
+\newlabel{eq:energy_metric}{{19}{12}{Energy distance}{equation.19}{}}
+\newlabel{eq:energy_metric_estimate}{{20}{12}{Energy distance}{equation.20}{}}
+\@writefile{toc}{\contentsline {paragraph}{Diversity trace ratio.}{13}{section*.10}\protected@file@percent }
+\newlabel{eq:diversity_metric}{{21}{13}{Diversity trace ratio}{equation.21}{}}
+\@writefile{toc}{\contentsline {paragraph}{Off-manifold rate.}{13}{section*.11}\protected@file@percent }
+\newlabel{eq:off_manifold_metric}{{23}{13}{Off-manifold rate}{equation.23}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Result data in tabular form}{13}{subsection.A.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of methods across various metrics. The best method for each metric is \textbf  {bolded}, and the second best is \underline  {underlined}.}}{13}{table.caption.12}\protected@file@percent }
+\newlabel{tab:method_comparison_no_index}{{1}{13}{Comparison of methods across various metrics. The best method for each metric is \textbf {bolded}, and the second best is \underline {underlined}}{table.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Tuning hyperparameters}{13}{subsection.A.3}\protected@file@percent }
+\newlabel{app:Tuning hyperparameters}{{A.3}{13}{Tuning hyperparameters}{subsection.A.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.3.1}ODE solver}{13}{subsubsection.A.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.3.2}MC Guidance}{13}{subsubsection.A.3.2}\protected@file@percent }
 \citation{feng25s_guidance}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Effect of the \texttt  {mc\_ep} parameter $\epsilon $ on sample quality.}}{13}{table.caption.9}\protected@file@percent }
-\newlabel{tab:mc_ep_search}{{2}{13}{Effect of the \texttt {mc\_ep} parameter $\epsilon $ on sample quality}{table.caption.9}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.3}Number of samples for computing metrics}{13}{subsubsection.A.2.3}\protected@file@percent }
-\gdef \@abspage@last{13}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Effect of the \texttt  {mc\_ep} parameter $\epsilon $ on sample quality.}}{14}{table.caption.13}\protected@file@percent }
+\newlabel{tab:mc_ep_search}{{2}{14}{Effect of the \texttt {mc\_ep} parameter $\epsilon $ on sample quality}{table.caption.13}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.3.3}Number of samples for computing metrics}{14}{subsubsection.A.3.3}\protected@file@percent }
+\gdef \@abspage@last{14}

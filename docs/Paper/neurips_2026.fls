@@ -254,12 +254,12 @@ INPUT ./figs/synthetic_data_three_energy_functions.png
 INPUT ./figs/synthetic_data_three_energy_functions.png
 INPUT ./figs/synthetic_data_three_energy_functions.png
 INPUT ./figs/synthetic_data_three_energy_functions.png
-INPUT ./figs/Fig_metrics_3gaussians.png
-INPUT ./figs/Fig_metrics_3gaussians.png
-INPUT ./figs/Fig_metrics_3gaussians.png
-INPUT ./figs/Fig_metrics_3gaussians.png
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT ./figs/Fig_metrics_3gaussians.png
+INPUT ./figs/Fig_metrics_3gaussians.png
+INPUT ./figs/Fig_metrics_3gaussians.png
+INPUT ./figs/Fig_metrics_3gaussians.png
 INPUT ./figs/phase_diagram_diversity_trace.png
 INPUT ./figs/phase_diagram_diversity_trace.png
 INPUT ./figs/phase_diagram_diversity_trace.png
