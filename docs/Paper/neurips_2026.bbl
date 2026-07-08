@@ -46,6 +46,7 @@ John Jumper, Richard Evans, Alexander Pritzel, Tim Green, Michael Figurnov, Olaf
 Diederik~P. Kingma and Jimmy Ba.
 \newblock Adam: A method for stochastic optimization.
 \newblock In \emph{International Conference on Learning Representations}, 2015.
+\newblock URL \url{https://arxiv.org/pdf/1412.6980}.
 
 \bibitem[Klein et~al.(2024)Klein, Uscidda, Theis, and Cuturi]{klein2024genot}
 Dominik Klein, Th\'{e}o Uscidda, Fabian Theis, and Marco Cuturi.

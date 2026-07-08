@@ -244,7 +244,14 @@ Figure~\ref{fig:coupling_comparison} compares the resulting trajectories.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{coupling_comparison.png}
+    \includegraphics[width=\textwidth]{coupling_comparison.png}\\[4pt]
+    % A LaTeX-native legend at normal text size, replacing the in-image
+    % matplotlib legend: that legend sat outside the three panels and was
+    % shrunk along with them by \textwidth, making it far smaller than body
+    % text once printed.
+    \textcolor{blue}{\textbullet}~Target (Moons) \qquad
+    \textcolor{red}{\rule[0.22em]{0.4cm}{1pt}}~Trajectories \qquad
+    \textcolor{black}{\textbullet}~Source (8 Gaussian)
     \caption{Comparison of three coupling strategies for flow matching: Independent-CFM, Entropic-CFM, and OT-CFM.
     Each panel shows sample trajectories (red) from the source distribution (8 Gaussians, black) to the target distribution (Moons, blue).
     OT-CFM produces shorter, straighter trajectories by minimizing transport cost, while Independent-CFM yields crossing paths.}
