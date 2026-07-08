@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.22)  8 JUL 2026 01:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.22)  8 JUL 2026 01:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -624,17 +624,17 @@ Package microtype Info: Loading generic protrusion settings for font family
 al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2025
 /texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-63.
+62.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
 [2]
-<figs/coupling_comparison.png, id=211, 1461.0585pt x 444.9423pt>
+<figs/coupling_comparison.png, id=213, 1461.0585pt x 444.9423pt>
 File: figs/coupling_comparison.png Graphic file (type png)
 <use figs/coupling_comparison.png>
-Package pdftex.def Info: figs/coupling_comparison.png  used on input line 251.
+Package pdftex.def Info: figs/coupling_comparison.png  used on input line 247.
 (pdftex.def)             Requested size: 397.48499pt x 121.04579pt.
 
 
@@ -649,23 +649,23 @@ Package pdftex.def Info: figs/coupling_comparison.png  used on input line 251.
 File: figs/energy_function_3gaussians.png Graphic file (type png)
 <use figs/energy_function_3gaussians.png>
 Package pdftex.def Info: figs/energy_function_3gaussians.png  used on input lin
-e 444.
+e 440.
 (pdftex.def)             Requested size: 190.79109pt x 160.30693pt.
 <figs/exp_weighted_energy_3gaussians.png, id=308, 398.9304pt x 338.2236pt>
 File: figs/exp_weighted_energy_3gaussians.png Graphic file (type png)
 <use figs/exp_weighted_energy_3gaussians.png>
 Package pdftex.def Info: figs/exp_weighted_energy_3gaussians.png  used on input
- line 450.
+ line 446.
 (pdftex.def)             Requested size: 190.79109pt x 161.75714pt.
 
 
 [7]
-<figs/synthetic_data_three_energy_functions.png, id=324, 831.8277pt x 290.5254p
+<figs/synthetic_data_three_energy_functions.png, id=325, 831.8277pt x 290.5254p
 t>
 File: figs/synthetic_data_three_energy_functions.png Graphic file (type png)
 <use figs/synthetic_data_three_energy_functions.png>
 Package pdftex.def Info: figs/synthetic_data_three_energy_functions.png  used o
-n input line 472.
+n input line 468.
 (pdftex.def)             Requested size: 397.48499pt x 138.82555pt.
 
 
@@ -674,8 +674,8 @@ ns.png> <./figs/synthetic_data_three_energy_functions.png>]
 <figs/Fig_metrics_3gaussians.png, id=344, 1011.78pt x 505.89pt>
 File: figs/Fig_metrics_3gaussians.png Graphic file (type png)
 <use figs/Fig_metrics_3gaussians.png>
-Package pdftex.def Info: figs/Fig_metrics_3gaussians.png  used on input line 50
-1.
+Package pdftex.def Info: figs/Fig_metrics_3gaussians.png  used on input line 49
+7.
 (pdftex.def)             Requested size: 397.48499pt x 198.74751pt.
 
 
@@ -684,19 +684,19 @@ Package pdftex.def Info: figs/Fig_metrics_3gaussians.png  used on input line 50
 File: figs/phase_diagram_diversity_trace.png Graphic file (type png)
 <use figs/phase_diagram_diversity_trace.png>
 Package pdftex.def Info: figs/phase_diagram_diversity_trace.png  used on input 
-line 544.
+line 540.
 (pdftex.def)             Requested size: 120.8378pt x 91.49194pt.
 <figs/phase_diagram_energy_dist.png, id=366, 702.625pt x 531.9875pt>
 File: figs/phase_diagram_energy_dist.png Graphic file (type png)
 <use figs/phase_diagram_energy_dist.png>
 Package pdftex.def Info: figs/phase_diagram_energy_dist.png  used on input line
- 550.
+ 546.
 (pdftex.def)             Requested size: 120.8378pt x 91.49194pt.
 <figs/phase_diagram_off_manifold.png, id=367, 702.625pt x 531.9875pt>
 File: figs/phase_diagram_off_manifold.png Graphic file (type png)
 <use figs/phase_diagram_off_manifold.png>
 Package pdftex.def Info: figs/phase_diagram_off_manifold.png  used on input lin
-e 556.
+e 552.
 (pdftex.def)             Requested size: 120.8378pt x 91.49194pt.
 
 
@@ -731,11 +731,14 @@ bach _ High-[]Resolution _
 )
 
 [12]
-LaTeX Font Info:    Trying to load font information for U+bbm on input line 648
+LaTeX Font Info:    Trying to load font information for U+bbm on input line 644
 .
  (/usr/local/texlive/2025/texmf-dist/tex/latex/bbm-macros/ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 )
+Underfull \vbox (badness 5022) has occurred while \output is active []
+
+
 
 [13]
 
@@ -750,7 +753,7 @@ Package rerunfilecheck Info: File `neurips_2026.out' has not changed.
 Here is how much of TeX's memory you used:
  15550 strings out of 473190
  250647 string characters out of 5715800
- 695071 words of memory out of 5000000
+ 694071 words of memory out of 5000000
  38259 multiletter control sequences out of 15000+600000
  602040 words of font info for 224 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -776,10 +779,10 @@ exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/20
 /texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on neurips_2026.pdf (14 pages, 3211242 bytes).
+Output written on neurips_2026.pdf (14 pages, 3210596 bytes).
 PDF statistics:
- 573 PDF objects out of 1000 (max. 8388607)
- 496 compressed objects within 5 object streams
+ 572 PDF objects out of 1000 (max. 8388607)
+ 495 compressed objects within 5 object streams
  96 named destinations out of 1000 (max. 500000)
  44305 words of extra memory for PDF output out of 51595 (max. 10000000)
 
